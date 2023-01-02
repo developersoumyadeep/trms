@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class LoadRecordId extends BaseId<UUID> {
 
-    protected LoadRecordId(UUID value) {
+    public LoadRecordId(UUID value) {
         super(value);
     }
 }

@@ -3,6 +3,7 @@ package com.wbsedcl.trms.substation.log.domain.entity;
 import com.wbsedcl.trms.domain.entity.AggregateRoot;
 import com.wbsedcl.trms.domain.entity.BaseEntity;
 import com.wbsedcl.trms.domain.valueobject.AssetId;
+import com.wbsedcl.trms.domain.valueobject.UserId;
 import com.wbsedcl.trms.substation.log.domain.exception.ConsumptionValidationException;
 import com.wbsedcl.trms.substation.log.domain.valueobject.ConsumptionId;
 import com.wbsedcl.trms.domain.valueobject.OfficeId;
@@ -19,8 +20,9 @@ public class Consumption extends BaseEntity<ConsumptionId> implements AggregateR
     private LocalTime time;
     private final String energyMeterNo;
     private final EnergyUnit energyUnit;
-    private final int consumption;
+    private final double consumption;
     private final int multiplyingFactor;
+    private final UserId recordedBy;
 
     public static ConsumptionBuilder newBuilder() {
         return new ConsumptionBuilder();
@@ -35,6 +37,13 @@ public class Consumption extends BaseEntity<ConsumptionId> implements AggregateR
     public void validate() {
         validateInitialConsumption();
         validateEnergyUnit();
+        validateEnergyConsumption();
+    }
+
+    private void validateEnergyConsumption() {
+        if (consumption < 0) {
+            throw new ConsumptionValidationException("Consumption record must have a zero or positive value");
+        }
     }
 
     private void validateInitialConsumption() {
@@ -59,6 +68,7 @@ public class Consumption extends BaseEntity<ConsumptionId> implements AggregateR
         energyUnit = consumptionBuilder.energyUnit;
         consumption = consumptionBuilder.consumption;
         multiplyingFactor = consumptionBuilder.multiplyingFactor;
+        recordedBy = consumptionBuilder.recordedBy;
     }
 
     public AssetId getAssetId() {
@@ -85,12 +95,16 @@ public class Consumption extends BaseEntity<ConsumptionId> implements AggregateR
         return energyUnit;
     }
 
-    public int getConsumption() {
+    public double getConsumption() {
         return consumption;
     }
 
     public int getMultiplyingFactor() {
         return multiplyingFactor;
+    }
+
+    public UserId getRecordedBy() {
+        return recordedBy;
     }
 
 
@@ -102,54 +116,61 @@ public class Consumption extends BaseEntity<ConsumptionId> implements AggregateR
         private LocalTime time;
         private String energyMeterNo;
         private EnergyUnit energyUnit;
-        private int consumption;
+        private double consumption;
         private int multiplyingFactor;
+
+        private UserId recordedBy;
 
         private ConsumptionBuilder() {
         }
 
         public ConsumptionBuilder id(ConsumptionId val) {
-            id = val;
+            this.id = val;
             return this;
         }
 
         public ConsumptionBuilder assetId(AssetId val) {
-            assetId = val;
+            this.assetId = val;
             return this;
         }
 
         public ConsumptionBuilder substationOfficeId(OfficeId val) {
-            substationOfficeId = val;
+            this.substationOfficeId = val;
             return this;
         }
 
         public ConsumptionBuilder date(LocalDate val) {
-            date = val;
+            this.date = val;
             return this;
         }
 
         public ConsumptionBuilder time(LocalTime val) {
-            time = val;
+            this.time = val;
             return this;
         }
 
         public ConsumptionBuilder energyMeterNo(String val) {
-            energyMeterNo = val;
+            this.energyMeterNo = val;
             return this;
         }
 
         public ConsumptionBuilder energyUnit(EnergyUnit val) {
-            energyUnit = val;
+            this.energyUnit = val;
             return this;
         }
 
-        public ConsumptionBuilder consumption(int val) {
-            consumption = val;
+        public ConsumptionBuilder consumption(double val) {
+            this.consumption = val;
             return this;
         }
 
         public ConsumptionBuilder multiplyingFactor(int val) {
-            multiplyingFactor = val;
+            this.multiplyingFactor = val;
+            return this;
+        }
+
+        public ConsumptionBuilder recordedBy(UserId recordedBy){
+            this.recordedBy = recordedBy;
             return this;
         }
 
