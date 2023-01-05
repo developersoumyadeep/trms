@@ -2,8 +2,10 @@ package com.wbsedcl.trms.substation.log.domain.valueobject;
 
 import com.wbsedcl.trms.domain.valueobject.BaseId;
 
-public class InterruptionId extends BaseId<String> {
-    public InterruptionId(String value) {
+import java.util.UUID;
+
+public class InterruptionUUId extends BaseId<UUID> {
+    public InterruptionUUId(UUID value) {
         super(value);
     }
 }

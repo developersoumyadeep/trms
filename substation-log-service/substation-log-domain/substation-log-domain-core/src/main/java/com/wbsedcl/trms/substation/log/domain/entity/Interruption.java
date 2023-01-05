@@ -3,27 +3,29 @@ package com.wbsedcl.trms.substation.log.domain.entity;
 import com.wbsedcl.trms.domain.entity.AggregateRoot;
 import com.wbsedcl.trms.domain.entity.BaseEntity;
 import com.wbsedcl.trms.domain.valueobject.AssetId;
-import com.wbsedcl.trms.substation.log.domain.valueobject.InterruptionId;
+import com.wbsedcl.trms.domain.valueobject.UserId;
+import com.wbsedcl.trms.substation.log.domain.valueobject.InterruptionUUId;
 import com.wbsedcl.trms.domain.valueobject.OfficeId;
 import com.wbsedcl.trms.substation.log.domain.exception.InterruptionValidationException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.UUID;
 
 
-public class Interruption extends BaseEntity<InterruptionId> implements AggregateRoot {
+public class Interruption extends BaseEntity<InterruptionUUId> implements AggregateRoot {
 
+    private String interruptionRefId;
     private final AssetId faultyAssetId;
     private final OfficeId substationOfficeId;
     private final InterruptionType interruptionType;
     private final FaultNature faultNature;
-    private final String createdBy;
+    private final UserId createdBy;
     private final LocalDate startDate;
     private final LocalTime startTime;
-
     private LocalDateTime creationTimestamp;
-    private String restoredBy;
+    private UserId restoredBy;
     private LocalDateTime restorationTimeStamp;
     private InterruptionStatus interruptionStatus;
     private String cause;
@@ -31,7 +33,8 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     private LocalTime endTime;
 
     private Interruption(InterruptionBuilder interruptionBuilder) {
-        setId(interruptionBuilder.interruptionId);
+        setId(interruptionBuilder.interruptionUUId);
+        interruptionRefId = interruptionBuilder.interruptionRefId;
         faultyAssetId = interruptionBuilder.faultyAssetId;
         substationOfficeId = interruptionBuilder.substationOfficeId;
         interruptionType = interruptionBuilder.interruptionType;
@@ -50,6 +53,7 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
 
 
     public void initializeInterruption() {
+        setId(new InterruptionUUId(UUID.randomUUID()));
         creationTimestamp = LocalDateTime.now();
     }
 
@@ -116,17 +120,26 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     }
 
     private void validateInitialInterruption() {
-        if (creationTimestamp != null || getId() != null) {
+        if (creationTimestamp != null || getId() != null || interruptionRefId != null) {
             throw new InterruptionValidationException("The interruption object is not in the correct state for initialization");
         }
     }
 
-    public void restoreInterruption(LocalDate endDate, LocalTime endTime, String restoredBy) {
+    public void restoreInterruption(LocalDate endDate, LocalTime endTime, UserId restoredBy) {
         interruptionStatus = InterruptionStatus.RESTORED;
         restorationTimeStamp = LocalDateTime.now();
         this.endDate = endDate;
         this.endTime = endTime;
         this.restoredBy = restoredBy;
+    }
+
+
+    public String getInterruptionRefId() {
+        return interruptionRefId;
+    }
+
+    public void setInterruptionRefId(String interruptionRefId) {
+        this.interruptionRefId = interruptionRefId;
     }
 
     public AssetId getFaultyAssetId() {
@@ -145,7 +158,7 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
         return faultNature;
     }
 
-    public String getCreatedBy() {
+    public UserId getCreatedBy() {
         return createdBy;
     }
 
@@ -153,11 +166,11 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
         return creationTimestamp;
     }
 
-    public String getRestoredBy() {
+    public UserId getRestoredBy() {
         return restoredBy;
     }
 
-    public void setRestoredBy(String restoredBy) {
+    public void setRestoredBy(UserId restoredBy) {
         this.restoredBy = restoredBy;
     }
 
@@ -203,14 +216,16 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
 
 
     public static final class InterruptionBuilder {
-        private InterruptionId interruptionId;
+
+        private InterruptionUUId interruptionUUId;
+        private String interruptionRefId;
         private AssetId faultyAssetId;
         private OfficeId substationOfficeId;
         private InterruptionType interruptionType;
         private FaultNature faultNature;
-        private String createdBy;
+        private UserId createdBy;
         private LocalDateTime creationTimestamp;
-        private String restoredBy;
+        private UserId restoredBy;
         private LocalDateTime restorationTimeStamp;
         private InterruptionStatus interruptionStatus;
         private String cause;
@@ -223,8 +238,13 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
 
         }
 
-        public InterruptionBuilder interruptionId(InterruptionId val) {
-            this.interruptionId = val;
+        public InterruptionBuilder interruptionUUId(InterruptionUUId val) {
+            this.interruptionUUId = val;
+            return this;
+        }
+
+        public InterruptionBuilder interruptionRefId(String interruptionRefId) {
+            this.interruptionRefId = interruptionRefId;
             return this;
         }
 
@@ -248,7 +268,7 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
             return this;
         }
 
-        public InterruptionBuilder createdBy(String createdBy) {
+        public InterruptionBuilder createdBy(UserId createdBy) {
             this.createdBy = createdBy;
             return this;
         }
@@ -258,7 +278,7 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
             return this;
         }
 
-        public InterruptionBuilder restoredBy(String val) {
+        public InterruptionBuilder restoredBy(UserId val) {
             this.restoredBy = val;
             return this;
         }
