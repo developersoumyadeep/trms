@@ -1,9 +1,15 @@
 package com.wbsedcl.trms.substation.log.domain.mapper;
 
-import com.wbsedcl.trms.substation.log.domain.dto.LogInterruptionCommand;
-import com.wbsedcl.trms.substation.log.domain.dto.LogInterruptionResponse;
+import com.wbsedcl.trms.domain.valueobject.AssetId;
+import com.wbsedcl.trms.domain.valueobject.OfficeId;
+import com.wbsedcl.trms.domain.valueobject.UserId;
+import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionCommand;
+import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionResponse;
+import com.wbsedcl.trms.substation.log.domain.dto.create.RestoreInterruptionResponse;
 import com.wbsedcl.trms.substation.log.domain.entity.Interruption;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InterruptionDataMapper {
 
 
@@ -15,6 +21,23 @@ public class InterruptionDataMapper {
     }
 
     public Interruption logInterruptionCommandToInterruption(LogInterruptionCommand command) {
+        return Interruption.newBuilder()
+                .faultyAssetId(new AssetId(command.getFaultyAssetId()))
+                .substationOfficeId(new OfficeId(command.getSubstationOfficeId()))
+                .interruptionType(command.getInterruptionType())
+                .faultNature(command.getFaultNature())
+                .createdBy(new UserId(command.getCreatedByUserId()))
+                .startDate(command.getStartDate())
+                .startTime(command.getStartTime())
+                .restoredBy(new UserId(command.getRestoredByUserId()))
+                .interruptionStatus(command.getInterruptionStatus())
+                .cause(command.getCause())
+                .endDate(command.getEndDate())
+                .endTime(command.getEndTime())
+                .build();
+    }
+
+    public RestoreInterruptionResponse interruptionToRestoreInterruptionResponse(Interruption interruption) {
         return null;
     }
 }

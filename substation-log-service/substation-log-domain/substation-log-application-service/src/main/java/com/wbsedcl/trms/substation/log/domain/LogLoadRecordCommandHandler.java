@@ -1,7 +1,7 @@
 package com.wbsedcl.trms.substation.log.domain;
 
-import com.wbsedcl.trms.substation.log.domain.dto.LogLoadRecordCommand;
-import com.wbsedcl.trms.substation.log.domain.dto.LogLoadRecordResponse;
+import com.wbsedcl.trms.substation.log.domain.dto.create.LogLoadRecordCommand;
+import com.wbsedcl.trms.substation.log.domain.dto.create.LogLoadRecordResponse;
 import org.springframework.stereotype.Component;
 
 @Component

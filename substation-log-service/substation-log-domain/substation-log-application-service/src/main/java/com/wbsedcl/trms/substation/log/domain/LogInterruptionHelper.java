@@ -1,6 +1,6 @@
 package com.wbsedcl.trms.substation.log.domain;
 
-import com.wbsedcl.trms.substation.log.domain.dto.LogInterruptionCommand;
+import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionCommand;
 import com.wbsedcl.trms.substation.log.domain.entity.*;
 import com.wbsedcl.trms.substation.log.domain.event.InterruptionLoggedEvent;
 import com.wbsedcl.trms.substation.log.domain.exception.InterruptionDomainException;
@@ -11,6 +11,7 @@ import com.wbsedcl.trms.substation.log.domain.ports.output.repository.OfficeRepo
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -40,11 +41,12 @@ public class LogInterruptionHelper {
         this.interruptionDataMapper = interruptionDataMapper;
     }
 
+    @Transactional
     public InterruptionLoggedEvent persistInterruption(LogInterruptionCommand command) {
         //1. Validate the createdBy user
         validateCreatedByUserId(command.getCreatedByUserId());
         //2. Validate the restoredBy user
-        validateRestoredByUserId(command.getRestoredByUserId(), command.getInterruptionStatus());
+        validateRestoredByUserId(command);
         //3. Validate the faulty asset id
         validateFaultyAssetId(command.getFaultyAssetId());
         //4. Validate the substation office code
@@ -83,12 +85,22 @@ public class LogInterruptionHelper {
         }
     }
 
-    private void validateRestoredByUserId(String restoredByUserId, InterruptionStatus interruptionStatus) {
+    private void validateRestoredByUserId(LogInterruptionCommand command) {
+        String createdByUserId = command.getCreatedByUserId();
+        String restoredByUserId = command.getRestoredByUserId();
+        InterruptionStatus interruptionStatus = command.getInterruptionStatus();
+        InterruptionType interruptionType = command.getInterruptionType();
         if (interruptionStatus.equals(InterruptionStatus.NOT_RESTORED) && restoredByUserId != null) {
             throw new InterruptionDomainException("Interruption which is not restored can not have a restored-by user id ");
         }
         if (interruptionStatus.equals(InterruptionStatus.RESTORED) && restoredByUserId == null) {
             throw new InterruptionDomainException("Restored interruption must have a non-null restored-by user id");
+        }
+        if ((interruptionType.equals(InterruptionType.TRANSIENT_TRIPPING) || interruptionType.equals(InterruptionType.SOURCE_CHANGEOVER))
+                    && interruptionStatus.equals(InterruptionStatus.RESTORED)){
+            if (!restoredByUserId.equals(createdByUserId)) {
+                throw new InterruptionDomainException("Interruption of type 'Transient Tripping' or 'Source Change-over' must have same created-by user id and restored-by user id");
+            }
         }
         if (restoredByUserId != null) {
             Optional<User> user = userRepository.findUser(restoredByUserId);

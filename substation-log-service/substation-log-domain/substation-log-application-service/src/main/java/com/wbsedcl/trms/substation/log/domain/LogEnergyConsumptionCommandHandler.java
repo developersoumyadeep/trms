@@ -1,7 +1,7 @@
 package com.wbsedcl.trms.substation.log.domain;
 
-import com.wbsedcl.trms.substation.log.domain.dto.LogEnergyConsumptionCommand;
-import com.wbsedcl.trms.substation.log.domain.dto.LogEnergyConsumptionResponse;
+import com.wbsedcl.trms.substation.log.domain.dto.create.LogEnergyConsumptionCommand;
+import com.wbsedcl.trms.substation.log.domain.dto.create.LogEnergyConsumptionResponse;
 import org.springframework.stereotype.Component;
 
 @Component

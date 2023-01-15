@@ -1,6 +1,6 @@
 package com.wbsedcl.trms.substation.log.domain;
 
-import com.wbsedcl.trms.substation.log.domain.dto.*;
+import com.wbsedcl.trms.substation.log.domain.dto.create.*;
 import com.wbsedcl.trms.substation.log.domain.ports.input.service.SubstationLogApplicationService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

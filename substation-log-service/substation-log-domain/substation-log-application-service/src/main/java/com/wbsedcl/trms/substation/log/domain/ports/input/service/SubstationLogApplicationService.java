@@ -1,6 +1,6 @@
 package com.wbsedcl.trms.substation.log.domain.ports.input.service;
 
-import com.wbsedcl.trms.substation.log.domain.dto.*;
+import com.wbsedcl.trms.substation.log.domain.dto.create.*;
 
 public interface SubstationLogApplicationService {
 

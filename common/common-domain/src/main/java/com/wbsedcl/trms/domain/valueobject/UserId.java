@@ -1,7 +1,7 @@
 package com.wbsedcl.trms.domain.valueobject;
 
 public class UserId extends BaseId<String>{
-    protected UserId(String value) {
+    public UserId(String value) {
         super(value);
     }
 }

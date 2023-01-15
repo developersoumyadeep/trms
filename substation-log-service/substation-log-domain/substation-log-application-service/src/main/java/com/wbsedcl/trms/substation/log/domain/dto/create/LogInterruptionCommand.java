@@ -1,4 +1,4 @@
-package com.wbsedcl.trms.substation.log.domain.dto;
+package com.wbsedcl.trms.substation.log.domain.dto.create;
 
 import com.wbsedcl.trms.substation.log.domain.entity.FaultNature;
 import com.wbsedcl.trms.substation.log.domain.entity.InterruptionStatus;

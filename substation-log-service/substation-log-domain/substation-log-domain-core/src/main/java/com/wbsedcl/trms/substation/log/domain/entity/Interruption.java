@@ -63,7 +63,6 @@ public class Interruption extends BaseEntity<InterruptionUUId> implements Aggreg
         validateFaultNature();
         validateInterruptionStatus();
         validateInterruptionHrs();
-
     }
 
     private void validateInterruptionHrs() {
@@ -186,6 +185,10 @@ public class Interruption extends BaseEntity<InterruptionUUId> implements Aggreg
         return interruptionStatus;
     }
 
+    public void setInterruptionStatus(InterruptionStatus interruptionStatus) {
+        this.interruptionStatus = interruptionStatus;
+    }
+
     public String getCause() {
         return cause;
     }
@@ -208,6 +211,14 @@ public class Interruption extends BaseEntity<InterruptionUUId> implements Aggreg
 
     public LocalTime getEndTime() {
         return endTime;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
 
     public static InterruptionBuilder newBuilder() {

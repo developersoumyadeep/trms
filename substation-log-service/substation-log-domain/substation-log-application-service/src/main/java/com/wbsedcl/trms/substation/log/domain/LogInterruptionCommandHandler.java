@@ -1,12 +1,13 @@
 package com.wbsedcl.trms.substation.log.domain;
 
-import com.wbsedcl.trms.substation.log.domain.dto.LogInterruptionCommand;
-import com.wbsedcl.trms.substation.log.domain.dto.LogInterruptionResponse;
+import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionCommand;
+import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionResponse;
 import com.wbsedcl.trms.substation.log.domain.event.InterruptionLoggedEvent;
 import com.wbsedcl.trms.substation.log.domain.mapper.InterruptionDataMapper;
 import com.wbsedcl.trms.substation.log.domain.ports.output.message.publisher.InterruptionLoggedNotificationMessagePublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
 
 @Component
 @Slf4j
