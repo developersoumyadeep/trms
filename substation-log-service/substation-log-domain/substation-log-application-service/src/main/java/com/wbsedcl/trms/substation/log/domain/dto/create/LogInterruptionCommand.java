@@ -3,6 +3,9 @@ package com.wbsedcl.trms.substation.log.domain.dto.create;
 import com.wbsedcl.trms.substation.log.domain.entity.FaultNature;
 import com.wbsedcl.trms.substation.log.domain.entity.InterruptionStatus;
 import com.wbsedcl.trms.substation.log.domain.entity.InterruptionType;
+import com.wbsedcl.trms.substation.log.domain.validation.ValidAssetId;
+import com.wbsedcl.trms.substation.log.domain.validation.ValidOfficeId;
+import com.wbsedcl.trms.substation.log.domain.validation.ValidUserId;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -14,15 +17,15 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class LogInterruptionCommand {
 
-    @NonNull
+    @ValidAssetId(message = "Given faulty asset-id is invalid")
     private String faultyAssetId;
-    @NotNull
+    @ValidOfficeId(message = "Given substation office-id is invalid")
     private String substationOfficeId;
     @NotNull
     private InterruptionType interruptionType;
     @NotNull
     private FaultNature faultNature;
-    @NotNull
+    @ValidUserId(message="Created-by user-id is invalid")
     private String createdByUserId;
     @NotNull
     private LocalDate startDate;

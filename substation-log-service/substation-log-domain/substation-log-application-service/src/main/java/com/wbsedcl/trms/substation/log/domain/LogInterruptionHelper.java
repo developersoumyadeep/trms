@@ -22,67 +22,32 @@ public class LogInterruptionHelper {
     private final SubstationLogDomainService substationLogDomainService;
     private final SubstationLogRepository substationLogRepository;
     private final UserRepository userRepository;
-    private final AssetRepository assetRepository;
-    private final OfficeRepository officeRepository;
-
     private final InterruptionDataMapper interruptionDataMapper;
 
     public LogInterruptionHelper(SubstationLogDomainService substationLogDomainService,
                                  SubstationLogRepository substationLogRepository,
                                  UserRepository userRepository,
-                                 AssetRepository assetRepository,
-                                 OfficeRepository officeRepository,
                                  InterruptionDataMapper interruptionDataMapper) {
         this.substationLogDomainService = substationLogDomainService;
         this.substationLogRepository = substationLogRepository;
         this.userRepository = userRepository;
-        this.assetRepository = assetRepository;
-        this.officeRepository = officeRepository;
         this.interruptionDataMapper = interruptionDataMapper;
     }
 
     @Transactional
     public InterruptionLoggedEvent persistInterruption(LogInterruptionCommand command) {
-        //1. Validate the createdBy user
-        validateCreatedByUserId(command.getCreatedByUserId());
-        //2. Validate the restoredBy user
+        //1. Validate the restoredBy user
         validateRestoredByUserId(command);
-        //3. Validate the faulty asset id
-        validateFaultyAssetId(command.getFaultyAssetId());
-        //4. Validate the substation office code
-        validateSubstationOfficeId(command.getSubstationOfficeId());
-        //5. Get domain object from command
+        //2. Get domain object from command
         Interruption interruption = interruptionDataMapper.logInterruptionCommandToInterruption(command);
-        //6. Validate and initiate an interruption (domain logic)
+        //3. Validate and initiate an interruption (domain logic)
         InterruptionLoggedEvent interruptionLoggedEvent = substationLogDomainService.validateAndInitiateInterruption(interruption);
-        //7. Save the interruption using repository
+        //4. Save the interruption using repository
         substationLogRepository.save(interruption);
-        //8. Log the operation
+        //5. Log the operation
         log.info("Interruption saved with reference id {}", interruption.getInterruptionRefId());
-        //9. return the event with the saved interruption
+        //6. return the event with the saved interruption
         return interruptionLoggedEvent;
-    }
-
-    private void validateSubstationOfficeId(String substationOfficeId) {
-        if (substationOfficeId == null || substationOfficeId.equals("")){
-            throw new InterruptionDomainException("Interruption must have valid non-null non-empty substation office id");
-        }
-        Optional<Office> office = officeRepository.findOffice(substationOfficeId);
-        if(office.isEmpty()) {
-            log.error("Substation office with id {} does not exist", substationOfficeId);
-            throw new InterruptionDomainException("Substation office with id "+substationOfficeId+" does not exist");
-        }
-    }
-
-    private void validateFaultyAssetId(String faultyAssetId) {
-        if (faultyAssetId == null || faultyAssetId.trim().equals("")) {
-            throw new InterruptionDomainException("Interruption must have valid non-null non-empty asset(feeder/PTR) id");
-        }
-        Optional<Asset> asset = assetRepository.findAsset(faultyAssetId);
-        if(asset.isEmpty()) {
-            log.error("Asset with id {} does not exist", faultyAssetId);
-            throw new InterruptionDomainException("Asset with id "+faultyAssetId+" does not exist");
-        }
     }
 
     private void validateRestoredByUserId(LogInterruptionCommand command) {
@@ -112,16 +77,6 @@ public class LogInterruptionHelper {
 
     }
 
-    private void validateCreatedByUserId(String createdByUserId) {
-        if (createdByUserId == null) {
-            throw new InterruptionDomainException("Interruption must have a non-null created-by user id");
-        }
-        Optional<User> user = userRepository.findUser(createdByUserId);
-        if(user.isEmpty()) {
-            log.error("User with id {} does not exist", createdByUserId);
-            throw new InterruptionDomainException("User with id "+createdByUserId+" does not exist");
-        }
-    }
 
 
 }

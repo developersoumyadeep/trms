@@ -8,6 +8,8 @@ import com.wbsedcl.trms.substation.log.domain.ports.output.message.publisher.Int
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
+
 
 @Component
 @Slf4j
@@ -27,7 +29,7 @@ public class LogInterruptionCommandHandler {
         this.publisher = publisher;
     }
 
-    public LogInterruptionResponse logInterruption(LogInterruptionCommand command) {
+    public LogInterruptionResponse logInterruption(@Valid LogInterruptionCommand command) {
         //1. persist the interruption
         InterruptionLoggedEvent interruptionLoggedEvent = logInterruptionHelper.persistInterruption(command);
         //2. log the info

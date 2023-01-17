@@ -5,7 +5,9 @@ import com.wbsedcl.trms.substation.log.domain.ports.input.service.SubstationLogA
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-@Validated
+import javax.validation.Valid;
+
+
 @Service
 public class SubstationLogApplicationServiceImpl implements SubstationLogApplicationService {
 
@@ -35,7 +37,7 @@ public class SubstationLogApplicationServiceImpl implements SubstationLogApplica
     }
 
     @Override
-    public LogEnergyConsumptionResponse logEnergyConsumption(LogEnergyConsumptionCommand command) {
+    public LogEnergyConsumptionResponse logEnergyConsumption(@Valid LogEnergyConsumptionCommand command) {
         return logEnergyConsumptionCommandHandler.logEnergyConsumption(command);
     }
 
