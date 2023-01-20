@@ -7,6 +7,7 @@ import com.wbsedcl.trms.substation.log.domain.entity.LoadRecord;
 import com.wbsedcl.trms.substation.log.domain.event.EnergyConsumptionLoggedEvent;
 import com.wbsedcl.trms.substation.log.domain.event.InterruptionRestoredEvent;
 import com.wbsedcl.trms.substation.log.domain.event.InterruptionLoggedEvent;
+import com.wbsedcl.trms.substation.log.domain.event.LoadRecordLoggedEvent;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,5 +16,5 @@ public interface SubstationLogDomainService {
     InterruptionLoggedEvent validateAndInitiateInterruption(Interruption interruption);
     InterruptionRestoredEvent restoreInterruption(Interruption interruption, LocalDate endDate, LocalTime endTime, UserId restoredBy);
     EnergyConsumptionLoggedEvent validateAndInitiateConsumption(Consumption consumption);
-    void validateAndInitiateLoadRecord(LoadRecord loadRecord);
+    LoadRecordLoggedEvent validateAndInitiateLoadRecord(LoadRecord loadRecord);
 }

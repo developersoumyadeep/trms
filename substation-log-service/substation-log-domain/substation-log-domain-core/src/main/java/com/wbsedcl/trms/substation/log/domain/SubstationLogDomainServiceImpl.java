@@ -7,17 +7,15 @@ import com.wbsedcl.trms.substation.log.domain.entity.LoadRecord;
 import com.wbsedcl.trms.substation.log.domain.event.EnergyConsumptionLoggedEvent;
 import com.wbsedcl.trms.substation.log.domain.event.InterruptionLoggedEvent;
 import com.wbsedcl.trms.substation.log.domain.event.InterruptionRestoredEvent;
+import com.wbsedcl.trms.substation.log.domain.event.LoadRecordLoggedEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.logging.Logger;
 
 @Slf4j
 public class SubstationLogDomainServiceImpl implements SubstationLogDomainService {
-
-    private static final Logger logger =Logger.getLogger(SubstationLogDomainServiceImpl.class.getName());
 
     @Override
     public InterruptionLoggedEvent validateAndInitiateInterruption(Interruption interruption) {
@@ -43,9 +41,10 @@ public class SubstationLogDomainServiceImpl implements SubstationLogDomainServic
     }
 
     @Override
-    public void validateAndInitiateLoadRecord(LoadRecord loadRecord) {
+    public LoadRecordLoggedEvent validateAndInitiateLoadRecord(LoadRecord loadRecord) {
         loadRecord.validate();
         loadRecord.initialize();
         log.info("Load record created with id {}",loadRecord.getId().getValue());
+        return null;
     }
 }
