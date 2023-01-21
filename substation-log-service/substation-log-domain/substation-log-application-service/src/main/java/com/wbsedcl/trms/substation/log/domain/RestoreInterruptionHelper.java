@@ -7,6 +7,8 @@ import com.wbsedcl.trms.substation.log.domain.entity.InterruptionStatus;
 import com.wbsedcl.trms.substation.log.domain.entity.User;
 import com.wbsedcl.trms.substation.log.domain.event.InterruptionRestoredEvent;
 import com.wbsedcl.trms.substation.log.domain.exception.InterruptionDomainException;
+import com.wbsedcl.trms.substation.log.domain.exception.InterruptionNotFoundException;
+import com.wbsedcl.trms.substation.log.domain.exception.UserNotFoundException;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.SubstationLogRepository;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -60,12 +62,12 @@ public class RestoreInterruptionHelper {
         String referenceId = command.getInterruptionRefId();
         if (referenceId == null) {
             log.error("Invalid null value reference id submitted");
-            throw new InterruptionDomainException("Please enter a valid non null interruption reference id");
+            throw new InterruptionNotFoundException("Please enter a valid non null interruption reference id");
         }
         Optional<Interruption> interruption = substationLogRepository.findInterruptionByRefId(referenceId);
         if (interruption.isEmpty()) {
             log.error("Interruption with reference id {} does not exist", referenceId);
-            throw new InterruptionDomainException("Interruption with reference id "+referenceId+" does not exist");
+            throw new InterruptionNotFoundException("Interruption with reference id "+referenceId+" does not exist");
         }
         return interruption.get();
     }
@@ -73,12 +75,12 @@ public class RestoreInterruptionHelper {
     private void validateRestoredByUserId(RestoreInterruptionCommand command) {
         String restoredByUserId = command.getRestoredBy();
         if (restoredByUserId == null) {
-            throw new InterruptionDomainException("Please enter a valid non null user id at the time of restoration");
+            throw new UserNotFoundException("Please enter a valid non null user id at the time of restoration");
         }
         Optional<User> user = userRepository.findUser(restoredByUserId);
         if(user.isEmpty()) {
             log.error("User with id {} does not exist", restoredByUserId);
-            throw new InterruptionDomainException("User with id "+restoredByUserId+" does not exist");
+            throw new UserNotFoundException("User with id "+restoredByUserId+" does not exist");
         }
     }
 }

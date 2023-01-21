@@ -11,9 +11,6 @@
 
     <artifactId>substation-log-application-service</artifactId>
 
-    <properties>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.wbsedcl</groupId>

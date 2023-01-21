@@ -16,7 +16,7 @@ public class EnergyConsumptionDataMapper {
                 " logged at " +
                 consumption.getTime() +
                 " hrs";
-        return new LogEnergyConsumptionResponse(message);
+        return new LogEnergyConsumptionResponse(message, consumption.getId().getValue());
     }
 
     public Consumption LogEnergyConsumptionCommandToConsumption(LogEnergyConsumptionCommand command) {

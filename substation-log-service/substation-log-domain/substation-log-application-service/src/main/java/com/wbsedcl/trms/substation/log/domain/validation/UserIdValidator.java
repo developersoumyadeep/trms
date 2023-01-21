@@ -1,7 +1,6 @@
 package com.wbsedcl.trms.substation.log.domain.validation;
 
 import com.wbsedcl.trms.substation.log.domain.entity.User;
-import com.wbsedcl.trms.substation.log.domain.exception.InterruptionDomainException;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

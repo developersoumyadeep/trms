@@ -8,6 +8,7 @@ import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionCommand;
 import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionResponse;
 import com.wbsedcl.trms.substation.log.domain.entity.*;
 import com.wbsedcl.trms.substation.log.domain.exception.InterruptionDomainException;
+import com.wbsedcl.trms.substation.log.domain.exception.InterruptionValidationException;
 import com.wbsedcl.trms.substation.log.domain.mapper.InterruptionDataMapper;
 import com.wbsedcl.trms.substation.log.domain.ports.input.service.SubstationLogApplicationService;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.AssetRepository;
@@ -235,7 +236,7 @@ public class LogInterruptionApplicationServiceTest {
 
     @Test
     void testLogInterruptionWithWrongHoursStartTimeAfterEndTime() {
-       InterruptionDomainException exception = assertThrows(InterruptionDomainException.class, ()->{
+        InterruptionValidationException exception = assertThrows(InterruptionValidationException.class, ()->{
             LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logInterruption(logInterruptionCommandWrongHoursStartTimeAfterEndTime);
         });
 
@@ -245,7 +246,7 @@ public class LogInterruptionApplicationServiceTest {
 
     @Test
     void testLogInterruptionWithWrongHoursRestoredWithoutEndTime() {
-        InterruptionDomainException exception = assertThrows(InterruptionDomainException.class, ()->{
+        InterruptionValidationException exception = assertThrows(InterruptionValidationException.class, ()->{
             LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logInterruption(logInterruptionCommandWrongHoursRestoredWithoutEndTime);
         });
 
@@ -255,7 +256,7 @@ public class LogInterruptionApplicationServiceTest {
 
     @Test
     void testLogInterruptionWithWrongHoursNotRestoredWithEndTime() {
-        InterruptionDomainException exception = assertThrows(InterruptionDomainException.class, ()->{
+        InterruptionValidationException exception = assertThrows(InterruptionValidationException.class, ()->{
             LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logInterruption(logInterruptionCommandWrongHoursNotRestoredWithEndTime);
         });
 
@@ -265,7 +266,7 @@ public class LogInterruptionApplicationServiceTest {
 
     @Test
     void testLogInterruptionWithWrongHoursStartTimeInFuture() {
-        InterruptionDomainException exception = assertThrows(InterruptionDomainException.class, ()->{
+        InterruptionValidationException exception = assertThrows(InterruptionValidationException.class, ()->{
             LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logInterruption(logInterruptionCommandWrongHoursStartTimeInFuture);
         });
 
@@ -276,7 +277,7 @@ public class LogInterruptionApplicationServiceTest {
 
     @Test
     void testLogInterruptionWithWrongStatusTransientTrippingNotRestored() {
-        InterruptionDomainException exception = assertThrows(InterruptionDomainException.class, ()->{
+        InterruptionValidationException exception = assertThrows(InterruptionValidationException.class, ()->{
             LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logInterruption(logInterruptionCommandWrongStatusTransientTrippingNotRestored);
 
         });
@@ -286,7 +287,7 @@ public class LogInterruptionApplicationServiceTest {
 
     @Test
     void testLogInterruptionWithWrongStatusSourceChangeOverNotRestored() {
-        InterruptionDomainException exception = assertThrows(InterruptionDomainException.class, ()->{
+        InterruptionValidationException exception = assertThrows(InterruptionValidationException.class, ()->{
             LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logInterruption(logInterruptionCommandWrongStatusSourceChangeOverNotRestored);
 
         });
@@ -296,7 +297,7 @@ public class LogInterruptionApplicationServiceTest {
 
     @Test
     void testLogInterruptionWithWrongStatusSustainedFaultRestored() {
-        InterruptionDomainException exception = assertThrows(InterruptionDomainException.class, ()->{
+        InterruptionValidationException exception = assertThrows(InterruptionValidationException.class, ()->{
             LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logInterruption(logInterruptionCommandWrongStatusSustainedFaultRestored);
 
         });

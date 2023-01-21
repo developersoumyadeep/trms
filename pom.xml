@@ -33,7 +33,17 @@
             </dependency>
             <dependency>
                 <groupId>com.wbsedcl</groupId>
+                <artifactId>common-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wbsedcl</groupId>
                 <artifactId>substation-log-domain-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wbsedcl</groupId>
+                <artifactId>substation-log-application-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

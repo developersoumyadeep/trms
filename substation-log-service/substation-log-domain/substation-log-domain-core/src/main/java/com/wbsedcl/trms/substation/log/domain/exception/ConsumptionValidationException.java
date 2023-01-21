@@ -1,6 +1,8 @@
 package com.wbsedcl.trms.substation.log.domain.exception;
 
-public class ConsumptionValidationException extends RuntimeException {
+import com.wbsedcl.trms.domain.exception.DomainException;
+
+public class ConsumptionValidationException extends DomainException {
     public ConsumptionValidationException(String message) {
         super(message);
     }

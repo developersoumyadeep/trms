@@ -4,6 +4,7 @@ import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionCommand;
 import com.wbsedcl.trms.substation.log.domain.entity.*;
 import com.wbsedcl.trms.substation.log.domain.event.InterruptionLoggedEvent;
 import com.wbsedcl.trms.substation.log.domain.exception.InterruptionDomainException;
+import com.wbsedcl.trms.substation.log.domain.exception.InterruptionValidationException;
 import com.wbsedcl.trms.substation.log.domain.mapper.InterruptionDataMapper;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.AssetRepository;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.SubstationLogRepository;
@@ -56,22 +57,22 @@ public class LogInterruptionHelper {
         InterruptionStatus interruptionStatus = command.getInterruptionStatus();
         InterruptionType interruptionType = command.getInterruptionType();
         if (interruptionStatus.equals(InterruptionStatus.NOT_RESTORED) && restoredByUserId != null) {
-            throw new InterruptionDomainException("Interruption which is not restored can not have a restored-by user id ");
+            throw new InterruptionValidationException("Interruption which is not restored can not have a restored-by user id ");
         }
         if (interruptionStatus.equals(InterruptionStatus.RESTORED) && restoredByUserId == null) {
-            throw new InterruptionDomainException("Restored interruption must have a non-null restored-by user id");
+            throw new InterruptionValidationException("Restored interruption must have a non-null restored-by user id");
         }
         if ((interruptionType.equals(InterruptionType.TRANSIENT_TRIPPING) || interruptionType.equals(InterruptionType.SOURCE_CHANGEOVER))
                     && interruptionStatus.equals(InterruptionStatus.RESTORED)){
             if (!restoredByUserId.equals(createdByUserId)) {
-                throw new InterruptionDomainException("Interruption of type 'Transient Tripping' or 'Source Change-over' must have same created-by user id and restored-by user id");
+                throw new InterruptionValidationException("Interruption of type 'Transient Tripping' or 'Source Change-over' must have same created-by user id and restored-by user id");
             }
         }
         if (restoredByUserId != null) {
             Optional<User> user = userRepository.findUser(restoredByUserId);
             if(user.isEmpty()) {
                 log.error("User with id {} does not exist", restoredByUserId);
-                throw new InterruptionDomainException("User with id "+restoredByUserId+" does not exist");
+                throw new InterruptionValidationException("User with id "+restoredByUserId+" does not exist");
             }
         }
 
