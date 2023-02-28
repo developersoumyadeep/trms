@@ -7,6 +7,7 @@ import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionCommand;
 import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionResponse;
 import com.wbsedcl.trms.substation.log.domain.dto.create.RestoreInterruptionResponse;
 import com.wbsedcl.trms.substation.log.domain.entity.Interruption;
+import com.wbsedcl.trms.substation.log.domain.valueobject.FeederId;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,14 +16,14 @@ public class InterruptionDataMapper {
 
     public LogInterruptionResponse interruptionToLogInterruptionResponse(Interruption interruption) {
         return LogInterruptionResponse.builder()
-                .interruptionRefId(interruption.getInterruptionRefId())
+                .interruptionId(interruption.getId().getValue())
                 .interruptionStatus(interruption.getInterruptionStatus())
                 .build();
     }
 
     public Interruption logInterruptionCommandToInterruption(LogInterruptionCommand command) {
         return Interruption.newBuilder()
-                .faultyAssetId(new AssetId(command.getFaultyAssetId()))
+                .faultyFeederId(new FeederId(command.getFaultyFeederId()))
                 .substationOfficeId(new OfficeId(command.getSubstationOfficeId()))
                 .interruptionType(command.getInterruptionType())
                 .faultNature(command.getFaultNature())
@@ -38,6 +39,9 @@ public class InterruptionDataMapper {
     }
 
     public RestoreInterruptionResponse interruptionToRestoreInterruptionResponse(Interruption interruption) {
-        return null;
+        return RestoreInterruptionResponse.builder()
+                .interruptionId(interruption.getId().getValue())
+                .interruptionStatus(interruption.getInterruptionStatus())
+                .build();
     }
 }

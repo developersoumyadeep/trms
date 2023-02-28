@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -46,7 +47,7 @@ public class RestoreInterruptionHelper {
         //5.persist the updated object
         substationLogRepository.save(interruption);
         //6.log the operation
-        log.info("Interruption with reference id {} restored", interruption.getInterruptionRefId());
+        log.info("Interruption with reference id {} restored", interruption.getId().getValue());
         //7.return the event with the updated interruption
         return interruptionRestoredEvent;
     }
@@ -59,15 +60,15 @@ public class RestoreInterruptionHelper {
     }
 
     private Interruption findInterruption(RestoreInterruptionCommand command) {
-        String referenceId = command.getInterruptionRefId();
-        if (referenceId == null) {
-            log.error("Invalid null value reference id submitted");
-            throw new InterruptionNotFoundException("Please enter a valid non null interruption reference id");
+        UUID interruptionId = command.getInterruptionId();
+        if (interruptionId == null) {
+            log.error("Invalid null value interruption id submitted");
+            throw new InterruptionNotFoundException("Please enter a valid non null interruption id");
         }
-        Optional<Interruption> interruption = substationLogRepository.findInterruptionByRefId(referenceId);
+        Optional<Interruption> interruption = substationLogRepository.findInterruptionById(interruptionId.toString());
         if (interruption.isEmpty()) {
-            log.error("Interruption with reference id {} does not exist", referenceId);
-            throw new InterruptionNotFoundException("Interruption with reference id "+referenceId+" does not exist");
+            log.error("Interruption with id {} does not exist", interruptionId);
+            throw new InterruptionNotFoundException("Interruption with id "+interruptionId+" does not exist");
         }
         return interruption.get();
     }

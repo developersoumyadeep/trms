@@ -7,14 +7,14 @@ import com.wbsedcl.trms.domain.valueobject.UserId;
 import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionCommand;
 import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionResponse;
 import com.wbsedcl.trms.substation.log.domain.entity.*;
-import com.wbsedcl.trms.substation.log.domain.exception.InterruptionDomainException;
 import com.wbsedcl.trms.substation.log.domain.exception.InterruptionValidationException;
 import com.wbsedcl.trms.substation.log.domain.mapper.InterruptionDataMapper;
 import com.wbsedcl.trms.substation.log.domain.ports.input.service.SubstationLogApplicationService;
-import com.wbsedcl.trms.substation.log.domain.ports.output.repository.AssetRepository;
+import com.wbsedcl.trms.substation.log.domain.ports.output.repository.FeederRepository;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.OfficeRepository;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.SubstationLogRepository;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.UserRepository;
+import com.wbsedcl.trms.substation.log.domain.valueobject.FeederId;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -46,7 +46,7 @@ public class LogInterruptionApplicationServiceTest {
     private UserRepository userRepository;
 
     @Autowired
-    private AssetRepository assetRepository;
+    private FeederRepository feederRepository;
 
     @Autowired
     private OfficeRepository officeRepository;
@@ -62,11 +62,10 @@ public class LogInterruptionApplicationServiceTest {
     private LogInterruptionCommand logInterruptionCommandWrongStatusSourceChangeOverNotRestored;
     private LogInterruptionCommand logInterruptionCommandWrongStatusSustainedFaultRestored;
 
-    private final String ASSET_ID="341250001";
+    private final String FEEDER_ID="3842";
     private final String SUBSTATION_OFFICE_ID="3412500";
     private final String CREATED_USER_ID="90014842";
     private final String RESTORED_USER_ID="90014842";
-    private final String INTERRUPTION_REF_ID = "3412080123001";
     private final UUID INTERRUPTION_UUID = UUID.fromString("fbaf9490-a112-4b9c-90c6-39141c4abfa3");
     private final InterruptionType INTERRUPTION_TYPE_TT = InterruptionType.TRANSIENT_TRIPPING;
     private final InterruptionType INTERRUPTION_TYPE_PS = InterruptionType.PLANNED_SHUTDOWN;
@@ -86,7 +85,7 @@ public class LogInterruptionApplicationServiceTest {
     @BeforeAll
     public void init() {
         logInterruptionCommand = LogInterruptionCommand.builder()
-                .faultyAssetId(ASSET_ID)
+                .faultyFeederId(FEEDER_ID)
                 .substationOfficeId(SUBSTATION_OFFICE_ID)
                 .interruptionType(INTERRUPTION_TYPE_TT)
                 .faultNature(FAULT_NATURE_EF)
@@ -101,7 +100,7 @@ public class LogInterruptionApplicationServiceTest {
                 .build();
 
         logInterruptionCommandWrongHoursStartTimeAfterEndTime = LogInterruptionCommand.builder()
-                .faultyAssetId(ASSET_ID)
+                .faultyFeederId(FEEDER_ID)
                 .substationOfficeId(SUBSTATION_OFFICE_ID)
                 .interruptionType(INTERRUPTION_TYPE_TT)
                 .faultNature(FAULT_NATURE_EF)
@@ -116,7 +115,7 @@ public class LogInterruptionApplicationServiceTest {
                 .build();
 
         logInterruptionCommandWrongHoursRestoredWithoutEndTime=LogInterruptionCommand.builder()
-                .faultyAssetId(ASSET_ID)
+                .faultyFeederId(FEEDER_ID)
                 .substationOfficeId(SUBSTATION_OFFICE_ID)
                 .interruptionType(INTERRUPTION_TYPE_TT)
                 .faultNature(FAULT_NATURE_EF)
@@ -131,7 +130,7 @@ public class LogInterruptionApplicationServiceTest {
                 .build();
 
         logInterruptionCommandWrongHoursNotRestoredWithEndTime = LogInterruptionCommand.builder()
-                .faultyAssetId(ASSET_ID)
+                .faultyFeederId(FEEDER_ID)
                 .substationOfficeId(SUBSTATION_OFFICE_ID)
                 .interruptionType(InterruptionType.EMERGENCY_SHUTDOWN)
                 .faultNature(FAULT_NATURE_EF)
@@ -147,7 +146,7 @@ public class LogInterruptionApplicationServiceTest {
 
 
         logInterruptionCommandWrongHoursStartTimeInFuture = LogInterruptionCommand.builder()
-                .faultyAssetId(ASSET_ID)
+                .faultyFeederId(FEEDER_ID)
                 .substationOfficeId(SUBSTATION_OFFICE_ID)
                 .interruptionType(InterruptionType.EMERGENCY_SHUTDOWN)
                 .faultNature(FAULT_NATURE_EF)
@@ -162,7 +161,7 @@ public class LogInterruptionApplicationServiceTest {
                 .build();
 
         logInterruptionCommandWrongStatusTransientTrippingNotRestored = LogInterruptionCommand.builder()
-                .faultyAssetId(ASSET_ID)
+                .faultyFeederId(FEEDER_ID)
                 .substationOfficeId(SUBSTATION_OFFICE_ID)
                 .interruptionType(INTERRUPTION_TYPE_TT)
                 .faultNature(FAULT_NATURE_EF)
@@ -178,7 +177,7 @@ public class LogInterruptionApplicationServiceTest {
 
 
         logInterruptionCommandWrongStatusSourceChangeOverNotRestored = LogInterruptionCommand.builder()
-                .faultyAssetId(ASSET_ID)
+                .faultyFeederId(FEEDER_ID)
                 .substationOfficeId(SUBSTATION_OFFICE_ID)
                 .interruptionType(InterruptionType.SOURCE_CHANGEOVER)
                 .faultNature(FAULT_NATURE_EF)
@@ -193,7 +192,7 @@ public class LogInterruptionApplicationServiceTest {
                 .build();
 
         logInterruptionCommandWrongStatusSustainedFaultRestored = LogInterruptionCommand.builder()
-                .faultyAssetId(ASSET_ID)
+                .faultyFeederId(FEEDER_ID)
                 .substationOfficeId(SUBSTATION_OFFICE_ID)
                 .interruptionType(InterruptionType.SUSTAINED_FAULT)
                 .faultNature(FAULT_NATURE_EF)
@@ -209,29 +208,29 @@ public class LogInterruptionApplicationServiceTest {
 
 
 
-        User createdByUserMock = new User(new UserId(CREATED_USER_ID));
-        User restoredByUserMock = new User(new UserId(RESTORED_USER_ID));
+        User createdByUserMock = User.newBuilder().userId(new UserId(CREATED_USER_ID)).build();
+        User restoredByUserMock = User.newBuilder().userId(new UserId(RESTORED_USER_ID)).build();
         Office substationOfficeMock = new Office(new OfficeId(SUBSTATION_OFFICE_ID));
-        Asset faultyAssetMock = new Asset(new AssetId(ASSET_ID));
+        Feeder faultyFeederMock = Feeder.newBuilder().feederId(new FeederId(FEEDER_ID)).build();
         Interruption interruption = interruptionDataMapper.logInterruptionCommandToInterruption(logInterruptionCommand);
 
         //Mocking the application service dependencies i.e. repositories
         when(userRepository.findUser(CREATED_USER_ID)).thenReturn(Optional.of(createdByUserMock));
         when(userRepository.findUser(RESTORED_USER_ID)).thenReturn(Optional.of(restoredByUserMock));
         when(officeRepository.findOffice(SUBSTATION_OFFICE_ID)).thenReturn(Optional.of(substationOfficeMock));
-        when(assetRepository.findAsset(ASSET_ID)).thenReturn(Optional.of(faultyAssetMock));
-        doAnswer(i->{
-            Interruption savedInterruption = (Interruption)i.getArgument(0);
-            savedInterruption.setInterruptionRefId(INTERRUPTION_REF_ID);
-            return null;
-        }).when(substationLogRepository).save(any(Interruption.class));
+        when(feederRepository.findFeeder(FEEDER_ID)).thenReturn(Optional.of(faultyFeederMock));
+//        doAnswer(i->{
+//            Interruption savedInterruption = (Interruption)i.getArgument(0);
+//            savedInterruption.setInterruptionRefId(INTERRUPTION_REF_ID);
+//            return null;
+//        }).when(substationLogRepository).save(any(Interruption.class));
     }
 
     @Test
     void testLogInterruption() {
         LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logInterruption(logInterruptionCommand);
         assertEquals(INTERRUPTION_RESTORED, logInterruptionResponse.getInterruptionStatus());
-        assertEquals(INTERRUPTION_REF_ID,logInterruptionResponse.getInterruptionRefId());
+        assertNotNull(logInterruptionResponse.getInterruptionId());
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.wbsedcl.trms.substation.log.domain;
 
 import com.wbsedcl.trms.domain.valueobject.UserId;
-import com.wbsedcl.trms.substation.log.domain.entity.Consumption;
+import com.wbsedcl.trms.substation.log.domain.entity.EnergyConsumption;
 import com.wbsedcl.trms.substation.log.domain.entity.Interruption;
 import com.wbsedcl.trms.substation.log.domain.entity.LoadRecord;
 import com.wbsedcl.trms.substation.log.domain.event.EnergyConsumptionLoggedEvent;
@@ -33,11 +33,11 @@ public class SubstationLogDomainServiceImpl implements SubstationLogDomainServic
     }
 
     @Override
-    public EnergyConsumptionLoggedEvent validateAndInitiateConsumption(Consumption consumption) {
-        consumption.validate();
-        consumption.initialize();
-        log.info("Energy consumption record created with id {}",consumption.getId().getValue());
-        return new EnergyConsumptionLoggedEvent(consumption, LocalDateTime.now());
+    public EnergyConsumptionLoggedEvent validateAndInitiateConsumption(EnergyConsumption energyConsumption) {
+        energyConsumption.validate();
+        energyConsumption.initialize();
+        log.info("Energy energyConsumption record created with id {}", energyConsumption.getId().getValue());
+        return new EnergyConsumptionLoggedEvent(energyConsumption, LocalDateTime.now());
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.wbsedcl.trms.substation.log.domain.ports.input.service;
 
 import com.wbsedcl.trms.substation.log.domain.dto.create.*;
+import com.wbsedcl.trms.substation.log.domain.entity.Interruption;
+
+import java.util.List;
 
 public interface SubstationLogApplicationService {
 
@@ -11,4 +14,5 @@ public interface SubstationLogApplicationService {
     LogEnergyConsumptionResponse logEnergyConsumption(LogEnergyConsumptionCommand command);
 
     LogLoadRecordResponse logLoadRecord(LogLoadRecordCommand command);
+
 }

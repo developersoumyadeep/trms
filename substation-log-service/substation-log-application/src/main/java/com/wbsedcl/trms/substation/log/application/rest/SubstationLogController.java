@@ -19,23 +19,23 @@ public class SubstationLogController {
 
     @PostMapping
     public ResponseEntity<LogInterruptionResponse> logInterruption(@RequestBody LogInterruptionCommand command) {
-        log.info("Logging interruption for assetId {} at Substation {} created by {}", command.getFaultyAssetId(), command.getSubstationOfficeId(), command.getCreatedByUserId());
+        log.info("Logging interruption for feeder id {} at Substation {} created by {}", command.getFaultyFeederId(), command.getSubstationOfficeId(), command.getCreatedByUserId());
         LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logInterruption(command);
-        log.info("Interruption logged with reference id {}", logInterruptionResponse.getInterruptionRefId());
+        log.info("Interruption logged with id {}", logInterruptionResponse.getInterruptionId());
         return ResponseEntity.ok(logInterruptionResponse);
     }
 
     @PostMapping
     public ResponseEntity<RestoreInterruptionResponse> restoreInterruption(@RequestBody RestoreInterruptionCommand command) {
-        log.info("Restoring interruption {} by user {}", command.getInterruptionRefId(), command.getRestoredBy());
+        log.info("Restoring interruption {} by user {}", command.getInterruptionId(), command.getRestoredBy());
         RestoreInterruptionResponse restoreInterruptionResponse = substationLogApplicationService.restoreInterruption(command);
-        log.info("Interruption with ref id {} restored", restoreInterruptionResponse.getInterruptionRefId());
+        log.info("Interruption with ref id {} restored", restoreInterruptionResponse.getInterruptionId());
         return ResponseEntity.ok(restoreInterruptionResponse);
     }
 
     @PostMapping
     public ResponseEntity<LogEnergyConsumptionResponse> logEnergyConsumption(@RequestBody LogEnergyConsumptionCommand command) {
-        log.info("Logging energy consumption for assetId {} at Substation {} recorded by {} ", command.getAssetId(), command.getSubstationOfficeId(), command.getRecordedBy());
+        log.info("Logging energy consumption for feeder id {} at Substation {} recorded by {} ", command.getFeederId(), command.getSubstationOfficeId(), command.getRecordedBy());
         LogEnergyConsumptionResponse logEnergyConsumptionResponse = substationLogApplicationService.logEnergyConsumption(command);
         log.info("Energy consumption logged with uuid {}", logEnergyConsumptionResponse.getConsumptionId());
         return ResponseEntity.ok(logEnergyConsumptionResponse);
@@ -43,7 +43,7 @@ public class SubstationLogController {
     
     @PostMapping
     public ResponseEntity<LogLoadRecordResponse> logLoadRecord(@RequestBody LogLoadRecordCommand command) {
-        log.info("Logging load record for assetId {} at Substation {} recorded by {} ", command.getAssetId(), command.getSubstationOfficeId(), command.getRecordedBy());
+        log.info("Logging load record for feeder id {} at Substation {} recorded by {} ", command.getFeederId(), command.getSubstationOfficeId(), command.getRecordedBy());
         LogLoadRecordResponse logLoadRecordResponse = substationLogApplicationService.logLoadRecord(command);
         log.info("Load record logged with uuid {}", logLoadRecordResponse.getLoadRecordId());
         return ResponseEntity.ok(logLoadRecordResponse);

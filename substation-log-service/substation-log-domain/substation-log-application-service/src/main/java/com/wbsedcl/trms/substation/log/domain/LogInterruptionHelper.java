@@ -3,12 +3,9 @@ package com.wbsedcl.trms.substation.log.domain;
 import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionCommand;
 import com.wbsedcl.trms.substation.log.domain.entity.*;
 import com.wbsedcl.trms.substation.log.domain.event.InterruptionLoggedEvent;
-import com.wbsedcl.trms.substation.log.domain.exception.InterruptionDomainException;
 import com.wbsedcl.trms.substation.log.domain.exception.InterruptionValidationException;
 import com.wbsedcl.trms.substation.log.domain.mapper.InterruptionDataMapper;
-import com.wbsedcl.trms.substation.log.domain.ports.output.repository.AssetRepository;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.SubstationLogRepository;
-import com.wbsedcl.trms.substation.log.domain.ports.output.repository.OfficeRepository;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -46,7 +43,7 @@ public class LogInterruptionHelper {
         //4. Save the interruption using repository
         substationLogRepository.save(interruption);
         //5. Log the operation
-        log.info("Interruption saved with reference id {}", interruption.getInterruptionRefId());
+        log.info("Interruption saved with id {}", interruption.getId().getValue());
         //6. return the event with the saved interruption
         return interruptionLoggedEvent;
     }
@@ -75,9 +72,5 @@ public class LogInterruptionHelper {
                 throw new InterruptionValidationException("User with id "+restoredByUserId+" does not exist");
             }
         }
-
     }
-
-
-
 }

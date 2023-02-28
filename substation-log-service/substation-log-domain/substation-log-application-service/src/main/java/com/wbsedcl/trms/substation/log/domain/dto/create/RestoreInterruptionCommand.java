@@ -6,12 +6,13 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 @Getter
 @Builder
 @AllArgsConstructor
 public class RestoreInterruptionCommand {
-    private String interruptionRefId;
+    private UUID interruptionId;
     private LocalDate endDate;
     private LocalTime endTime;
     private String restoredBy;

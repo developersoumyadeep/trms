@@ -29,7 +29,7 @@ public class RestoreInterruptionCommandHandler {
 
         InterruptionRestoredEvent interruptionRestoredEvent = restoreInterruptionHelper.updateInterruptionStatus(command);
         publisher.publish(interruptionRestoredEvent);
-        log.info("Interruption with reference id {} restored",command.getInterruptionRefId());
+        log.info("Interruption with id {} restored",command.getInterruptionId());
         return interruptionDataMapper.interruptionToRestoreInterruptionResponse(interruptionRestoredEvent.getInterruption());
     }
 }

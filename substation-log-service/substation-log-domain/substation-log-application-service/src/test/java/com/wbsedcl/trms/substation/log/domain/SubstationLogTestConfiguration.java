@@ -2,7 +2,7 @@ package com.wbsedcl.trms.substation.log.domain;
 
 import com.wbsedcl.trms.substation.log.domain.ports.output.message.publisher.InterruptionLoggedNotificationMessagePublisher;
 import com.wbsedcl.trms.substation.log.domain.ports.output.message.publisher.InterruptionRestoredNotificationMessagePublisher;
-import com.wbsedcl.trms.substation.log.domain.ports.output.repository.AssetRepository;
+import com.wbsedcl.trms.substation.log.domain.ports.output.repository.FeederRepository;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.OfficeRepository;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.SubstationLogRepository;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.UserRepository;
@@ -29,8 +29,8 @@ public class SubstationLogTestConfiguration {
     }
 
     @Bean
-    public AssetRepository assetRepository() {
-        return Mockito.mock(AssetRepository.class);
+    public FeederRepository assetRepository() {
+        return Mockito.mock(FeederRepository.class);
     }
 
     @Bean

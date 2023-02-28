@@ -1,27 +1,27 @@
 package com.wbsedcl.trms.substation.log.domain.mapper;
 
-import com.wbsedcl.trms.domain.valueobject.AssetId;
 import com.wbsedcl.trms.domain.valueobject.OfficeId;
 import com.wbsedcl.trms.domain.valueobject.UserId;
 import com.wbsedcl.trms.substation.log.domain.dto.create.LogEnergyConsumptionCommand;
 import com.wbsedcl.trms.substation.log.domain.dto.create.LogEnergyConsumptionResponse;
-import com.wbsedcl.trms.substation.log.domain.entity.Consumption;
+import com.wbsedcl.trms.substation.log.domain.entity.EnergyConsumption;
+import com.wbsedcl.trms.substation.log.domain.valueobject.FeederId;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EnergyConsumptionDataMapper {
-    public LogEnergyConsumptionResponse EnergyConsumptionToLogEnergyConsumptionResponse(Consumption consumption) {
-        String message = "Consumption for meter no " +
-                consumption.getEnergyMeterNo() +
+    public LogEnergyConsumptionResponse EnergyConsumptionToLogEnergyConsumptionResponse(EnergyConsumption energyConsumption) {
+        String message = "Energy consumption for meter no " +
+                energyConsumption.getEnergyMeterNo() +
                 " logged at " +
-                consumption.getTime() +
+                energyConsumption.getTime() +
                 " hrs";
-        return new LogEnergyConsumptionResponse(message, consumption.getId().getValue());
+        return new LogEnergyConsumptionResponse(message, energyConsumption.getId().getValue());
     }
 
-    public Consumption LogEnergyConsumptionCommandToConsumption(LogEnergyConsumptionCommand command) {
-       return Consumption.newBuilder()
-                .assetId(new AssetId(command.getAssetId()))
+    public EnergyConsumption LogEnergyConsumptionCommandToEnergyConsumption(LogEnergyConsumptionCommand command) {
+       return EnergyConsumption.newBuilder()
+                .feederId(new FeederId(command.getFeederId()))
                 .energyMeterNo(command.getEnergyMeterNo())
                 .energyUnit(command.getEnergyUnit())
                 .consumption(command.getConsumption())

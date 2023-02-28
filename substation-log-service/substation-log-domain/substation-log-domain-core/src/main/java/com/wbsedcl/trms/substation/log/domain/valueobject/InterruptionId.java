@@ -4,8 +4,8 @@ import com.wbsedcl.trms.domain.valueobject.BaseId;
 
 import java.util.UUID;
 
-public class InterruptionUUId extends BaseId<UUID> {
-    public InterruptionUUId(UUID value) {
+public class InterruptionId extends BaseId<UUID> {
+    public InterruptionId(UUID value) {
         super(value);
     }
 }

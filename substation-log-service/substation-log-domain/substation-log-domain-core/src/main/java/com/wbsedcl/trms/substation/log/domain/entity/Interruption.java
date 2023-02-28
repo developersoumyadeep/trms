@@ -2,9 +2,9 @@ package com.wbsedcl.trms.substation.log.domain.entity;
 
 import com.wbsedcl.trms.domain.entity.AggregateRoot;
 import com.wbsedcl.trms.domain.entity.BaseEntity;
-import com.wbsedcl.trms.domain.valueobject.AssetId;
 import com.wbsedcl.trms.domain.valueobject.UserId;
-import com.wbsedcl.trms.substation.log.domain.valueobject.InterruptionUUId;
+import com.wbsedcl.trms.substation.log.domain.valueobject.FeederId;
+import com.wbsedcl.trms.substation.log.domain.valueobject.InterruptionId;
 import com.wbsedcl.trms.domain.valueobject.OfficeId;
 import com.wbsedcl.trms.substation.log.domain.exception.InterruptionValidationException;
 
@@ -14,17 +14,16 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 
-public class Interruption extends BaseEntity<InterruptionUUId> implements AggregateRoot {
+public class Interruption extends BaseEntity<InterruptionId> implements AggregateRoot {
 
-    private String interruptionRefId;
-    private final AssetId faultyAssetId;
+    private final FeederId faultyFeederId;
     private final OfficeId substationOfficeId;
     private final InterruptionType interruptionType;
     private final FaultNature faultNature;
     private final UserId createdBy;
     private final LocalDate startDate;
     private final LocalTime startTime;
-    private LocalDateTime creationTimestamp;
+    private LocalDateTime creationTimeStamp;
     private UserId restoredBy;
     private LocalDateTime restorationTimeStamp;
     private InterruptionStatus interruptionStatus;
@@ -33,14 +32,13 @@ public class Interruption extends BaseEntity<InterruptionUUId> implements Aggreg
     private LocalTime endTime;
 
     private Interruption(InterruptionBuilder interruptionBuilder) {
-        setId(interruptionBuilder.interruptionUUId);
-        interruptionRefId = interruptionBuilder.interruptionRefId;
-        faultyAssetId = interruptionBuilder.faultyAssetId;
+        setId(interruptionBuilder.interruptionId);
+        faultyFeederId = interruptionBuilder.faultyFeederId;
         substationOfficeId = interruptionBuilder.substationOfficeId;
         interruptionType = interruptionBuilder.interruptionType;
         faultNature = interruptionBuilder.faultNature;
         createdBy = interruptionBuilder.createdBy;
-        creationTimestamp = interruptionBuilder.creationTimestamp;
+        creationTimeStamp = interruptionBuilder.creationTimestamp;
         restoredBy = interruptionBuilder.restoredBy;
         restorationTimeStamp = interruptionBuilder.restorationTimeStamp;
         interruptionStatus = interruptionBuilder.interruptionStatus;
@@ -53,8 +51,8 @@ public class Interruption extends BaseEntity<InterruptionUUId> implements Aggreg
 
 
     public void initializeInterruption() {
-        setId(new InterruptionUUId(UUID.randomUUID()));
-        creationTimestamp = LocalDateTime.now();
+        setId(new InterruptionId(UUID.randomUUID()));
+        creationTimeStamp = LocalDateTime.now();
     }
 
     public void validateInterruption() {
@@ -119,7 +117,7 @@ public class Interruption extends BaseEntity<InterruptionUUId> implements Aggreg
     }
 
     private void validateInitialInterruption() {
-        if (creationTimestamp != null || getId() != null || interruptionRefId != null) {
+        if (creationTimeStamp != null || getId() != null) {
             throw new InterruptionValidationException("The interruption object is not in the correct state for initialization");
         }
     }
@@ -133,16 +131,8 @@ public class Interruption extends BaseEntity<InterruptionUUId> implements Aggreg
     }
 
 
-    public String getInterruptionRefId() {
-        return interruptionRefId;
-    }
-
-    public void setInterruptionRefId(String interruptionRefId) {
-        this.interruptionRefId = interruptionRefId;
-    }
-
-    public AssetId getFaultyAssetId() {
-        return faultyAssetId;
+    public FeederId getFaultyFeederId() {
+        return faultyFeederId;
     }
 
     public OfficeId getSubstationOfficeId() {
@@ -161,8 +151,8 @@ public class Interruption extends BaseEntity<InterruptionUUId> implements Aggreg
         return createdBy;
     }
 
-    public LocalDateTime getCreationTimestamp() {
-        return creationTimestamp;
+    public LocalDateTime getCreationTimeStamp() {
+        return creationTimeStamp;
     }
 
     public UserId getRestoredBy() {
@@ -228,9 +218,8 @@ public class Interruption extends BaseEntity<InterruptionUUId> implements Aggreg
 
     public static final class InterruptionBuilder {
 
-        private InterruptionUUId interruptionUUId;
-        private String interruptionRefId;
-        private AssetId faultyAssetId;
+        private InterruptionId interruptionId;
+        private FeederId faultyFeederId;
         private OfficeId substationOfficeId;
         private InterruptionType interruptionType;
         private FaultNature faultNature;
@@ -249,18 +238,13 @@ public class Interruption extends BaseEntity<InterruptionUUId> implements Aggreg
 
         }
 
-        public InterruptionBuilder interruptionUUId(InterruptionUUId val) {
-            this.interruptionUUId = val;
+        public InterruptionBuilder interruptionId(InterruptionId val) {
+            this.interruptionId = val;
             return this;
         }
 
-        public InterruptionBuilder interruptionRefId(String interruptionRefId) {
-            this.interruptionRefId = interruptionRefId;
-            return this;
-        }
-
-        public InterruptionBuilder faultyAssetId(AssetId faultyAssetId) {
-            this.faultyAssetId = faultyAssetId;
+        public InterruptionBuilder faultyFeederId(FeederId faultyFeederId) {
+            this.faultyFeederId = faultyFeederId;
             return this;
         }
 
@@ -284,7 +268,7 @@ public class Interruption extends BaseEntity<InterruptionUUId> implements Aggreg
             return this;
         }
 
-        public InterruptionBuilder creationTimestamp(LocalDateTime val) {
+        public InterruptionBuilder creationTimeStamp(LocalDateTime val) {
             this.creationTimestamp = val;
             return this;
         }

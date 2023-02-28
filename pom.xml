@@ -10,6 +10,10 @@
     <modules>
         <module>common</module>
         <module>substation-log-service</module>
+        <module>feeder-management-service</module>
+        <module>user-management-service</module>
+        <module>office-management-service</module>
+        <module>infrastructure</module>
     </modules>
 
     <parent>
@@ -22,10 +26,35 @@
     <packaging>pom</packaging>
     <properties>
         <mockito.version>4.5.1</mockito.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <spring-kafka.version>3.0.2</spring-kafka.version>
+        <kafka-avro-serializer.version>7.0.1</kafka-avro-serializer.version>
+        <avro.version>1.11.1</avro.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.wbsedcl</groupId>
+                <artifactId>kafka-producer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wbsedcl</groupId>
+                <artifactId>kafka-consumer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wbsedcl</groupId>
+                <artifactId>kafka-config-data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wbsedcl</groupId>
+                <artifactId>kafka-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.wbsedcl</groupId>
                 <artifactId>common-domain</artifactId>

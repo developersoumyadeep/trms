@@ -2,10 +2,10 @@ package com.wbsedcl.trms.substation.log.domain.entity;
 
 import com.wbsedcl.trms.domain.entity.AggregateRoot;
 import com.wbsedcl.trms.domain.entity.BaseEntity;
-import com.wbsedcl.trms.domain.valueobject.AssetId;
 import com.wbsedcl.trms.domain.valueobject.OfficeId;
 import com.wbsedcl.trms.domain.valueobject.UserId;
 import com.wbsedcl.trms.substation.log.domain.exception.LoadRecordValidationException;
+import com.wbsedcl.trms.substation.log.domain.valueobject.FeederId;
 import com.wbsedcl.trms.substation.log.domain.valueobject.LoadRecordId;
 
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 public class LoadRecord extends BaseEntity<LoadRecordId> implements AggregateRoot {
-    private final AssetId assetId;
+    private final FeederId feederId;
     private final OfficeId substationOfficeId;
     private LocalDate date;
     private LocalTime time;
@@ -23,7 +23,7 @@ public class LoadRecord extends BaseEntity<LoadRecordId> implements AggregateRoo
 
     private LoadRecord(LoadRecordBuilder builder) {
         setId(builder.id);
-        assetId = builder.assetId;
+        feederId = builder.feederId;
         substationOfficeId = builder.substationOfficeId;
         date = builder.date;
         time = builder.time;
@@ -54,8 +54,8 @@ public class LoadRecord extends BaseEntity<LoadRecordId> implements AggregateRoo
         }
     }
 
-    public AssetId getAssetId() {
-        return assetId;
+    public FeederId getFeederId() {
+        return feederId;
     }
 
     public OfficeId getSubstationOfficeId() {
@@ -84,7 +84,7 @@ public class LoadRecord extends BaseEntity<LoadRecordId> implements AggregateRoo
 
     public static final class LoadRecordBuilder {
         private LoadRecordId id;
-        private AssetId assetId;
+        private FeederId feederId;
         private OfficeId substationOfficeId;
         private LocalDate date;
         private LocalTime time;
@@ -101,8 +101,8 @@ public class LoadRecord extends BaseEntity<LoadRecordId> implements AggregateRoo
             return this;
         }
 
-        public LoadRecordBuilder assetId(AssetId assetId) {
-            this.assetId = assetId;
+        public LoadRecordBuilder feederId(FeederId feederId) {
+            this.feederId = feederId;
             return this;
         }
 

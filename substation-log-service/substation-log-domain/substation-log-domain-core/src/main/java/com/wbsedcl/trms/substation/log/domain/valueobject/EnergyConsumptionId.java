@@ -4,8 +4,8 @@ import com.wbsedcl.trms.domain.valueobject.BaseId;
 
 import java.util.UUID;
 
-public class ConsumptionId extends BaseId<UUID> {
-    public ConsumptionId(UUID value) {
+public class EnergyConsumptionId extends BaseId<UUID> {
+    public EnergyConsumptionId(UUID value) {
         super(value);
     }
 }

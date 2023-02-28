@@ -13,8 +13,8 @@ import java.lang.annotation.Target;
 @ConstraintComposition(CompositionType.ALL_FALSE)
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = AssetIdValidator.class)
-public @interface ValidAssetId {
+@Constraint(validatedBy = FeederIdValidator.class)
+public @interface ValidFeederId {
     String message() default "Asset does not exist";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
