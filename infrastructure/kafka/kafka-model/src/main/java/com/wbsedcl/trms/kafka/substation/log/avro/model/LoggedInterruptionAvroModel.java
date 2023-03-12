@@ -17,14 +17,13 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
   private static final long serialVersionUID = 1246960917666014892L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"LoggedInterruptionAvroModel\",\"namespace\":\"com.wbsedcl.trms.kafka.substation.log.avro.model\",\"fields\":[{\"name\":\"interruptionId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"sagaId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"faultyFeederId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"substationOfficeId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"interruptionType\",\"type\":{\"type\":\"enum\",\"name\":\"InterruptionType\",\"symbols\":[\"TRANSIENT_TRIPPING\",\"MAIN_POWER_FAIL\",\"LOAD_SHEDDING\",\"PLANNED_SHUTDOWN\",\"EMERGENCY_SHUTDOWN\",\"SUSTAINED_FAULT\",\"SOURCE_CHANGEOVER\"]}},{\"name\":\"faultNature\",\"type\":{\"type\":\"enum\",\"name\":\"FaultNature\",\"symbols\":[\"EF_OC\",\"EF\",\"OC\",\"HIGH_SET_OC\"]}},{\"name\":\"createdBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"startDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"startTime\",\"type\":{\"type\":\"long\",\"logicalType\":\"local-timestamp-millis\"}},{\"name\":\"restoredBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"interruptionStatus\",\"type\":{\"type\":\"enum\",\"name\":\"InterruptionStatus\",\"symbols\":[\"NOT_RESTORED\",\"RESTORED\"]}},{\"name\":\"cause\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"endDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"endTime\",\"type\":{\"type\":\"long\",\"logicalType\":\"local-timestamp-millis\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"LoggedInterruptionAvroModel\",\"namespace\":\"com.wbsedcl.trms.kafka.substation.log.avro.model\",\"fields\":[{\"name\":\"interruptionId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"sagaId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"faultyFeederId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"substationOfficeId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"interruptionType\",\"type\":{\"type\":\"enum\",\"name\":\"InterruptionType\",\"symbols\":[\"TRANSIENT_TRIPPING\",\"MAIN_POWER_FAIL\",\"LOAD_SHEDDING\",\"PLANNED_SHUTDOWN\",\"EMERGENCY_SHUTDOWN\",\"SUSTAINED_FAULT\",\"SOURCE_CHANGEOVER\"]}},{\"name\":\"faultNature\",\"type\":{\"type\":\"enum\",\"name\":\"FaultNature\",\"symbols\":[\"EF_OC\",\"EF\",\"OC\",\"HIGH_SET_OC\"]}},{\"name\":\"createdBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"startDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"startTime\",\"type\":{\"type\":\"long\",\"logicalType\":\"time-millis\"}},{\"name\":\"restoredBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"interruptionStatus\",\"type\":{\"type\":\"enum\",\"name\":\"InterruptionStatus\",\"symbols\":[\"NOT_RESTORED\",\"RESTORED\"]}},{\"name\":\"cause\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"endDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"endTime\",\"type\":{\"type\":\"long\",\"logicalType\":\"time-millis\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
   static {
     MODEL$.addLogicalTypeConversion(new org.apache.avro.data.TimeConversions.DateConversion());
     MODEL$.addLogicalTypeConversion(new org.apache.avro.Conversions.UUIDConversion());
-    MODEL$.addLogicalTypeConversion(new org.apache.avro.data.TimeConversions.LocalTimestampMillisConversion());
   }
 
   private static final BinaryMessageEncoder<LoggedInterruptionAvroModel> ENCODER =
@@ -86,12 +85,12 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
   private com.wbsedcl.trms.kafka.substation.log.avro.model.FaultNature faultNature;
   private java.lang.String createdBy;
   private java.time.LocalDate startDate;
-  private java.time.LocalDateTime startTime;
+  private long startTime;
   private java.lang.String restoredBy;
   private com.wbsedcl.trms.kafka.substation.log.avro.model.InterruptionStatus interruptionStatus;
   private java.lang.String cause;
   private java.time.LocalDate endDate;
-  private java.time.LocalDateTime endTime;
+  private long endTime;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -117,7 +116,7 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
    * @param endDate The new value for endDate
    * @param endTime The new value for endTime
    */
-  public LoggedInterruptionAvroModel(java.util.UUID interruptionId, java.util.UUID sagaId, java.lang.String faultyFeederId, java.lang.String substationOfficeId, com.wbsedcl.trms.kafka.substation.log.avro.model.InterruptionType interruptionType, com.wbsedcl.trms.kafka.substation.log.avro.model.FaultNature faultNature, java.lang.String createdBy, java.time.LocalDate startDate, java.time.LocalDateTime startTime, java.lang.String restoredBy, com.wbsedcl.trms.kafka.substation.log.avro.model.InterruptionStatus interruptionStatus, java.lang.String cause, java.time.LocalDate endDate, java.time.LocalDateTime endTime) {
+  public LoggedInterruptionAvroModel(java.util.UUID interruptionId, java.util.UUID sagaId, java.lang.String faultyFeederId, java.lang.String substationOfficeId, com.wbsedcl.trms.kafka.substation.log.avro.model.InterruptionType interruptionType, com.wbsedcl.trms.kafka.substation.log.avro.model.FaultNature faultNature, java.lang.String createdBy, java.time.LocalDate startDate, java.lang.Long startTime, java.lang.String restoredBy, com.wbsedcl.trms.kafka.substation.log.avro.model.InterruptionStatus interruptionStatus, java.lang.String cause, java.time.LocalDate endDate, java.lang.Long endTime) {
     this.interruptionId = interruptionId;
     this.sagaId = sagaId;
     this.faultyFeederId = faultyFeederId;
@@ -172,12 +171,12 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
       null,
       null,
       new org.apache.avro.data.TimeConversions.DateConversion(),
-      new org.apache.avro.data.TimeConversions.LocalTimestampMillisConversion(),
+      null,
       null,
       null,
       null,
       new org.apache.avro.data.TimeConversions.DateConversion(),
-      new org.apache.avro.data.TimeConversions.LocalTimestampMillisConversion(),
+      null,
       null
   };
 
@@ -199,12 +198,12 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
     case 5: faultNature = (com.wbsedcl.trms.kafka.substation.log.avro.model.FaultNature)value$; break;
     case 6: createdBy = value$ != null ? value$.toString() : null; break;
     case 7: startDate = (java.time.LocalDate)value$; break;
-    case 8: startTime = (java.time.LocalDateTime)value$; break;
+    case 8: startTime = (java.lang.Long)value$; break;
     case 9: restoredBy = value$ != null ? value$.toString() : null; break;
     case 10: interruptionStatus = (com.wbsedcl.trms.kafka.substation.log.avro.model.InterruptionStatus)value$; break;
     case 11: cause = value$ != null ? value$.toString() : null; break;
     case 12: endDate = (java.time.LocalDate)value$; break;
-    case 13: endTime = (java.time.LocalDateTime)value$; break;
+    case 13: endTime = (java.lang.Long)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -349,7 +348,7 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
    * Gets the value of the 'startTime' field.
    * @return The value of the 'startTime' field.
    */
-  public java.time.LocalDateTime getStartTime() {
+  public long getStartTime() {
     return startTime;
   }
 
@@ -358,7 +357,7 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
    * Sets the value of the 'startTime' field.
    * @param value the value to set.
    */
-  public void setStartTime(java.time.LocalDateTime value) {
+  public void setStartTime(long value) {
     this.startTime = value;
   }
 
@@ -434,7 +433,7 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
    * Gets the value of the 'endTime' field.
    * @return The value of the 'endTime' field.
    */
-  public java.time.LocalDateTime getEndTime() {
+  public long getEndTime() {
     return endTime;
   }
 
@@ -443,7 +442,7 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
    * Sets the value of the 'endTime' field.
    * @param value the value to set.
    */
-  public void setEndTime(java.time.LocalDateTime value) {
+  public void setEndTime(long value) {
     this.endTime = value;
   }
 
@@ -496,12 +495,12 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
     private com.wbsedcl.trms.kafka.substation.log.avro.model.FaultNature faultNature;
     private java.lang.String createdBy;
     private java.time.LocalDate startDate;
-    private java.time.LocalDateTime startTime;
+    private long startTime;
     private java.lang.String restoredBy;
     private com.wbsedcl.trms.kafka.substation.log.avro.model.InterruptionStatus interruptionStatus;
     private java.lang.String cause;
     private java.time.LocalDate endDate;
-    private java.time.LocalDateTime endTime;
+    private long endTime;
 
     /** Creates a new Builder */
     private Builder() {
@@ -959,7 +958,7 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
       * Gets the value of the 'startTime' field.
       * @return The value.
       */
-    public java.time.LocalDateTime getStartTime() {
+    public long getStartTime() {
       return startTime;
     }
 
@@ -969,7 +968,7 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
       * @param value The value of 'startTime'.
       * @return This builder.
       */
-    public com.wbsedcl.trms.kafka.substation.log.avro.model.LoggedInterruptionAvroModel.Builder setStartTime(java.time.LocalDateTime value) {
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.LoggedInterruptionAvroModel.Builder setStartTime(long value) {
       validate(fields()[8], value);
       this.startTime = value;
       fieldSetFlags()[8] = true;
@@ -1157,7 +1156,7 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
       * Gets the value of the 'endTime' field.
       * @return The value.
       */
-    public java.time.LocalDateTime getEndTime() {
+    public long getEndTime() {
       return endTime;
     }
 
@@ -1167,7 +1166,7 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
       * @param value The value of 'endTime'.
       * @return This builder.
       */
-    public com.wbsedcl.trms.kafka.substation.log.avro.model.LoggedInterruptionAvroModel.Builder setEndTime(java.time.LocalDateTime value) {
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.LoggedInterruptionAvroModel.Builder setEndTime(long value) {
       validate(fields()[13], value);
       this.endTime = value;
       fieldSetFlags()[13] = true;
@@ -1205,12 +1204,12 @@ public class LoggedInterruptionAvroModel extends org.apache.avro.specific.Specif
         record.faultNature = fieldSetFlags()[5] ? this.faultNature : (com.wbsedcl.trms.kafka.substation.log.avro.model.FaultNature) defaultValue(fields()[5]);
         record.createdBy = fieldSetFlags()[6] ? this.createdBy : (java.lang.String) defaultValue(fields()[6]);
         record.startDate = fieldSetFlags()[7] ? this.startDate : (java.time.LocalDate) defaultValue(fields()[7]);
-        record.startTime = fieldSetFlags()[8] ? this.startTime : (java.time.LocalDateTime) defaultValue(fields()[8]);
+        record.startTime = fieldSetFlags()[8] ? this.startTime : (java.lang.Long) defaultValue(fields()[8]);
         record.restoredBy = fieldSetFlags()[9] ? this.restoredBy : (java.lang.String) defaultValue(fields()[9]);
         record.interruptionStatus = fieldSetFlags()[10] ? this.interruptionStatus : (com.wbsedcl.trms.kafka.substation.log.avro.model.InterruptionStatus) defaultValue(fields()[10]);
         record.cause = fieldSetFlags()[11] ? this.cause : (java.lang.String) defaultValue(fields()[11]);
         record.endDate = fieldSetFlags()[12] ? this.endDate : (java.time.LocalDate) defaultValue(fields()[12]);
-        record.endTime = fieldSetFlags()[13] ? this.endTime : (java.time.LocalDateTime) defaultValue(fields()[13]);
+        record.endTime = fieldSetFlags()[13] ? this.endTime : (java.lang.Long) defaultValue(fields()[13]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;

@@ -17,6 +17,9 @@ import com.wbsedcl.trms.substation.log.domain.valueobject.InterruptionId;
 import com.wbsedcl.trms.substation.log.domain.valueobject.LoadRecordId;
 import org.springframework.stereotype.Component;
 
+/*
+    This class maps from domain entity to data access layer entity and vice-versa
+ */
 @Component
 public class SubstationLogDataAccessMapper {
 

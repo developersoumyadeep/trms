@@ -5,6 +5,9 @@ import com.wbsedcl.trms.substation.log.dataaccess.office.entity.OfficeEntity;
 import com.wbsedcl.trms.substation.log.domain.entity.Office;
 import org.springframework.stereotype.Component;
 
+/*
+    This class maps from domain entity to data access layer entity and vice-versa
+ */
 @Component
 public class OfficeDataAccessMapper {
     public OfficeEntity officeToOfficeEntity(Office office) {

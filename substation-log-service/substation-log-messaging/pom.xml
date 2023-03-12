@@ -11,4 +11,27 @@
 
     <artifactId>substation-log-messaging</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.wbsedcl</groupId>
+            <artifactId>kafka-producer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wbsedcl</groupId>
+            <artifactId>kafka-consumer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wbsedcl</groupId>
+            <artifactId>kafka-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wbsedcl</groupId>
+            <artifactId>kafka-config-data</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wbsedcl</groupId>
+            <artifactId>substation-log-application-service</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

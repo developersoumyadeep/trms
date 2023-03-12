@@ -7,6 +7,9 @@ import com.wbsedcl.trms.substation.log.domain.entity.Feeder;
 import com.wbsedcl.trms.substation.log.domain.valueobject.FeederId;
 import org.springframework.stereotype.Component;
 
+/*
+    This class maps from domain entity to data access layer entity and vice-versa
+ */
 @Component
 public class FeederDataAccessMapper {
 

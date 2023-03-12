@@ -7,6 +7,9 @@ import com.wbsedcl.trms.substation.log.dataaccess.user.entity.UserEntity;
 import com.wbsedcl.trms.substation.log.domain.entity.User;
 import org.springframework.stereotype.Component;
 
+/*
+    This class maps from domain entity to data access layer entity and vice-versa
+ */
 @Component
 public class UserDataAccessMapper {
     public UserEntity userToUserEntity(User user){

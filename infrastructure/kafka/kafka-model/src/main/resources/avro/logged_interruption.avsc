@@ -56,7 +56,7 @@
             "name": "startTime",
             "type": {
                 "type": "long",
-                "logicalType": "local-timestamp-millis"
+                "logicalType": "time-millis"
             }
         },
         {
@@ -86,7 +86,7 @@
             "name": "endTime",
             "type": {
                 "type": "long",
-                "logicalType": "local-timestamp-millis"
+                "logicalType": "time-millis"
             }
         }
         ]
