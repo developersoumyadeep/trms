@@ -1,0 +1,67 @@
+{
+  "namespace": "com.wbsedcl.trms.kafka.substation.log.avro.model",
+  "type": "record",
+  "name": "EnergyConsumptionAvroModel",
+  "fields": [
+    {
+      "name": "energyConsumptionId",
+      "type": {
+        "type": "string",
+        "logicalType": "uuid"
+      }
+    },
+    {
+      "name": "sagaId",
+      "type": {
+        "type": "string",
+        "logicalType": "uuid"
+      }
+    },
+    {
+      "name": "feederId",
+      "type": "string"
+    },
+    {
+      "name": "substationOfficeId",
+      "type": "string"
+    },
+    {
+      "name": "recordedBy",
+      "type": "string"
+    },
+    {
+      "name": "date",
+      "type": {
+        "type": "int",
+        "logicalType": "date"
+      }
+    },
+    {
+      "name": "time",
+      "type": {
+        "type": "long",
+        "logicalType": "time-millis"
+      }
+    },
+    {
+      "name": "energyMeterNo",
+      "type": "string"
+    },
+    {
+      "name": "energyUnit",
+      "type": {
+        "type": "enum",
+        "name": "EnergyUnit",
+        "symbols": ["WH","KWH","MWH"]
+      }
+    },
+    {
+      "name": "consumption",
+      "type": "double"
+    },
+    {
+      "name": "multiplyingFactor",
+      "type": "int"
+    }
+  ]
+}

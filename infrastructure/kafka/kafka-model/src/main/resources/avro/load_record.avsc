@@ -1,0 +1,52 @@
+{
+  "namespace": "com.wbsedcl.trms.kafka.substation.log.avro.model",
+  "type": "record",
+  "name": "LoadRecordAvroModel",
+  "fields": [
+    {
+      "name": "loadRecordId",
+      "type": {
+        "type": "string",
+        "logicalType": "uuid"
+      }
+    },
+    {
+      "name": "sagaId",
+      "type": {
+        "type": "string",
+        "logicalType": "uuid"
+      }
+    },
+    {
+      "name": "feederId",
+      "type": "string"
+    },
+    {
+      "name": "substationOfficeId",
+      "type": "string"
+    },
+    {
+      "name": "recordedBy",
+      "type": "string"
+    },
+    {
+      "name": "date",
+      "type": {
+        "type": "int",
+        "logicalType": "date"
+      }
+    },
+    {
+      "name": "time",
+      "type": {
+        "type": "long",
+        "logicalType": "time-millis"
+      }
+    },
+    {
+      "name": "load",
+      "type": "double"
+    }
+
+  ]
+}

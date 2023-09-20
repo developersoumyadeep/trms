@@ -1,0 +1,93 @@
+{
+    "namespace": "com.wbsedcl.trms.kafka.substation.log.avro.model",
+    "type": "record",
+    "name": "LoggedInterruptionAvroModel",
+    "fields": [
+        {
+            "name": "interruptionId",
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            }
+        },
+        {
+            "name": "sagaId",
+            "type": {
+                 "type": "string",
+                 "logicalType": "uuid"
+            }
+        },
+        {
+            "name": "faultyFeederId",
+            "type": "string"
+        },
+        {
+            "name": "substationOfficeId",
+            "type": "string"
+        },
+        {
+            "name": "interruptionType",
+            "type": {
+                "type": "enum",
+                "name": "InterruptionType",
+                "symbols": ["TRANSIENT_TRIPPING", "MAIN_POWER_FAIL", "LOAD_SHEDDING", "PLANNED_SHUTDOWN", "EMERGENCY_SHUTDOWN", "SUSTAINED_FAULT", "SOURCE_CHANGEOVER"]
+            }
+        },
+        {
+             "name": "faultNature",
+              "type": ["null",{
+                    "type": "enum",
+                    "name": "FaultNature",
+                    "symbols": ["EF_OC", "EF", "OC", "HIGH_SET_OC"]
+              }]
+        },
+        {
+            "name": "createdBy",
+            "type": "string"
+        },
+        {
+            "name": "startDate",
+            "type": {
+                "type": "int",
+                "logicalType": "date"
+            }
+        },
+        {
+            "name": "startTime",
+            "type": {
+                "type": "long",
+                "logicalType": "time-millis"
+            }
+        },
+        {
+            "name": "restoredBy",
+            "type": "string"
+        },
+        {
+            "name": "interruptionStatus",
+            "type": {
+                "type": "enum",
+                "name": "InterruptionStatus",
+                "symbols": ["NOT_RESTORED", "RESTORED"]
+            }
+        },
+        {
+            "name": "cause",
+            "type": ["null","string"]
+        },
+        {
+            "name": "endDate",
+            "type": [{
+                "type": "int",
+                "logicalType": "date"
+            }, "null"]
+        },
+        {
+            "name": "endTime",
+            "type": [{
+                "type": "long",
+                "logicalType": "time-millis"
+            }, "null"]
+        }
+        ]
+}

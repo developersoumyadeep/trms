@@ -1,0 +1,42 @@
+{
+  "namespace": "com.wbsedcl.trms.kafka.substation.log.avro.model",
+  "type": "record",
+  "name": "CreatedFeederAvroModel",
+  "fields": [
+    {
+      "name": "feederId",
+      "type": "string"
+    },
+    {
+      "name": "feederName",
+      "type": "string"
+    },
+    {
+      "name": "energyMeterNo",
+      "type": "string"
+    },
+    {
+      "name": "substationOfficeId",
+      "type": "string"
+    },
+    {
+      "name": "voltageLevel",
+      "type": "int"
+    },
+    {
+      "name": "feederType",
+      "type": {
+         "type" : "enum",
+         "name" : "FeederType",
+         "symbols": [ "INCOMING_33kV", "OUTGOING_33kV", "PTR_BAY", "OUTGOING_11kV", "INCOMING_11kV"]
+      }
+    },
+    {
+      "name": "sagaId",
+      "type": {
+        "type": "string",
+        "logicalType": "uuid"
+      }
+    }
+  ]
+}

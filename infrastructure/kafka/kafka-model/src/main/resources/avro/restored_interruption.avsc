@@ -1,0 +1,51 @@
+{
+  "namespace": "com.wbsedcl.trms.kafka.substation.log.avro.model",
+  "type": "record",
+  "name": "RestoredInterruptionAvroModel",
+  "fields": [
+    {
+      "name": "interruptionId",
+      "type": {
+        "type": "string",
+        "logicalType": "uuid"
+      }
+    },
+    {
+      "name": "sagaId",
+      "type": {
+        "type": "string",
+        "logicalType": "uuid"
+      }
+    },
+    {
+      "name": "faultyFeederId",
+      "type": "string"
+    },
+    {
+      "name": "substationOfficeId",
+      "type": "string"
+    },
+    {
+      "name": "restoredBy",
+      "type": "string"
+    },
+    {
+      "name": "cause",
+      "type": ["string", "null"]
+    },
+    {
+      "name": "endDate",
+      "type": {
+        "type": "int",
+        "logicalType": "date"
+      }
+    },
+    {
+      "name": "endTime",
+      "type": {
+        "type": "long",
+        "logicalType": "time-millis"
+      }
+    }
+  ]
+}

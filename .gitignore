@@ -1,0 +1,4 @@
+.idea/
+target/
+infrastructure/docker-compose/volumes
+logs.*
