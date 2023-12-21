@@ -8,7 +8,7 @@ import com.wbsedcl.trms.substation.log.domain.ports.output.message.publisher.Loa
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 @Slf4j
 @Component
@@ -17,13 +17,20 @@ public class LogLoadRecordCommandHandler {
     private final LogLoadRecordHelper logLoadRecordHelper;
     private final LoadRecordDataMapper loadRecordDataMapper;
 
-    private final LoadRecordLoggedMessagePublisher publisher;
+//    private final LoadRecordLoggedMessagePublisher publisher;
+
+//    public LogLoadRecordCommandHandler(LogLoadRecordHelper logLoadRecordHelper,
+//                                       LoadRecordDataMapper loadRecordDataMapper, LoadRecordLoggedMessagePublisher publisher) {
+//        this.logLoadRecordHelper = logLoadRecordHelper;
+//        this.loadRecordDataMapper = loadRecordDataMapper;
+//        this.publisher = publisher;
+//    }
 
     public LogLoadRecordCommandHandler(LogLoadRecordHelper logLoadRecordHelper,
-                                       LoadRecordDataMapper loadRecordDataMapper, LoadRecordLoggedMessagePublisher publisher) {
+                                       LoadRecordDataMapper loadRecordDataMapper) {
         this.logLoadRecordHelper = logLoadRecordHelper;
         this.loadRecordDataMapper = loadRecordDataMapper;
-        this.publisher = publisher;
+//        this.publisher = publisher;
     }
 
     public LogLoadRecordResponse logLoadRecord(@Valid LogLoadRecordCommand command) {
@@ -32,7 +39,7 @@ public class LogLoadRecordCommandHandler {
         //2. log the operation
         log.info("Load record logged with uuid {}", event.getRecord().getId().getValue());
         //3. publish the com.wbsedcl.hr.management.domain.event
-        publisher.publish(event);
+//        publisher.publish(event);
         //4. return the response
         return loadRecordDataMapper.loadRecordToLogLoadRecordResponse(event.getRecord());
     }

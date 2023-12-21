@@ -7,8 +7,8 @@ import com.wbsedcl.trms.substation.log.domain.ports.output.repository.OfficeRepo
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import java.util.Optional;
 
 @Component

@@ -1,7 +1,7 @@
 package com.wbsedcl.trms.feeder.management.domain.validation;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 public class FeederTextValidator implements ConstraintValidator<ValidFeederText, String> {
 

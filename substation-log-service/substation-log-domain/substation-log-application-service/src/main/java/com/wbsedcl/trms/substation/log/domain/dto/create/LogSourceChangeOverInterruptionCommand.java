@@ -7,9 +7,9 @@ import com.wbsedcl.trms.substation.log.domain.entity.InterruptionType;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidFeederId;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidOfficeId;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidUserId;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -20,6 +20,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class LogSourceChangeOverInterruptionCommand {
     @ValidFeederId
     private String sourceChangeOverFromFeederId;

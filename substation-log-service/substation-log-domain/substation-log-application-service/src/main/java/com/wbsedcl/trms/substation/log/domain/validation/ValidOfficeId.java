@@ -3,8 +3,8 @@ package com.wbsedcl.trms.substation.log.domain.validation;
 import org.hibernate.validator.constraints.CompositionType;
 import org.hibernate.validator.constraints.ConstraintComposition;
 
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
+import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @ConstraintComposition(CompositionType.ALL_FALSE)

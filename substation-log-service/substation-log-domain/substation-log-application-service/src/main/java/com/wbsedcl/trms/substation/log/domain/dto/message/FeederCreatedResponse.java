@@ -15,4 +15,9 @@ public class FeederCreatedResponse {
     private String substationOfficeId;
     private Integer voltageLevel;
     private FeederType feederType;
+    private String incomer11kVFeederId;
+    private String feedingPTRId;
+    private String feeding33kVFeederId;
+    private boolean isCharged;
+    private boolean isLoaded;
 }

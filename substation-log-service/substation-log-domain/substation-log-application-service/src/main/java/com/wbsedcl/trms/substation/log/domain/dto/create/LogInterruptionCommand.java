@@ -7,10 +7,9 @@ import com.wbsedcl.trms.substation.log.domain.entity.InterruptionType;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidFeederId;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidOfficeId;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidUserId;
-import jakarta.annotation.Nullable;
 import lombok.*;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -39,7 +38,9 @@ public class LogInterruptionCommand {
     @NotNull
     private InterruptionStatus interruptionStatus;
     private String cause;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
 }

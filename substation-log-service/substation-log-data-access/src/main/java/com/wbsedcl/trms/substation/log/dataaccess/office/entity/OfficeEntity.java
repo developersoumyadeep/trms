@@ -1,6 +1,6 @@
 package com.wbsedcl.trms.substation.log.dataaccess.office.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 @Getter

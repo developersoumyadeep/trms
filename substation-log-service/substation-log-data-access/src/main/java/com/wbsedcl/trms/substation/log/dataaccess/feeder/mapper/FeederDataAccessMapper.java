@@ -12,6 +12,7 @@ import com.wbsedcl.trms.substation.log.domain.entity.Feeder;
 import com.wbsedcl.trms.substation.log.domain.entity.FeederLoadingHistory;
 import com.wbsedcl.trms.substation.log.domain.entity.FeederType;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 /*
@@ -30,6 +31,7 @@ public class FeederDataAccessMapper {
     }
 
     public FeederEntity feederToFeederEntity(Feeder feeder) {
+        System.out.println("inside feederToFeederEntity(): "+ feeder);
         OfficeEntity substationOffice = officeJpaRepository.findById(feeder.getSubstationOfficeId().getValue()).get();
         FeederEntity incomer11kVFeeder = feeder.getFeederType() == FeederType.INCOMING_33kV
                 || feeder.getFeederType() == FeederType.PTR_BAY

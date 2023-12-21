@@ -1,7 +1,10 @@
 package com.wbsedcl.trms.substation.log.domain.dto.message;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wbsedcl.trms.substation.log.domain.entity.FeederType;
 import lombok.*;
+
+import java.util.Map;
 
 
 @Getter
@@ -21,4 +24,6 @@ public class FeederDTO {
     private FeederDTO feeding33kVFeeder;
     private Boolean isCharged;
     private Boolean isLoaded;
+
+
 }

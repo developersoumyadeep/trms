@@ -26,12 +26,12 @@ public class FeederDataAccessMapper {
                 .gisLength(feederEntity.getGisLength())
                 .switchgearId(feederEntity.getSwitchgearId())
                 .multiplyingFactor(feederEntity.getMultiplyingFactor())
-                .ptrId(feederEntity.getPtrId())
+                .feedingPTRId(new FeederId(feederEntity.getFeedingPTRId()))
                 .isDedicatedBulkFeeder(feederEntity.getIsDedicatedBulkFeeder())
                 .incomerCTRatio(feederEntity.getIncomerCtRatio())
-                .incomer11kVFeederId(feederEntity.getIncomer11kVFeederId())
-                .feedingPTRId(feederEntity.getFeedingPTRId())
-                .feeding33kVFeederId(feederEntity.getFeeding33kVFeederId())
+                .incomer11kVFeederId(new FeederId(feederEntity.getIncomer11kVFeederId()))
+                .feedingPTRId(new FeederId(feederEntity.getFeedingPTRId()))
+                .feeding33kVFeederId(new FeederId(feederEntity.getFeeding33kVFeederId()))
                 .build();
     }
 
@@ -52,12 +52,12 @@ public class FeederDataAccessMapper {
                 .gisLength(feeder.getGisLength())
                 .switchgearId(feeder.getSwitchgearId())
                 .multiplyingFactor(feeder.getMultiplyingFactor())
-                .ptrId(feeder.getPtrId())
+                .feedingPTRId(feeder.getFeedingPTRId().getValue())
                 .isDedicatedBulkFeeder(feeder.isDedicatedBulkFeeder())
                 .incomerCtRatio(feeder.getIncomerCTRatio())
-                .incomer11kVFeederId(feeder.getIncomer11kVFeederId())
-                .feedingPTRId(feeder.getFeedingPTRId())
-                .feeding33kVFeederId(feeder.getFeeding33kVFeederId())
+                .incomer11kVFeederId(feeder.getIncomer11kVFeederId().getValue())
+                .feedingPTRId(feeder.getFeedingPTRId().getValue())
+                .feeding33kVFeederId(feeder.getFeeding33kVFeederId().getValue())
                 .build();
     }
 }

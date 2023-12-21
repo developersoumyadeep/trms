@@ -26,10 +26,38 @@
     {
       "name": "feederType",
       "type": {
-         "type" : "enum",
-         "name" : "FeederType",
-         "symbols": [ "INCOMING_33kV", "OUTGOING_33kV", "PTR_BAY", "OUTGOING_11kV", "INCOMING_11kV"]
+        "type": "enum",
+        "name": "FeederType",
+        "symbols": [
+          "INCOMING_33kV",
+          "OUTGOING_33kV",
+          "PTR_BAY",
+          "OUTGOING_11kV",
+          "INCOMING_11kV"
+        ]
       }
+    },
+    {
+      "name": "incomer11kVFeederId",
+      "type": "string"
+    },
+    {
+      "name": "feedingPTRId",
+      "type": "string"
+    },
+    {
+      "name": "feeding33kVFeederId",
+      "type": "string"
+    },
+    {
+      "name": "isCharged",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "name": "isLoaded",
+      "type": "boolean",
+      "default": false
     },
     {
       "name": "sagaId",

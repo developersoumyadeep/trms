@@ -17,7 +17,6 @@ public class Feeder extends BaseEntity<FeederId> {
     private Double ctRatioAtTerminal;
     private Double multiplyingFactor;
     private FeederType feederType;
-    private String ptrId;
     private Double incomerCTRatio;
     private String switchgearId;
     private Boolean isDedicatedBulkFeeder;
@@ -39,7 +38,6 @@ public class Feeder extends BaseEntity<FeederId> {
         this.ctRatioAtTerminal = feederBuilder.ctRatioAtTerminal;
         this.multiplyingFactor = feederBuilder.multiplyingFactor;
         this.feederType = feederBuilder.feederType;
-        this.ptrId = feederBuilder.ptrId;
         this.incomerCTRatio = feederBuilder.incomerCTRatio;
         this.switchgearId = feederBuilder.switchgearId;
         this.isDedicatedBulkFeeder = feederBuilder.isDedicatedBulkFeeder;
@@ -86,11 +84,6 @@ public class Feeder extends BaseEntity<FeederId> {
     public FeederType getFeederType() {
         return feederType;
     }
-
-    public String getPtrId() {
-        return ptrId;
-    }
-
     public Double getIncomerCTRatio() {
         return incomerCTRatio;
     }
@@ -215,11 +208,9 @@ public class Feeder extends BaseEntity<FeederId> {
         private Double ctRatioAtTerminal;
         private Double multiplyingFactor;
         private FeederType feederType;
-        private String ptrId;
         private Double incomerCTRatio;
         private String switchgearId;
         private Boolean isDedicatedBulkFeeder;
-
         private FeederId incomer11kVFeederId;
         private FeederId feedingPTRId;
         private FeederId feeding33kVFeederId;
@@ -281,11 +272,6 @@ public class Feeder extends BaseEntity<FeederId> {
 
         public FeederBuilder feederType(FeederType feederType) {
             this.feederType = feederType;
-            return this;
-        }
-
-        public FeederBuilder ptrId(String ptrId) {
-            this.ptrId = ptrId;
             return this;
         }
 

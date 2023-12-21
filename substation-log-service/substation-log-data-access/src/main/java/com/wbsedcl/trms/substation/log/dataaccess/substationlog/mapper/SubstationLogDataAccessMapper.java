@@ -10,8 +10,10 @@ import com.wbsedcl.trms.substation.log.dataaccess.substationlog.entity.Interrupt
 import com.wbsedcl.trms.substation.log.dataaccess.substationlog.entity.LoadRecordEntity;
 import com.wbsedcl.trms.substation.log.dataaccess.user.entity.UserEntity;
 import com.wbsedcl.trms.substation.log.domain.entity.EnergyConsumption;
+import com.wbsedcl.trms.substation.log.domain.entity.Feeder;
 import com.wbsedcl.trms.substation.log.domain.entity.Interruption;
 import com.wbsedcl.trms.substation.log.domain.entity.LoadRecord;
+import com.wbsedcl.trms.substation.log.domain.ports.output.repository.FeederRepository;
 import com.wbsedcl.trms.substation.log.domain.valueobject.EnergyConsumptionId;
 import com.wbsedcl.trms.substation.log.domain.valueobject.InterruptionId;
 import com.wbsedcl.trms.substation.log.domain.valueobject.LoadRecordId;
@@ -25,8 +27,14 @@ import java.util.UUID;
 @Component
 public class SubstationLogDataAccessMapper {
 
+    private FeederRepository feederRepository;
+
+    public SubstationLogDataAccessMapper(FeederRepository feederRepository) {
+        this.feederRepository = feederRepository;
+    }
+
     public InterruptionEntity interruptionToInterruptionEntity(Interruption interruption) {
-      FeederEntity faultyFeeder = FeederEntity.builder().feederId((interruption.getFaultyFeederId()).getValue()).build();
+      FeederEntity faultyFeeder = FeederEntity.builder().feederId((interruption.getFaultyFeeder()).getId().getValue()).build();
       OfficeEntity substationOffice = OfficeEntity.builder().officeId((interruption.getSubstationOfficeId()).getValue()).build();
       UserEntity createdByUser = UserEntity.builder().userId((interruption.getCreatedBy()).getValue()).build();
       UserEntity restoredByUser = UserEntity.builder().userId((interruption.getRestoredBy()).getValue()).build();
@@ -51,9 +59,10 @@ public class SubstationLogDataAccessMapper {
     }
     
     public Interruption interruptionEntityToInterruption(InterruptionEntity interruptionEntity) {
+        Feeder faultyFeeder = feederRepository.findFeeder(interruptionEntity.getFaultyFeeder().getFeederId()).get();
         return Interruption.newBuilder()
                 .interruptionId(new InterruptionId(UUID.fromString(interruptionEntity.getInterruptionId())))
-                .faultyFeederId(new FeederId(interruptionEntity.getFaultyFeeder().getFeederId()))
+                .faultyFeeder(faultyFeeder)
                 .substationOfficeId(new OfficeId(interruptionEntity.getSubstationOffice().getOfficeId()))
                 .interruptionType(interruptionEntity.getInterruptionType())
                 .faultNature(interruptionEntity.getFaultNature())

@@ -5,9 +5,9 @@ import com.wbsedcl.trms.substation.log.domain.entity.InterruptionStatus;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidFeederId;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidOfficeId;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidUserId;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 

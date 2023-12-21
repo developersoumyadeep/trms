@@ -14,13 +14,20 @@ public class LogEnergyConsumptionCommandHandler {
     private final LogEnergyConsumptionHelper logEnergyConsumptionHelper;
 
     private final EnergyConsumptionDataMapper mapper;
-    private final EnergyConsumptionLoggedMessagePublisher publisher;
+//    private final EnergyConsumptionLoggedMessagePublisher publisher;
+
+//    public LogEnergyConsumptionCommandHandler(LogEnergyConsumptionHelper logEnergyConsumptionHelper,
+//                                              EnergyConsumptionDataMapper mapper, EnergyConsumptionLoggedMessagePublisher publisher) {
+//        this.logEnergyConsumptionHelper = logEnergyConsumptionHelper;
+//        this.mapper = mapper;
+//        this.publisher = publisher;
+//    }
 
     public LogEnergyConsumptionCommandHandler(LogEnergyConsumptionHelper logEnergyConsumptionHelper,
-                                              EnergyConsumptionDataMapper mapper, EnergyConsumptionLoggedMessagePublisher publisher) {
+                                              EnergyConsumptionDataMapper mapper) {
         this.logEnergyConsumptionHelper = logEnergyConsumptionHelper;
         this.mapper = mapper;
-        this.publisher = publisher;
+
     }
 
     public LogEnergyConsumptionResponse logEnergyConsumption(LogEnergyConsumptionCommand command) {
@@ -29,7 +36,7 @@ public class LogEnergyConsumptionCommandHandler {
         //2. log the info
         log.info("Energy consumption recorded with uuid {}",event.getConsumption().getId().getValue());
         //3. Publish the com.wbsedcl.hr.management.domain.event
-        publisher.publish(event);
+//        publisher.publish(event);
         //4. return the response
          return mapper.EnergyConsumptionToLogEnergyConsumptionResponse(event.getConsumption());
     }

@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -758735016138563059L;
+  private static final long serialVersionUID = -2597809278320716336L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CreatedFeederAvroModel\",\"namespace\":\"com.wbsedcl.trms.kafka.substation.log.avro.model\",\"fields\":[{\"name\":\"feederId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"feederName\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"energyMeterNo\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"substationOfficeId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"voltageLevel\",\"type\":\"int\"},{\"name\":\"feederType\",\"type\":{\"type\":\"enum\",\"name\":\"FeederType\",\"symbols\":[\"INCOMING_33kV\",\"OUTGOING_33kV\",\"PTR_BAY\",\"OUTGOING_11kV\",\"INCOMING_11kV\"]}},{\"name\":\"sagaId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CreatedFeederAvroModel\",\"namespace\":\"com.wbsedcl.trms.kafka.substation.log.avro.model\",\"fields\":[{\"name\":\"feederId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"feederName\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"energyMeterNo\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"substationOfficeId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"voltageLevel\",\"type\":\"int\"},{\"name\":\"feederType\",\"type\":{\"type\":\"enum\",\"name\":\"FeederType\",\"symbols\":[\"INCOMING_33kV\",\"OUTGOING_33kV\",\"PTR_BAY\",\"OUTGOING_11kV\",\"INCOMING_11kV\"]}},{\"name\":\"incomer11kVFeederId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"feedingPTRId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"feeding33kVFeederId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"isCharged\",\"type\":\"boolean\",\"default\":false},{\"name\":\"isLoaded\",\"type\":\"boolean\",\"default\":false},{\"name\":\"sagaId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -82,6 +82,11 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
   private java.lang.String substationOfficeId;
   private int voltageLevel;
   private com.wbsedcl.trms.kafka.substation.log.avro.model.FeederType feederType;
+  private java.lang.String incomer11kVFeederId;
+  private java.lang.String feedingPTRId;
+  private java.lang.String feeding33kVFeederId;
+  private boolean isCharged;
+  private boolean isLoaded;
   private java.util.UUID sagaId;
 
   /**
@@ -99,15 +104,25 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
    * @param substationOfficeId The new value for substationOfficeId
    * @param voltageLevel The new value for voltageLevel
    * @param feederType The new value for feederType
+   * @param incomer11kVFeederId The new value for incomer11kVFeederId
+   * @param feedingPTRId The new value for feedingPTRId
+   * @param feeding33kVFeederId The new value for feeding33kVFeederId
+   * @param isCharged The new value for isCharged
+   * @param isLoaded The new value for isLoaded
    * @param sagaId The new value for sagaId
    */
-  public CreatedFeederAvroModel(java.lang.String feederId, java.lang.String feederName, java.lang.String energyMeterNo, java.lang.String substationOfficeId, java.lang.Integer voltageLevel, com.wbsedcl.trms.kafka.substation.log.avro.model.FeederType feederType, java.util.UUID sagaId) {
+  public CreatedFeederAvroModel(java.lang.String feederId, java.lang.String feederName, java.lang.String energyMeterNo, java.lang.String substationOfficeId, java.lang.Integer voltageLevel, com.wbsedcl.trms.kafka.substation.log.avro.model.FeederType feederType, java.lang.String incomer11kVFeederId, java.lang.String feedingPTRId, java.lang.String feeding33kVFeederId, java.lang.Boolean isCharged, java.lang.Boolean isLoaded, java.util.UUID sagaId) {
     this.feederId = feederId;
     this.feederName = feederName;
     this.energyMeterNo = energyMeterNo;
     this.substationOfficeId = substationOfficeId;
     this.voltageLevel = voltageLevel;
     this.feederType = feederType;
+    this.incomer11kVFeederId = incomer11kVFeederId;
+    this.feedingPTRId = feedingPTRId;
+    this.feeding33kVFeederId = feeding33kVFeederId;
+    this.isCharged = isCharged;
+    this.isLoaded = isLoaded;
     this.sagaId = sagaId;
   }
 
@@ -127,13 +142,23 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
     case 3: return substationOfficeId;
     case 4: return voltageLevel;
     case 5: return feederType;
-    case 6: return sagaId;
+    case 6: return incomer11kVFeederId;
+    case 7: return feedingPTRId;
+    case 8: return feeding33kVFeederId;
+    case 9: return isCharged;
+    case 10: return isLoaded;
+    case 11: return sagaId;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
 
   private static final org.apache.avro.Conversion<?>[] conversions =
       new org.apache.avro.Conversion<?>[] {
+      null,
+      null,
+      null,
+      null,
+      null,
       null,
       null,
       null,
@@ -160,7 +185,12 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
     case 3: substationOfficeId = value$ != null ? value$.toString() : null; break;
     case 4: voltageLevel = (java.lang.Integer)value$; break;
     case 5: feederType = (com.wbsedcl.trms.kafka.substation.log.avro.model.FeederType)value$; break;
-    case 6: sagaId = (java.util.UUID)value$; break;
+    case 6: incomer11kVFeederId = value$ != null ? value$.toString() : null; break;
+    case 7: feedingPTRId = value$ != null ? value$.toString() : null; break;
+    case 8: feeding33kVFeederId = value$ != null ? value$.toString() : null; break;
+    case 9: isCharged = (java.lang.Boolean)value$; break;
+    case 10: isLoaded = (java.lang.Boolean)value$; break;
+    case 11: sagaId = (java.util.UUID)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -268,6 +298,91 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
   }
 
   /**
+   * Gets the value of the 'incomer11kVFeederId' field.
+   * @return The value of the 'incomer11kVFeederId' field.
+   */
+  public java.lang.String getIncomer11kVFeederId() {
+    return incomer11kVFeederId;
+  }
+
+
+  /**
+   * Sets the value of the 'incomer11kVFeederId' field.
+   * @param value the value to set.
+   */
+  public void setIncomer11kVFeederId(java.lang.String value) {
+    this.incomer11kVFeederId = value;
+  }
+
+  /**
+   * Gets the value of the 'feedingPTRId' field.
+   * @return The value of the 'feedingPTRId' field.
+   */
+  public java.lang.String getFeedingPTRId() {
+    return feedingPTRId;
+  }
+
+
+  /**
+   * Sets the value of the 'feedingPTRId' field.
+   * @param value the value to set.
+   */
+  public void setFeedingPTRId(java.lang.String value) {
+    this.feedingPTRId = value;
+  }
+
+  /**
+   * Gets the value of the 'feeding33kVFeederId' field.
+   * @return The value of the 'feeding33kVFeederId' field.
+   */
+  public java.lang.String getFeeding33kVFeederId() {
+    return feeding33kVFeederId;
+  }
+
+
+  /**
+   * Sets the value of the 'feeding33kVFeederId' field.
+   * @param value the value to set.
+   */
+  public void setFeeding33kVFeederId(java.lang.String value) {
+    this.feeding33kVFeederId = value;
+  }
+
+  /**
+   * Gets the value of the 'isCharged' field.
+   * @return The value of the 'isCharged' field.
+   */
+  public boolean getIsCharged() {
+    return isCharged;
+  }
+
+
+  /**
+   * Sets the value of the 'isCharged' field.
+   * @param value the value to set.
+   */
+  public void setIsCharged(boolean value) {
+    this.isCharged = value;
+  }
+
+  /**
+   * Gets the value of the 'isLoaded' field.
+   * @return The value of the 'isLoaded' field.
+   */
+  public boolean getIsLoaded() {
+    return isLoaded;
+  }
+
+
+  /**
+   * Sets the value of the 'isLoaded' field.
+   * @param value the value to set.
+   */
+  public void setIsLoaded(boolean value) {
+    this.isLoaded = value;
+  }
+
+  /**
    * Gets the value of the 'sagaId' field.
    * @return The value of the 'sagaId' field.
    */
@@ -331,6 +446,11 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
     private java.lang.String substationOfficeId;
     private int voltageLevel;
     private com.wbsedcl.trms.kafka.substation.log.avro.model.FeederType feederType;
+    private java.lang.String incomer11kVFeederId;
+    private java.lang.String feedingPTRId;
+    private java.lang.String feeding33kVFeederId;
+    private boolean isCharged;
+    private boolean isLoaded;
     private java.util.UUID sagaId;
 
     /** Creates a new Builder */
@@ -368,9 +488,29 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
         this.feederType = data().deepCopy(fields()[5].schema(), other.feederType);
         fieldSetFlags()[5] = other.fieldSetFlags()[5];
       }
-      if (isValidValue(fields()[6], other.sagaId)) {
-        this.sagaId = data().deepCopy(fields()[6].schema(), other.sagaId);
+      if (isValidValue(fields()[6], other.incomer11kVFeederId)) {
+        this.incomer11kVFeederId = data().deepCopy(fields()[6].schema(), other.incomer11kVFeederId);
         fieldSetFlags()[6] = other.fieldSetFlags()[6];
+      }
+      if (isValidValue(fields()[7], other.feedingPTRId)) {
+        this.feedingPTRId = data().deepCopy(fields()[7].schema(), other.feedingPTRId);
+        fieldSetFlags()[7] = other.fieldSetFlags()[7];
+      }
+      if (isValidValue(fields()[8], other.feeding33kVFeederId)) {
+        this.feeding33kVFeederId = data().deepCopy(fields()[8].schema(), other.feeding33kVFeederId);
+        fieldSetFlags()[8] = other.fieldSetFlags()[8];
+      }
+      if (isValidValue(fields()[9], other.isCharged)) {
+        this.isCharged = data().deepCopy(fields()[9].schema(), other.isCharged);
+        fieldSetFlags()[9] = other.fieldSetFlags()[9];
+      }
+      if (isValidValue(fields()[10], other.isLoaded)) {
+        this.isLoaded = data().deepCopy(fields()[10].schema(), other.isLoaded);
+        fieldSetFlags()[10] = other.fieldSetFlags()[10];
+      }
+      if (isValidValue(fields()[11], other.sagaId)) {
+        this.sagaId = data().deepCopy(fields()[11].schema(), other.sagaId);
+        fieldSetFlags()[11] = other.fieldSetFlags()[11];
       }
     }
 
@@ -404,9 +544,29 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
         this.feederType = data().deepCopy(fields()[5].schema(), other.feederType);
         fieldSetFlags()[5] = true;
       }
-      if (isValidValue(fields()[6], other.sagaId)) {
-        this.sagaId = data().deepCopy(fields()[6].schema(), other.sagaId);
+      if (isValidValue(fields()[6], other.incomer11kVFeederId)) {
+        this.incomer11kVFeederId = data().deepCopy(fields()[6].schema(), other.incomer11kVFeederId);
         fieldSetFlags()[6] = true;
+      }
+      if (isValidValue(fields()[7], other.feedingPTRId)) {
+        this.feedingPTRId = data().deepCopy(fields()[7].schema(), other.feedingPTRId);
+        fieldSetFlags()[7] = true;
+      }
+      if (isValidValue(fields()[8], other.feeding33kVFeederId)) {
+        this.feeding33kVFeederId = data().deepCopy(fields()[8].schema(), other.feeding33kVFeederId);
+        fieldSetFlags()[8] = true;
+      }
+      if (isValidValue(fields()[9], other.isCharged)) {
+        this.isCharged = data().deepCopy(fields()[9].schema(), other.isCharged);
+        fieldSetFlags()[9] = true;
+      }
+      if (isValidValue(fields()[10], other.isLoaded)) {
+        this.isLoaded = data().deepCopy(fields()[10].schema(), other.isLoaded);
+        fieldSetFlags()[10] = true;
+      }
+      if (isValidValue(fields()[11], other.sagaId)) {
+        this.sagaId = data().deepCopy(fields()[11].schema(), other.sagaId);
+        fieldSetFlags()[11] = true;
       }
     }
 
@@ -650,6 +810,204 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
     }
 
     /**
+      * Gets the value of the 'incomer11kVFeederId' field.
+      * @return The value.
+      */
+    public java.lang.String getIncomer11kVFeederId() {
+      return incomer11kVFeederId;
+    }
+
+
+    /**
+      * Sets the value of the 'incomer11kVFeederId' field.
+      * @param value The value of 'incomer11kVFeederId'.
+      * @return This builder.
+      */
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder setIncomer11kVFeederId(java.lang.String value) {
+      validate(fields()[6], value);
+      this.incomer11kVFeederId = value;
+      fieldSetFlags()[6] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'incomer11kVFeederId' field has been set.
+      * @return True if the 'incomer11kVFeederId' field has been set, false otherwise.
+      */
+    public boolean hasIncomer11kVFeederId() {
+      return fieldSetFlags()[6];
+    }
+
+
+    /**
+      * Clears the value of the 'incomer11kVFeederId' field.
+      * @return This builder.
+      */
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder clearIncomer11kVFeederId() {
+      incomer11kVFeederId = null;
+      fieldSetFlags()[6] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'feedingPTRId' field.
+      * @return The value.
+      */
+    public java.lang.String getFeedingPTRId() {
+      return feedingPTRId;
+    }
+
+
+    /**
+      * Sets the value of the 'feedingPTRId' field.
+      * @param value The value of 'feedingPTRId'.
+      * @return This builder.
+      */
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder setFeedingPTRId(java.lang.String value) {
+      validate(fields()[7], value);
+      this.feedingPTRId = value;
+      fieldSetFlags()[7] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'feedingPTRId' field has been set.
+      * @return True if the 'feedingPTRId' field has been set, false otherwise.
+      */
+    public boolean hasFeedingPTRId() {
+      return fieldSetFlags()[7];
+    }
+
+
+    /**
+      * Clears the value of the 'feedingPTRId' field.
+      * @return This builder.
+      */
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder clearFeedingPTRId() {
+      feedingPTRId = null;
+      fieldSetFlags()[7] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'feeding33kVFeederId' field.
+      * @return The value.
+      */
+    public java.lang.String getFeeding33kVFeederId() {
+      return feeding33kVFeederId;
+    }
+
+
+    /**
+      * Sets the value of the 'feeding33kVFeederId' field.
+      * @param value The value of 'feeding33kVFeederId'.
+      * @return This builder.
+      */
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder setFeeding33kVFeederId(java.lang.String value) {
+      validate(fields()[8], value);
+      this.feeding33kVFeederId = value;
+      fieldSetFlags()[8] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'feeding33kVFeederId' field has been set.
+      * @return True if the 'feeding33kVFeederId' field has been set, false otherwise.
+      */
+    public boolean hasFeeding33kVFeederId() {
+      return fieldSetFlags()[8];
+    }
+
+
+    /**
+      * Clears the value of the 'feeding33kVFeederId' field.
+      * @return This builder.
+      */
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder clearFeeding33kVFeederId() {
+      feeding33kVFeederId = null;
+      fieldSetFlags()[8] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'isCharged' field.
+      * @return The value.
+      */
+    public boolean getIsCharged() {
+      return isCharged;
+    }
+
+
+    /**
+      * Sets the value of the 'isCharged' field.
+      * @param value The value of 'isCharged'.
+      * @return This builder.
+      */
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder setIsCharged(boolean value) {
+      validate(fields()[9], value);
+      this.isCharged = value;
+      fieldSetFlags()[9] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'isCharged' field has been set.
+      * @return True if the 'isCharged' field has been set, false otherwise.
+      */
+    public boolean hasIsCharged() {
+      return fieldSetFlags()[9];
+    }
+
+
+    /**
+      * Clears the value of the 'isCharged' field.
+      * @return This builder.
+      */
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder clearIsCharged() {
+      fieldSetFlags()[9] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'isLoaded' field.
+      * @return The value.
+      */
+    public boolean getIsLoaded() {
+      return isLoaded;
+    }
+
+
+    /**
+      * Sets the value of the 'isLoaded' field.
+      * @param value The value of 'isLoaded'.
+      * @return This builder.
+      */
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder setIsLoaded(boolean value) {
+      validate(fields()[10], value);
+      this.isLoaded = value;
+      fieldSetFlags()[10] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'isLoaded' field has been set.
+      * @return True if the 'isLoaded' field has been set, false otherwise.
+      */
+    public boolean hasIsLoaded() {
+      return fieldSetFlags()[10];
+    }
+
+
+    /**
+      * Clears the value of the 'isLoaded' field.
+      * @return This builder.
+      */
+    public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder clearIsLoaded() {
+      fieldSetFlags()[10] = false;
+      return this;
+    }
+
+    /**
       * Gets the value of the 'sagaId' field.
       * @return The value.
       */
@@ -664,9 +1022,9 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
       * @return This builder.
       */
     public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder setSagaId(java.util.UUID value) {
-      validate(fields()[6], value);
+      validate(fields()[11], value);
       this.sagaId = value;
-      fieldSetFlags()[6] = true;
+      fieldSetFlags()[11] = true;
       return this;
     }
 
@@ -675,7 +1033,7 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
       * @return True if the 'sagaId' field has been set, false otherwise.
       */
     public boolean hasSagaId() {
-      return fieldSetFlags()[6];
+      return fieldSetFlags()[11];
     }
 
 
@@ -685,7 +1043,7 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
       */
     public com.wbsedcl.trms.kafka.substation.log.avro.model.CreatedFeederAvroModel.Builder clearSagaId() {
       sagaId = null;
-      fieldSetFlags()[6] = false;
+      fieldSetFlags()[11] = false;
       return this;
     }
 
@@ -700,7 +1058,12 @@ public class CreatedFeederAvroModel extends org.apache.avro.specific.SpecificRec
         record.substationOfficeId = fieldSetFlags()[3] ? this.substationOfficeId : (java.lang.String) defaultValue(fields()[3]);
         record.voltageLevel = fieldSetFlags()[4] ? this.voltageLevel : (java.lang.Integer) defaultValue(fields()[4]);
         record.feederType = fieldSetFlags()[5] ? this.feederType : (com.wbsedcl.trms.kafka.substation.log.avro.model.FeederType) defaultValue(fields()[5]);
-        record.sagaId = fieldSetFlags()[6] ? this.sagaId : (java.util.UUID) defaultValue(fields()[6]);
+        record.incomer11kVFeederId = fieldSetFlags()[6] ? this.incomer11kVFeederId : (java.lang.String) defaultValue(fields()[6]);
+        record.feedingPTRId = fieldSetFlags()[7] ? this.feedingPTRId : (java.lang.String) defaultValue(fields()[7]);
+        record.feeding33kVFeederId = fieldSetFlags()[8] ? this.feeding33kVFeederId : (java.lang.String) defaultValue(fields()[8]);
+        record.isCharged = fieldSetFlags()[9] ? this.isCharged : (java.lang.Boolean) defaultValue(fields()[9]);
+        record.isLoaded = fieldSetFlags()[10] ? this.isLoaded : (java.lang.Boolean) defaultValue(fields()[10]);
+        record.sagaId = fieldSetFlags()[11] ? this.sagaId : (java.util.UUID) defaultValue(fields()[11]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;

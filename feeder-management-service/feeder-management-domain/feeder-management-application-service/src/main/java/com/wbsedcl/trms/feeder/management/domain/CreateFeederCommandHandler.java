@@ -5,7 +5,7 @@ import com.wbsedcl.trms.feeder.management.domain.dto.message.FeederCreatedRespon
 import com.wbsedcl.trms.feeder.management.domain.event.FeederCreatedEvent;
 import com.wbsedcl.trms.feeder.management.domain.mapper.FeederDataMapper;
 import com.wbsedcl.trms.feeder.management.domain.ports.output.message.publish.FeederCreatedMessagePublisher;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

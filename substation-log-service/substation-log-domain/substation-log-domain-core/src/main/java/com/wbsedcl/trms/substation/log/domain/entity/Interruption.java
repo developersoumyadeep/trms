@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class Interruption extends BaseEntity<InterruptionId> implements AggregateRoot {
 
     Logger logger = Logger.getLogger(Interruption.class.getName());
-    private final FeederId faultyFeederId;
+    private final Feeder faultyFeeder;
     private final FeederId sourceChangeOverFromFeederId;
     private final FeederId sourceChangeOverToFeederId;
     private final OfficeId substationOfficeId;
@@ -37,7 +37,7 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
 
     private Interruption(InterruptionBuilder interruptionBuilder) {
         setId(interruptionBuilder.interruptionId);
-        faultyFeederId = interruptionBuilder.faultyFeederId;
+        faultyFeeder = interruptionBuilder.faultyFeeder;
         substationOfficeId = interruptionBuilder.substationOfficeId;
         interruptionType = interruptionBuilder.interruptionType;
         faultNature = interruptionBuilder.faultNature;
@@ -70,6 +70,7 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     }
 
     private void validateInterruptionHrs() {
+        logger.info("validating interruption hours");
         //1. If interruption is in "Restored" status,then both the start date & time and end date & time should be present.
         //2. The End date & time should be at a later point of time than the start date & time
         //3. If interruption is in "Not Restored" status, then only the start date & time should be present.
@@ -98,6 +99,7 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     }
 
     private void validateInterruptionStatus() {
+        logger.info("validating interruption status");
         if (interruptionType.equals(InterruptionType.TRANSIENT_TRIPPING) || interruptionType.equals(InterruptionType.SOURCE_CHANGEOVER) || interruptionType.equals(InterruptionType.MAIN_POWER_FAIL)){
             if (interruptionStatus.equals(InterruptionStatus.NOT_RESTORED)) {
                 throw new InterruptionValidationException("Interruption of type 'Transient Tripping' or 'Source Changeover' must be in 'Restored' status");
@@ -111,9 +113,10 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     }
 
     private void validateFaultNature() {
-        if (interruptionType == InterruptionType.SOURCE_CHANGEOVER) {
+        logger.info("validating interruption fault nature");
+        if (interruptionType == InterruptionType.SOURCE_CHANGEOVER || interruptionType == InterruptionType.PLANNED_SHUTDOWN || interruptionType == InterruptionType.EMERGENCY_SHUTDOWN || interruptionType == InterruptionType.LOAD_SHEDDING || interruptionType == InterruptionType.MAIN_POWER_FAIL) {
             if (faultNature != null) {
-                throw new InterruptionValidationException("Interruption of type source change over can not have any fault nature attribute set");
+                throw new InterruptionValidationException("Interruption of type source change over, planned or emergency shutdowns, and main power fail can not have any fault nature attribute set");
             }
         } else {
             logger.info("Input fault nature "+faultNature);
@@ -125,20 +128,26 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     }
 
     private void validateInterruptionType() {
+        logger.info("validating interruption type for feeder :"+faultyFeeder.getId().getValue());
         if (InterruptionType.findByInterruptionType(interruptionType) == null){
             throw new InterruptionValidationException("The interruption does not have a valid interruption type");
+        } else if (faultyFeeder.getFeederType() == FeederType.INCOMING_33kV && interruptionType == InterruptionType.MAIN_POWER_FAIL){
+            throw new InterruptionValidationException("Interruption type of main power fail should be used only for outgoing 11kV, outgoing 33kV, 11kV incomers and PTRs");
         }
+
 
 
     }
 
     private void validateInitialInterruption() {
+        logger.info("validating initial interruption ");
         if (creationTimeStamp != null || getId() != null) {
             throw new InterruptionValidationException("The interruption object is not in the correct state for initialization");
         }
     }
 
     public void restoreInterruption(LocalDate endDate, LocalTime endTime, UserId restoredBy) {
+        logger.info("restoring interruption with end date "+endDate+" end time "+endTime+" restoredByUserId "+restoredBy);
         interruptionStatus = InterruptionStatus.RESTORED;
         restorationTimeStamp = LocalDateTime.now();
         this.endDate = endDate;
@@ -147,8 +156,8 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     }
 
 
-    public FeederId getFaultyFeederId() {
-        return faultyFeederId;
+    public Feeder getFaultyFeeder() {
+        return faultyFeeder;
     }
 
     public OfficeId getSubstationOfficeId() {
@@ -245,7 +254,7 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     public static final class InterruptionBuilder {
 
         private InterruptionId interruptionId;
-        private FeederId faultyFeederId;
+        private Feeder faultyFeeder;
 
         private FeederId sourceChangeOverFromFeederId;
         private FeederId sourceChangeOverToFeederId;
@@ -272,8 +281,8 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
             return this;
         }
 
-        public InterruptionBuilder faultyFeederId(FeederId faultyFeederId) {
-            this.faultyFeederId = faultyFeederId;
+        public InterruptionBuilder faultyFeeder(Feeder faultyFeeder) {
+            this.faultyFeeder = faultyFeeder;
             return this;
         }
 
@@ -355,5 +364,10 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
         public Interruption build() {
             return new Interruption(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Interruption {interruptionId ="+ (getId() == null ? "Id not generated" :getId().getValue()) +" faultyFeederName ="+faultyFeeder.getFeederName()+"}";
     }
 }

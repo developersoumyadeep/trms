@@ -13,22 +13,29 @@ import org.springframework.stereotype.Component;
 public class RestoreInterruptionCommandHandler {
 
     private final RestoreInterruptionHelper restoreInterruptionHelper;
-    private final InterruptionRestoredNotificationMessagePublisher publisher;
+//    private final InterruptionRestoredNotificationMessagePublisher publisher;
 
     private final InterruptionDataMapper interruptionDataMapper;
+//
+//    public RestoreInterruptionCommandHandler(RestoreInterruptionHelper restoreInterruptionHelper,
+//                                             InterruptionRestoredNotificationMessagePublisher publisher,
+//                                             InterruptionDataMapper interruptionDataMapper) {
+//        this.restoreInterruptionHelper = restoreInterruptionHelper;
+//        this.publisher = publisher;
+//        this.interruptionDataMapper = interruptionDataMapper;
+//    }
 
     public RestoreInterruptionCommandHandler(RestoreInterruptionHelper restoreInterruptionHelper,
-                                             InterruptionRestoredNotificationMessagePublisher publisher,
                                              InterruptionDataMapper interruptionDataMapper) {
         this.restoreInterruptionHelper = restoreInterruptionHelper;
-        this.publisher = publisher;
+//        this.publisher = publisher;
         this.interruptionDataMapper = interruptionDataMapper;
     }
 
     public RestoreInterruptionResponse restoreInterruption(RestoreInterruptionCommand command) {
 
         InterruptionRestoredEvent interruptionRestoredEvent = restoreInterruptionHelper.updateInterruptionStatus(command);
-        publisher.publish(interruptionRestoredEvent);
+//        publisher.publish(interruptionRestoredEvent);
         log.info("Interruption with id {} restored",command.getInterruptionId());
         return interruptionDataMapper.interruptionToRestoreInterruptionResponse(interruptionRestoredEvent.getInterruption());
     }

@@ -2,8 +2,8 @@ package com.wbsedcl.trms.feeder.management.domain.validation;
 
 import com.wbsedcl.trms.feeder.management.domain.entity.Office;
 import com.wbsedcl.trms.feeder.management.domain.ports.output.repository.OfficeRepository;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

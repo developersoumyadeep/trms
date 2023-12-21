@@ -4,12 +4,12 @@ import com.wbsedcl.trms.substation.log.domain.FeederService;
 import com.wbsedcl.trms.substation.log.domain.dto.message.FeederDTO;
 import com.wbsedcl.trms.substation.log.domain.dto.create.*;
 import com.wbsedcl.trms.substation.log.domain.entity.Feeder;
+import com.wbsedcl.trms.substation.log.domain.entity.InterruptionStatus;
 import com.wbsedcl.trms.substation.log.domain.mapper.FeederServiceDataMapper;
 import com.wbsedcl.trms.substation.log.domain.ports.input.service.SubstationLogApplicationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/substation-log")
 public class SubstationLogController {
-
     private final SubstationLogApplicationService substationLogApplicationService;
     private final FeederService feederService;
     private final FeederServiceDataMapper mapper;
@@ -41,6 +40,9 @@ public class SubstationLogController {
     @PostMapping("/log-interruption")
     public ResponseEntity<LogInterruptionResponse> logInterruption(@RequestBody LogInterruptionCommand command) {
         log.info("Logging interruption for feeder id {} at Substation {} created by {}", command.getFaultyFeederId(), command.getSubstationOfficeId(), command.getCreatedByUserId());
+        if(command.getInterruptionStatus().equals(InterruptionStatus.RESTORED)){
+            log.info("The interruption was restored by {}", command.getRestoredByUserId());
+        }
         LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logInterruption(command);
         log.info("Interruption logged with id {}", logInterruptionResponse.getInterruptionId());
         return ResponseEntity.ok(logInterruptionResponse);
@@ -48,6 +50,7 @@ public class SubstationLogController {
 
     @PostMapping("/log-source-change-over")
     public ResponseEntity<LogInterruptionResponse> logSourceChangeOver(@RequestBody LogSourceChangeOverInterruptionCommand command) {
+        log.info("sourceChangeOver request received with command {}", command);
         LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logSourceChangeOver(command);
         return ResponseEntity.ok(logInterruptionResponse);
     }

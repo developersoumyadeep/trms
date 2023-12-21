@@ -28,6 +28,11 @@ public class FeederServiceDataMapper {
                 .substationOfficeId(new OfficeId(feederCreatedResponse.getSubstationOfficeId()))
                 .voltageLevel(feederCreatedResponse.getVoltageLevel())
                 .feederType(feederCreatedResponse.getFeederType())
+                .incomer11kVFeederId(new FeederId(feederCreatedResponse.getIncomer11kVFeederId()))
+                .feedingPTRId(new FeederId(feederCreatedResponse.getFeedingPTRId()))
+                .feeding33kVFeederId(new FeederId(feederCreatedResponse.getFeeding33kVFeederId()))
+                .isCharged(feederCreatedResponse.isCharged())
+                .isLoaded(feederCreatedResponse.isLoaded())
                 .build();
     }
 

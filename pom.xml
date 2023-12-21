@@ -13,14 +13,14 @@
         <module>feeder-management-service</module>
         <module>hr-management-service</module>
         <module>infrastructure</module>
-        <module>feeder-management-service/feeder-management-data-access</module>
-        <module>feeder-management-service/feeder-management-domain</module>
+<!--        <module>feeder-management-service/feeder-management-data-access</module>-->
+<!--        <module>feeder-management-service/feeder-management-domain</module>-->
     </modules>
 
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <version>3.0.2</version>
+        <version>2.7.18</version>
     </parent>
 
 
@@ -29,7 +29,7 @@
         <mockito.version>4.5.1</mockito.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-kafka.version>3.0.2</spring-kafka.version>
+        <spring-kafka.version>2.9.13</spring-kafka.version>
         <kafka-avro-serializer.version>7.0.1</kafka-avro-serializer.version>
         <avro.version>1.11.1</avro.version>
     </properties>

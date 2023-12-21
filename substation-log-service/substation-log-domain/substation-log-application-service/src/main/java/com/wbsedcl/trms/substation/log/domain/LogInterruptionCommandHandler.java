@@ -9,7 +9,7 @@ import com.wbsedcl.trms.substation.log.domain.ports.output.message.publisher.Int
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 
 @Component
@@ -20,14 +20,22 @@ public class LogInterruptionCommandHandler {
 
     private final InterruptionDataMapper interruptionDataMapper;
 
-    private final InterruptionLoggedNotificationMessagePublisher publisher;
+//    private final InterruptionLoggedNotificationMessagePublisher publisher;
+
+//    public LogInterruptionCommandHandler(LogInterruptionHelper logInterruptionHelper,
+//                                         InterruptionDataMapper interruptionDataMapper,
+//                                         InterruptionLoggedNotificationMessagePublisher publisher) {
+//        this.logInterruptionHelper = logInterruptionHelper;
+//        this.interruptionDataMapper = interruptionDataMapper;
+//        this.publisher = publisher;
+//    }
 
     public LogInterruptionCommandHandler(LogInterruptionHelper logInterruptionHelper,
-                                         InterruptionDataMapper interruptionDataMapper,
-                                         InterruptionLoggedNotificationMessagePublisher publisher) {
+                                         InterruptionDataMapper interruptionDataMapper
+                                         ) {
         this.logInterruptionHelper = logInterruptionHelper;
         this.interruptionDataMapper = interruptionDataMapper;
-        this.publisher = publisher;
+//        this.publisher = publisher;
     }
 
     public LogInterruptionResponse logInterruption(@Valid LogInterruptionCommand command) {
@@ -36,7 +44,7 @@ public class LogInterruptionCommandHandler {
         //2. log the info
         log.info("Interruption is created with id {} ",interruptionLoggedEvent.getInterruption().getId().getValue());
         //3. publish event
-        publisher.publish(interruptionLoggedEvent);
+//        publisher.publish(interruptionLoggedEvent);
         //4. return response
         return interruptionDataMapper.interruptionToLogInterruptionResponse(interruptionLoggedEvent.getInterruption());
     }
@@ -51,7 +59,7 @@ public class LogInterruptionCommandHandler {
                 interruptionLoggedEvent.getInterruption().getSourceChangeOverToFeederId(),
                 interruptionLoggedEvent.getInterruption().getCreationTimeStamp());
         //3. publish the event
-        publisher.publish(interruptionLoggedEvent);
+//        publisher.publish(interruptionLoggedEvent);
         //4. return the response
         return interruptionDataMapper.interruptionToLogInterruptionResponse(interruptionLoggedEvent.getInterruption());
 
@@ -63,7 +71,7 @@ public class LogInterruptionCommandHandler {
         //2. log the info
         log.info("Main power fail interruption of {} created at ", interruptionLoggedEvent.getInterruption().getCreationTimeStamp());
         //3. publish the event
-        publisher.publish(interruptionLoggedEvent);
+//        publisher.publish(interruptionLoggedEvent);
         //4. return the response
         return interruptionDataMapper.interruptionToLogInterruptionResponse(interruptionLoggedEvent.getInterruption());
     }

@@ -17,6 +17,9 @@ public class FeederManagementMessagingDataMapper {
                 .setFeederName(feeder.getFeederText())
                 .setVoltageLevel(feeder.getVoltageLevel())
                 .setFeederType(domainModelFeederTypeToAvroModelFeederType(feeder.getFeederType()))
+                .setIncomer11kVFeederId(feeder.getIncomer11kVFeederId().getValue())
+                .setFeedingPTRId(feeder.getFeedingPTRId().getValue())
+                .setFeeding33kVFeederId(feeder.getFeeding33kVFeederId().getValue())
                 .setSagaId(UUID.randomUUID())
                 .build();
     }

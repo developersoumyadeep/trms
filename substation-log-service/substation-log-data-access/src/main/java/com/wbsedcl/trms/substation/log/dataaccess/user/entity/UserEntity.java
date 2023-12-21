@@ -3,7 +3,7 @@ package com.wbsedcl.trms.substation.log.dataaccess.user.entity;
 import com.wbsedcl.trms.substation.log.dataaccess.office.entity.OfficeEntity;
 import lombok.*;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 
 @Getter

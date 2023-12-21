@@ -4,10 +4,11 @@ import com.wbsedcl.trms.substation.log.domain.entity.LoadRecordType;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidFeederId;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidOfficeId;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidUserId;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder

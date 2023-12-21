@@ -171,4 +171,11 @@ public class Feeder extends BaseEntity<FeederId> implements AggregateRoot {
 
     }
 
+    @Override
+    public String toString() {
+        return "Feeder{" +
+                "feederName="+feederName+
+                " feederId="+getId().getValue()+
+                '}';
+    }
 }

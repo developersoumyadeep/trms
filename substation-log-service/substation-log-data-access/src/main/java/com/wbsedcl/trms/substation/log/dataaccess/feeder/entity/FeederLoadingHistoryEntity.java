@@ -1,6 +1,6 @@
 package com.wbsedcl.trms.substation.log.dataaccess.feeder.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;

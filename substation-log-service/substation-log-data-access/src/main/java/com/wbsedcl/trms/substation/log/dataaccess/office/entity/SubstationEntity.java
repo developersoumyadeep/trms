@@ -2,7 +2,7 @@ package com.wbsedcl.trms.substation.log.dataaccess.office.entity;
 
 import com.wbsedcl.trms.domain.valueobject.FeederId;
 import com.wbsedcl.trms.substation.log.dataaccess.feeder.entity.FeederEntity;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

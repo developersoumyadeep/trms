@@ -24,6 +24,9 @@ public class FeederCreatedMessageListenerImpl implements FeederCreatedMessageLis
     @Override
     public void saveNewlyCreatedFeeder(FeederCreatedResponse feederCreatedResponse) {
         log.info("feederCreatedResponse.getFeederName(): {}", feederCreatedResponse.getFeederName());
+        log.info("feederCreatedResponse.getIncomer11kVFeederId(): {}", feederCreatedResponse.getIncomer11kVFeederId());
+        log.info("feederCreatedResponse.getFeedingPTRId(): {}", feederCreatedResponse.getFeedingPTRId());
+        log.info("feederCreatedResponse.getFeeding33kVFeederId(): {}", feederCreatedResponse.getFeeding33kVFeederId());
         //1. Map the response object to the domain object
         Feeder feeder = feederServiceDataMapper.feederCreatedResponseToFeederDomainObject(feederCreatedResponse);
         log.info("feeder.getFeederName() : {}", feeder.getFeederName());

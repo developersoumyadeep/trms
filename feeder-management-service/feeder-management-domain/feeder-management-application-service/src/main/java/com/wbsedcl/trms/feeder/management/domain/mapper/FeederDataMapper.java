@@ -24,7 +24,9 @@ public class FeederDataMapper {
                 .incomerCTRatio(command.getIncomerCTRatio())
                 .multiplyingFactor(command.getMultiplyingFactor())
                 .gisLength(command.getGisLength())
-                .ptrId(command.getPtrId())
+                .feedingPTRId(new FeederId(command.getFeedingPTRId()))
+               .feeding33kVFeederId(new FeederId(command.getFeeding33kVFeederId()))
+               .incomer11kVFeederId(new FeederId(command.getIncomer11kVFeederId()))
                 .switchgearId(command.getSwitchgearId())
                 .build();
     }

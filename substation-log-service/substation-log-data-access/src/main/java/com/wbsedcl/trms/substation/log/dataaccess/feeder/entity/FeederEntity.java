@@ -4,7 +4,7 @@ import com.wbsedcl.trms.substation.log.dataaccess.office.entity.OfficeEntity;
 import com.wbsedcl.trms.substation.log.domain.entity.FeederType;
 import lombok.*;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -25,7 +25,6 @@ public class FeederEntity {
     private Integer voltageLevel;
     @Enumerated(EnumType.STRING)
     private FeederType feederType;
-
     @ManyToOne
     @JoinColumn(name = "incomer_11kV_feeder_id")
     private FeederEntity incomer11kVFeeder;

@@ -7,8 +7,10 @@ import org.springframework.kafka.core.KafkaProducerException;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import jakarta.annotation.PreDestroy;
+import javax.annotation.PreDestroy;
 import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 
@@ -25,12 +27,15 @@ public class KafkaProducerImpl<K extends Serializable, V extends SpecificRecordB
     @Override
     public void send(String topicName, K key, V message) {
         log.info("Sending message={} to topic={}", message,topicName);
-        CompletableFuture<SendResult<K,V>> kafkaResultFuture = kafkaTemplate.send(topicName, key,  message);
-        kafkaResultFuture.whenComplete((result, exc)-> {
-            if (exc != null){
-                log.error("Exception occurred while sending kafka message", exc);
-                throw new KafkaProducerException(result.getProducerRecord(), "Error occurred on producer with key: "+key+" and message: "+message, exc);
-            } else {
+        ListenableFuture<SendResult<K,V>> kafkaResultFuture = kafkaTemplate.send(topicName, key,  message);
+        kafkaResultFuture.addCallback(new ListenableFutureCallback<SendResult<K, V>>() {
+            @Override
+            public void onFailure(Throwable ex) {
+                log.error("Exception occurred while sending kafka message", ex);
+            }
+
+            @Override
+            public void onSuccess(SendResult<K, V> result) {
                 log.info("Sent message {} to topic {} at partition {} offset {}", result.getProducerRecord().value(),
                         result.getRecordMetadata().topic(),
                         result.getRecordMetadata().partition(),

@@ -5,11 +5,13 @@ insert into ss_log_user_m_view values
 insert into ss_log_office_m_view values
 ("3412000", "Siliguri Town Division", null),
 ("3412100", "Siliguri 33/11kV Substation", "3412000"),
-("3412200", "Rabindranagar 33/11kV Substation", "3412000");
+("3412200", "Rabindranagar 33/11kV Substation", "3412000"),
+("XXXXXXX", "Dummy Office", "3412000");
 
 insert into ss_log_ss_m_view values
 ("3412100", "8900795060"),
-("3412200", "8900795055");
+("3412200", "8900795055"),
+("XXXXXXX", "XXXXXXXXXX");
 
 insert into ss_log_feeder_m_view values
 ("392A", "Siliguri Ckt 2", "WEB18104", "3412100", 33, "INCOMING_33kV", null,null,null,true,true),
@@ -47,7 +49,6 @@ insert into ss_log_feeder_m_view values
 ("3816", "Subhaspally", "WFSB0674", "3412200", 11, "OUTGOING_11kV", "381E","381W","381B",true,true),
 ("3817", "Hatiayadanga", "WFSB0673", "3412200", 11, "OUTGOING_11kV", "381F","381Y","381A",true,true),
 ("3818", "Pakurtala", "WFSB0795", "3412200", 11, "OUTGOING_11kV", "381F","381Y","381A",true,true),
-("3819", "Thakurnagar", "WFSB0707", "3412200", 11, "OUTGOING_11kV", "381F","381Y","381A",true,true),
 ("381M", "Hyderpara", "WFSB0746", "3412200", 11, "OUTGOING_11kV", "381G","381Z","381A",true,true),
 ("381N", "Sanghati", "WFSB0750", "3412200", 11, "OUTGOING_11kV", "381G","381Z","381A",true,true),
 ("381O", "Santinagar", "WFSB0749", "3412200", 11, "OUTGOING_11kV", "381G","381Z","381A",true,true),
