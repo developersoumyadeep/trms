@@ -4,21 +4,18 @@ package com.wbsedcl.trms.substation.log.domain.mapper;
 import com.wbsedcl.trms.domain.valueobject.FeederId;
 import com.wbsedcl.trms.domain.valueobject.OfficeId;
 import com.wbsedcl.trms.domain.valueobject.UserId;
-import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionCommand;
-import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionResponse;
-import com.wbsedcl.trms.substation.log.domain.dto.create.LogSourceChangeOverInterruptionCommand;
-import com.wbsedcl.trms.substation.log.domain.dto.create.RestoreInterruptionResponse;
-import com.wbsedcl.trms.substation.log.domain.entity.Feeder;
-import com.wbsedcl.trms.substation.log.domain.entity.Interruption;
-import com.wbsedcl.trms.substation.log.domain.entity.InterruptionStatus;
-import com.wbsedcl.trms.substation.log.domain.entity.InterruptionType;
+import com.wbsedcl.trms.substation.log.domain.dto.create.*;
+import com.wbsedcl.trms.substation.log.domain.entity.*;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.FeederRepository;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.SubstationLogRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -135,7 +132,7 @@ public class InterruptionDataMapper {
                     .faultyFeeder(childFeeder)
                     .substationOfficeId(new OfficeId(command.getSubstationOfficeId()))
                     .interruptionType(InterruptionType.MAIN_POWER_FAIL)
-                    .faultNature(command.getFaultNature())
+                    .faultNature(null)
                     .interruptionStatus(InterruptionStatus.RESTORED)
                     .createdBy(new UserId(command.getCreatedByUserId()))
                     .startDate(command.getStartDate())
@@ -147,6 +144,38 @@ public class InterruptionDataMapper {
         }
         //4. Return the list
         return interruptionsOfAffectedFeeders;
+    }
 
+    public Change33kVIncomingSourceCommand LogSourceChangeOverInterruptionCommandToChange33kVIncomingSourceCommand(LogSourceChangeOverInterruptionCommand command) {
+        String sourceChangeOverFromFeederId = command.getSourceChangeOverFromFeederId();
+        String sourceChangeOverToFeederId = command.getSourceChangeOverToFeederId();
+        List<String> affectedPTRIds = command.getAffectedPTRIds();
+        LocalDate startDate = command.getStartDate();
+        LocalTime startTime = command.getStartTime();
+        LocalDate endDate = command.getEndDate();
+        LocalTime endTime = command.getEndTime();
+        Change33kVSourceCommandContext context = Change33kVSourceCommandContext.NORMAL;
+        return new Change33kVIncomingSourceCommand(sourceChangeOverFromFeederId,sourceChangeOverToFeederId,affectedPTRIds, startDate, startTime, endDate, endTime, context);
+    }
+
+    public Change33kVIncomingSourceCommand logInterruptionCommandToChange33kVIncomingSourceCommand(LogInterruptionCommand command) {
+        if (command.getSourceChangeOverToFeederId() != null) {
+            String sourceChangeOverFromFeederId = command.getFaultyFeederId();
+            String sourceChangeOverToFeederId = command.getSourceChangeOverToFeederId();
+            List<String> affectedPTRIds = substationLogRepository
+                    .getChildFeedersOf33kVFeeder(sourceChangeOverFromFeederId)
+                    .stream()
+                    .filter(feeder -> feeder.getFeederType() == FeederType.PTR_BAY)
+                    .map(feeder -> feeder.getId().getValue())
+                    .toList();
+            log.info("affected PTR ids {}", affectedPTRIds);
+            LocalDate startDate = command.getStartDate();
+            LocalTime startTime = command.getStartTime();
+            LocalDate endDate = command.getEndDate();
+            LocalTime endTime = command.getEndTime();
+            Change33kVSourceCommandContext context = Change33kVSourceCommandContext.INCOMING_SOURCE_FAILED;
+            return new Change33kVIncomingSourceCommand(sourceChangeOverFromFeederId,sourceChangeOverToFeederId,affectedPTRIds, startDate, startTime, endDate, endTime, context);
+        }
+        return null;
     }
 }

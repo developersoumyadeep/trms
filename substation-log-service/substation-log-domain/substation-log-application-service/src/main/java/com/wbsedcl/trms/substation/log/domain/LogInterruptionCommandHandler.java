@@ -69,7 +69,7 @@ public class LogInterruptionCommandHandler {
         //1. persist the interruption
         InterruptionLoggedEvent interruptionLoggedEvent = logInterruptionHelper.persistMainPowerFailInterruption(command);
         //2. log the info
-        log.info("Main power fail interruption of {} created at ", interruptionLoggedEvent.getInterruption().getCreationTimeStamp());
+        log.info("Main power fail interruption of {} created at {}",interruptionLoggedEvent.getInterruption().getFaultyFeeder(), interruptionLoggedEvent.getInterruption().getCreationTimeStamp());
         //3. publish the event
 //        publisher.publish(interruptionLoggedEvent);
         //4. return the response

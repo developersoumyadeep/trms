@@ -42,5 +42,6 @@ public class LogInterruptionCommand {
     private LocalDate endDate;
     @JsonFormat(pattern = "HH:mm")
     private LocalTime endTime;
+    private String sourceChangeOverToFeederId;
 
 }

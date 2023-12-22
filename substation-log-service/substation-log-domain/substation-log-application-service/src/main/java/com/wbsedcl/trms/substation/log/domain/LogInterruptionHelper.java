@@ -2,6 +2,8 @@ package com.wbsedcl.trms.substation.log.domain;
 
 import com.wbsedcl.trms.domain.valueobject.FeederId;
 import com.wbsedcl.trms.domain.valueobject.UserId;
+import com.wbsedcl.trms.substation.log.domain.dto.create.Change33kVIncomingSourceCommand;
+import com.wbsedcl.trms.substation.log.domain.dto.create.Change33kVSourceCommandContext;
 import com.wbsedcl.trms.substation.log.domain.dto.create.LogInterruptionCommand;
 import com.wbsedcl.trms.substation.log.domain.dto.create.LogSourceChangeOverInterruptionCommand;
 import com.wbsedcl.trms.substation.log.domain.entity.*;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -97,39 +100,50 @@ public class LogInterruptionHelper {
         }
         //7.  a. Update the record of each of the affected feeders and PTRs to reflect the modified feeding 33kV source and loading status
         //7.   b. Update the feeder_loading_history table
-        changeIncoming33kVSource(command);
+        Change33kVIncomingSourceCommand change33kVIncomingSourceCommand = interruptionDataMapper.LogSourceChangeOverInterruptionCommandToChange33kVIncomingSourceCommand(command);
+        changeIncoming33kVSource(change33kVIncomingSourceCommand);
         //8. Log the operation
         log.info("Source change over interruption logged at {}",sourceChangeOverInterruptionLoggedEvent.getCreatedAt());
         //9. Return the event
         return sourceChangeOverInterruptionLoggedEvent;
     }
 
-    private void changeIncoming33kVSource(LogSourceChangeOverInterruptionCommand command) {
+    private void changeIncoming33kVSource(Change33kVIncomingSourceCommand command) {
         String sourceChangeOverFromFeederId = command.getSourceChangeOverFromFeederId();
         String sourceChangeOverToFeederId = command.getSourceChangeOverToFeederId();
+
         List<String> affectedPTRIds = command.getAffectedPTRIds();
+        List<Feeder> affectedPTRs = affectedPTRIds.stream().map(ptrId -> feederRepository.findFeeder(ptrId).get()).toList();
         Feeder oldIncomingSourceFeeder = feederRepository.findFeeder(sourceChangeOverFromFeederId).get();
         Feeder newIncomingSourceFeeder = feederRepository.findFeeder(sourceChangeOverToFeederId).get();
-//        if (oldIncomingSourceFeeder.isLoaded()) {
-//            oldIncomingSourceFeeder.setIsLoaded(false);
-//            feederRepository.saveFeeder(oldIncomingSourceFeeder);
-//            List<Feeder> feeders = substationLogRepository.getChildFeedersOf33kVFeeder(sourceChangeOverFromFeederId);
-//            for (Feeder feeder : feeders){
-//                feeder.setFeeding33kVFeederId(new FeederId(sourceChangeOverToFeederId));
-//                feederRepository.saveFeeder(feeder);
-//            }
+
+        //Get the child 11kV feeders of affected PTRs
         List<Feeder> childrenOfAffectedPTRs = new ArrayList<>();
         for (String affectedPTRId : affectedPTRIds) {
             childrenOfAffectedPTRs.addAll(substationLogRepository.getChildFeedersOfPTR(affectedPTRId));
         }
+
+        //Set the feeding 33kV source of the child 11kV feeders to the new source
         for (Feeder affectedChildFeeder : childrenOfAffectedPTRs) {
             affectedChildFeeder.setFeeding33kVFeederId(new FeederId(sourceChangeOverToFeederId));
             feederRepository.saveFeeder(affectedChildFeeder);
         }
+        //Set the feeding 33kV source of the affected PTRs
+        for (Feeder affectedPTR : affectedPTRs) {
+            affectedPTR.setFeeding33kVFeederId(new FeederId(sourceChangeOverToFeederId));
+            feederRepository.saveFeeder(affectedPTR);
+        }
+        //Set the loading status of the old 33kV source
         if (substationLogRepository.getChildFeedersOf33kVFeeder(oldIncomingSourceFeeder.getId().getValue()).isEmpty()) {
             oldIncomingSourceFeeder.setIsLoaded(false);
+            //If the context of the change over is incoming source fail then set the isCharged to false for the old incoming source
+            if (command.getContext() == Change33kVSourceCommandContext.INCOMING_SOURCE_FAILED) {
+                oldIncomingSourceFeeder.setCharged(false);
+            }
             feederRepository.saveFeeder(oldIncomingSourceFeeder);
         }
+
+
 
         log.info("old source change over feeder id {}", sourceChangeOverFromFeederId );
         FeederLoadingHistory oldIncomingSourceFeederLoadingHistory = feederRepository.getOpenLoadingHistoryByFeederId(sourceChangeOverFromFeederId);
@@ -158,6 +172,7 @@ public class LogInterruptionHelper {
 
 
     private void validateRestoredByUserId(LogInterruptionCommand command) {
+        log.info("Validating restored by user id");
         String createdByUserId = command.getCreatedByUserId();
         String restoredByUserId = command.getRestoredByUserId();
         InterruptionStatus interruptionStatus = command.getInterruptionStatus();
@@ -206,9 +221,6 @@ public class LogInterruptionHelper {
         if (command.getInterruptionType() != InterruptionType.MAIN_POWER_FAIL) {
             log.error("Invalid interruption type {} for main power fail interruption log request", command.getInterruptionType());
             throw new InterruptionValidationException("Invalid interruption type for Main power fail interruption log request");
-        } else if (faultyFeeder.getFeederType() == FeederType.INCOMING_33kV) {
-            log.error("Incoming 33kV feeder cannot have main power fail interruption log request");
-            throw new InterruptionValidationException("Interruption type of main power fail should be used only for outgoing 11kV, outgoing 33kV, 11kV incomers and PTRs");
         }
         //2. Validate the interruption status
         if (command.getInterruptionStatus() != InterruptionStatus.RESTORED) {
@@ -221,14 +233,18 @@ public class LogInterruptionHelper {
         List<Interruption> interruptionsOfAffectedFeeders = interruptionDataMapper.logInterruptionCommandToMainPowerFailInterruptionList(command);
         InterruptionLoggedEvent mainPowerFailedInterruptionLogEvent = null;
         for (Interruption interruption : interruptionsOfAffectedFeeders) {
-            //5. Validate and initiate the interruption
+             //5. Validate and initiate the interruption
              mainPowerFailedInterruptionLogEvent = substationLogDomainService.validateAndInitiateInterruption(interruption);
              //6. Save the interruption
              substationLogRepository.save(interruption);
         }
-        //7. Log the info
+        //7. If source change over is needed then execute the below function
+        if (command.getSourceChangeOverToFeederId() !=null) {
+            changeIncoming33kVSource(interruptionDataMapper.logInterruptionCommandToChange33kVIncomingSourceCommand(command));
+        }
+        //8. Log the info
         log.info("Main power failed interruption logged at {}", mainPowerFailedInterruptionLogEvent.getCreatedAt());
-        //8. Return the event
+        //9. Return the event
         return mainPowerFailedInterruptionLogEvent;
     }
 }
