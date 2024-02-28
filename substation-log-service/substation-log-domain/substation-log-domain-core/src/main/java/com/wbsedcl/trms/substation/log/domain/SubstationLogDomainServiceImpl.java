@@ -1,10 +1,12 @@
 package com.wbsedcl.trms.substation.log.domain;
 
 import com.wbsedcl.trms.domain.valueobject.UserId;
-import com.wbsedcl.trms.substation.log.domain.entity.EnergyConsumption;
+//import com.wbsedcl.trms.substation.log.domain.entity.EnergyConsumption;
+import com.wbsedcl.trms.substation.log.domain.entity.EnergyMeterReading;
 import com.wbsedcl.trms.substation.log.domain.entity.Interruption;
 import com.wbsedcl.trms.substation.log.domain.entity.LoadRecord;
-import com.wbsedcl.trms.substation.log.domain.event.EnergyConsumptionLoggedEvent;
+//import com.wbsedcl.trms.substation.log.domain.event.EnergyConsumptionLoggedEvent;
+import com.wbsedcl.trms.substation.log.domain.event.EnergyMeterReadingLoggedEvent;
 import com.wbsedcl.trms.substation.log.domain.event.InterruptionLoggedEvent;
 import com.wbsedcl.trms.substation.log.domain.event.InterruptionRestoredEvent;
 import com.wbsedcl.trms.substation.log.domain.event.LoadRecordLoggedEvent;
@@ -26,18 +28,19 @@ public class SubstationLogDomainServiceImpl implements SubstationLogDomainServic
     }
 
     @Override
-    public InterruptionRestoredEvent restoreInterruption(Interruption interruption, LocalDate endDate, LocalTime endTime, UserId restoredBy) {
-        interruption.restoreInterruption(endDate,endTime,restoredBy );
+    public InterruptionRestoredEvent restoreInterruption(Interruption interruption, LocalDate endDate, LocalTime endTime, UserId restoredBy, String cause) {
+        interruption.restoreInterruption(endDate,endTime,restoredBy, cause);
         log.info("Interruption with id {} restored", interruption.getId().getValue());
         return new InterruptionRestoredEvent(interruption, LocalDateTime.now());
     }
 
     @Override
-    public EnergyConsumptionLoggedEvent validateAndInitiateConsumption(EnergyConsumption energyConsumption) {
-        energyConsumption.validate();
-        energyConsumption.initialize();
-        log.info("Energy energyConsumption record created with id {}", energyConsumption.getId().getValue());
-        return new EnergyConsumptionLoggedEvent(energyConsumption, LocalDateTime.now());
+    public EnergyMeterReadingLoggedEvent validateAndInitiateEnergyMeterReading(EnergyMeterReading energyMeterReading) {
+        log.info("Validating and initializing new energy meter reading for energy meter "+energyMeterReading.getEnergyMeterNo());
+        energyMeterReading.validate();
+        energyMeterReading.initialize();
+        log.info("Energy meter reading created with id {}", energyMeterReading.getId().getValue());
+        return new EnergyMeterReadingLoggedEvent(energyMeterReading,LocalDateTime.now());
     }
 
     @Override

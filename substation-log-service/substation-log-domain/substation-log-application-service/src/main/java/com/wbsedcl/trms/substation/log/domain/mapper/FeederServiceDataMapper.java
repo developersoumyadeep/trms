@@ -66,6 +66,7 @@ public class FeederServiceDataMapper {
                     .incoming11kVFeeder(feederToFeederDto(incoming11kvFeeder))
                     .feedingPTR(feederToFeederDto(feedingPTR))
                     .feeding33kVFeeder(feederToFeederDto(feeding33kvFeeder))
+                    .isCharged(feeder.getCharged())
                     .isLoaded(feeder.isLoaded())
                     .build();
         }

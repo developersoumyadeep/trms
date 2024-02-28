@@ -48,4 +48,5 @@ public class LogSourceChangeOverInterruptionCommand {
     private LocalDate endDate;
     @JsonFormat(pattern = "HH:mm")
     private LocalTime endTime;
+    private List<String> unrestoredFeederIds;
 }

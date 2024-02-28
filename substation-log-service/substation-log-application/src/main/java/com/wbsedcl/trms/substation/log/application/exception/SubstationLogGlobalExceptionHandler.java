@@ -1,6 +1,7 @@
 package com.wbsedcl.trms.substation.log.application.exception;
 
 import com.wbsedcl.trms.application.exception.handler.ErrorDTO;
+import com.wbsedcl.trms.substation.log.domain.dto.create.CommandValidationException;
 import com.wbsedcl.trms.substation.log.domain.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class SubstationLogGlobalExceptionHandler {
     public ResponseEntity<ErrorDTO> handleException(InterruptionDomainException exception) {
         List<String> messages = new ArrayList<>();
         messages.add(exception.getMessage());
+        log.info("handling new exception :"+exception.getMessage());
         ErrorDTO errorDTO = new ErrorDTO(messages, HttpStatus.INTERNAL_SERVER_ERROR.value(), System.currentTimeMillis());
         return new ResponseEntity<>(errorDTO,HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -29,6 +31,7 @@ public class SubstationLogGlobalExceptionHandler {
     public ResponseEntity<ErrorDTO> handleException(InterruptionValidationException exception) {
         List<String> messages = new ArrayList<>();
         messages.add(exception.getMessage());
+        log.info("handling new exception :"+exception.getMessage());
         ErrorDTO errorDTO = new ErrorDTO(messages, HttpStatus.BAD_REQUEST.value(), System.currentTimeMillis());
         return new ResponseEntity<>(errorDTO,HttpStatus.BAD_REQUEST);
     }
@@ -38,6 +41,7 @@ public class SubstationLogGlobalExceptionHandler {
     public ResponseEntity<ErrorDTO> handleException(InterruptionNotFoundException exception) {
         List<String> messages = new ArrayList<>();
         messages.add(exception.getMessage());
+        log.info("handling new exception :"+exception.getMessage());
         ErrorDTO errorDTO = new ErrorDTO(messages, HttpStatus.NOT_FOUND.value(), System.currentTimeMillis());
         return new ResponseEntity<>(errorDTO,HttpStatus.NOT_FOUND);
     }
@@ -46,6 +50,7 @@ public class SubstationLogGlobalExceptionHandler {
     public ResponseEntity<ErrorDTO> handleException(UserNotFoundException exception) {
         List<String> messages = new ArrayList<>();
         messages.add(exception.getMessage());
+        log.info("handling new exception :"+exception.getMessage());
         ErrorDTO errorDTO = new ErrorDTO(messages, HttpStatus.NOT_FOUND.value(), System.currentTimeMillis());
         return new ResponseEntity<>(errorDTO,HttpStatus.NOT_FOUND);
     }
@@ -54,6 +59,7 @@ public class SubstationLogGlobalExceptionHandler {
     public ResponseEntity<ErrorDTO> handleException(ConsumptionValidationException exception) {
         List<String> messages = new ArrayList<>();
         messages.add(exception.getMessage());
+        log.info("handling new exception :"+exception.getMessage());
         ErrorDTO errorDTO = new ErrorDTO(messages, HttpStatus.BAD_REQUEST.value(), System.currentTimeMillis());
         return new ResponseEntity<>(errorDTO,HttpStatus.BAD_REQUEST);
     }
@@ -62,6 +68,7 @@ public class SubstationLogGlobalExceptionHandler {
     public ResponseEntity<ErrorDTO> handleException(LoadRecordValidationException exception) {
         List<String> messages = new ArrayList<>();
         messages.add(exception.getMessage());
+        log.info("handling new exception :"+exception.getMessage());
         ErrorDTO errorDTO = new ErrorDTO(messages, HttpStatus.BAD_REQUEST.value(), System.currentTimeMillis());
         return new ResponseEntity<>(errorDTO,HttpStatus.BAD_REQUEST);
     }
@@ -70,10 +77,21 @@ public class SubstationLogGlobalExceptionHandler {
     public ResponseEntity<ErrorDTO> handleException(MethodArgumentNotValidException exception) {
         BindingResult bindingResult = exception.getBindingResult();
         List<String> messages = new ArrayList<>();
+        log.info("handling new exception :"+exception.getMessage());
         bindingResult.getFieldErrors().forEach(error->{messages.add(error.getField()+": "+error.getDefaultMessage());});
         ErrorDTO errorDTO = new ErrorDTO(messages, HttpStatus.BAD_REQUEST.value(), System.currentTimeMillis());
         return new ResponseEntity<>(errorDTO,HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(CommandValidationException.class)
+    public ResponseEntity<ErrorDTO> handleException(CommandValidationException exception) {
+        List<String> messages = new ArrayList<>();
+        messages.add(exception.getMessage());
+        log.info("handling new exception :"+exception.getMessage());
+        ErrorDTO errorDTO = new ErrorDTO(messages, HttpStatus.BAD_REQUEST.value(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorDTO,HttpStatus.BAD_REQUEST);
+    }
+
 
     @ExceptionHandler(Exception.class)
     public void handleException(Exception exc) {

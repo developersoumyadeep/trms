@@ -22,6 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "interruption_master", schema = "substation_log_schema")
 @Entity
+@ToString
 public class InterruptionEntity {
     @Id
     private String interruptionId;
@@ -29,7 +30,7 @@ public class InterruptionEntity {
     @JoinColumn(name="faulty_feeder_id")
     private FeederEntity faultyFeeder;
     @OneToOne
-    @JoinColumn(name="substation_office_id")
+    @JoinColumn(name="substation_office_id", referencedColumnName = "officeId")
     private OfficeEntity substationOffice;
     @Enumerated(EnumType.STRING)
     private InterruptionType interruptionType;

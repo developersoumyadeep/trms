@@ -13,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "ss_log_user_m_view", schema = "substation_log_schema")
 @Entity
+@ToString
 public class UserEntity {
     @Id
     private String userId;

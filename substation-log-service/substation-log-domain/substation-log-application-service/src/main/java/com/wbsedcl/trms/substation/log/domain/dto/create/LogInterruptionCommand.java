@@ -17,7 +17,6 @@ import java.time.LocalTime;
 @Builder
 @AllArgsConstructor
 public class LogInterruptionCommand {
-
     @ValidFeederId(message = "Given faulty asset-id is invalid")
     private String faultyFeederId;
     @ValidOfficeId(message = "Given substation office-id is invalid")

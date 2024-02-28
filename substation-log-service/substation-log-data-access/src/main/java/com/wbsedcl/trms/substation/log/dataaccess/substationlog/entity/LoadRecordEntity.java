@@ -3,13 +3,12 @@ package com.wbsedcl.trms.substation.log.dataaccess.substationlog.entity;
 import com.wbsedcl.trms.substation.log.dataaccess.feeder.entity.FeederEntity;
 import com.wbsedcl.trms.substation.log.dataaccess.office.entity.OfficeEntity;
 import com.wbsedcl.trms.substation.log.dataaccess.user.entity.UserEntity;
-import com.wbsedcl.trms.substation.log.domain.entity.LoadRecordType;
+import com.wbsedcl.trms.substation.log.domain.entity.FeederLoadingType;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.UUID;
 
 @Setter
 @Getter
@@ -18,6 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "load_record_master", schema = "substation_log_schema")
 @Entity
+@ToString
 public class LoadRecordEntity {
     @Id
     private String loadRecordId;
@@ -34,6 +34,7 @@ public class LoadRecordEntity {
     @JoinColumn(name="recorded_by")
     private UserEntity recordedBy;
     private String remarks;
-    private LoadRecordType loadRecordType;
+    @Enumerated(EnumType.STRING)
+    private FeederLoadingType feederLoadingType;
 
 }

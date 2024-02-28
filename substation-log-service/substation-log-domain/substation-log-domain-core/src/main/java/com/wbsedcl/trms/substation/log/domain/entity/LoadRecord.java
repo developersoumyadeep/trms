@@ -20,7 +20,7 @@ public class LoadRecord extends BaseEntity<LoadRecordId> implements AggregateRoo
     private final double load;
     private final UserId  recordedBy;
     private final String remarks;
-    private final LoadRecordType loadRecordType;
+    private final FeederLoadingType feederLoadingType;
 
     private LoadRecord(LoadRecordBuilder builder) {
         setId(builder.id);
@@ -29,7 +29,7 @@ public class LoadRecord extends BaseEntity<LoadRecordId> implements AggregateRoo
         load = builder.load;
         recordedBy = builder.recordedBy;
         remarks = builder.remarks;
-        loadRecordType = builder.loadRecordType;
+        feederLoadingType = builder.feederLoadingType;
         recordDate = builder.recordDate;
         recordTime = builder.recordTime;
     }
@@ -77,8 +77,8 @@ public class LoadRecord extends BaseEntity<LoadRecordId> implements AggregateRoo
     public UserId getRecordedBy() {
         return recordedBy;
     }
-    public LoadRecordType getLoadRecordType() {
-        return loadRecordType;
+    public FeederLoadingType getLoadRecordType() {
+        return feederLoadingType;
     }
 
     public String getRemarks() {
@@ -96,7 +96,7 @@ public class LoadRecord extends BaseEntity<LoadRecordId> implements AggregateRoo
         private double load;
         private UserId recordedBy;
         private String remarks;
-        private LoadRecordType loadRecordType;
+        private FeederLoadingType feederLoadingType;
         private LocalDate recordDate;
         private LocalTime recordTime;
         private LoadRecordBuilder() {
@@ -143,8 +143,8 @@ public class LoadRecord extends BaseEntity<LoadRecordId> implements AggregateRoo
             return this;
         }
 
-        public LoadRecordBuilder loadRecordType(LoadRecordType loadRecordType) {
-            this.loadRecordType = loadRecordType;
+        public LoadRecordBuilder loadRecordType(FeederLoadingType feederLoadingType) {
+            this.feederLoadingType = feederLoadingType;
             return this;
         }
 

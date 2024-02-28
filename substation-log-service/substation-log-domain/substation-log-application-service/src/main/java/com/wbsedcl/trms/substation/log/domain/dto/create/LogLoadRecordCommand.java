@@ -1,6 +1,6 @@
 package com.wbsedcl.trms.substation.log.domain.dto.create;
 
-import com.wbsedcl.trms.substation.log.domain.entity.LoadRecordType;
+import com.wbsedcl.trms.substation.log.domain.entity.FeederLoadingType;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidFeederId;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidOfficeId;
 import com.wbsedcl.trms.substation.log.domain.validation.ValidUserId;
@@ -23,5 +23,5 @@ public class LogLoadRecordCommand {
     private double load;
     private String remarks;
     @NotNull
-    private LoadRecordType loadRecordType;
+    private FeederLoadingType feederLoadingType;
 }

@@ -12,18 +12,20 @@ logging:
 spring:
   jpa:
     open-in-view: false
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.MySQLDialect
     defer-datasource-initialization: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+#        ddl-auto: create
+        ddl-auto: create-drop
 
 
   datasource:
-#    url: jdbc:mysql://trms-db.ccx7bgki1iec.ap-southeast-2.rds.amazonaws.com:3306
-    url: jdbc:mysql://localhost:3306
-    username: springstudent
+    url: jdbc:mysql://sublog-database.c5myc0qgexo6.ap-south-1.rds.amazonaws.com:3306/substation_log_schema
+#    url: jdbc:mysql://localhost:3306/substation_log_schema
+    username: admin
     password: springstudent
     driver-class-name: com.mysql.cj.jdbc.Driver
   sql:

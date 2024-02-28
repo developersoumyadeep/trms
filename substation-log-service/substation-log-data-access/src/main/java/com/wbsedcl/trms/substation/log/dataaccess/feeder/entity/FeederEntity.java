@@ -13,12 +13,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name="ss_log_feeder_m_view", schema = "substation_log_schema")
 @Entity
+@ToString
 public class FeederEntity {
     @Id
     @Column(name = "feeder_id")
     private String feederId;
     private String feederName;
-    private String energyMeterNo;
     @OneToOne
     @JoinColumn(name = "substation_office_id")
     private OfficeEntity substationOffice;
@@ -36,4 +36,8 @@ public class FeederEntity {
     private FeederEntity feeding33kVFeeder;
     private Boolean isCharged;
     private Boolean isLoaded;
+    @Column(name = "ictr")
+    private Double installedCTRatio;
+    @Column(name = "iptr")
+    private Double installedPTRatio;
 }

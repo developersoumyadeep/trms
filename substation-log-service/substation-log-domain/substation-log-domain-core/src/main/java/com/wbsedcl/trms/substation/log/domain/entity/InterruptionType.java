@@ -1,7 +1,7 @@
 package com.wbsedcl.trms.substation.log.domain.entity;
 
 public enum InterruptionType {
-    TRANSIENT_TRIPPING, MAIN_POWER_FAIL, LOAD_SHEDDING, PLANNED_SHUTDOWN, EMERGENCY_SHUTDOWN, SUSTAINED_FAULT, SOURCE_CHANGEOVER;
+    TRANSIENT_TRIPPING, MAIN_POWER_FAIL, LOAD_SHEDDING, PLANNED_SHUTDOWN, EMERGENCY_SHUTDOWN, SUSTAINED_FAULT, SOURCE_CHANGEOVER, GSS_FAIL;
 
     public static InterruptionType findByInterruptionType(InterruptionType interruptionType) {
         InterruptionType result = null;

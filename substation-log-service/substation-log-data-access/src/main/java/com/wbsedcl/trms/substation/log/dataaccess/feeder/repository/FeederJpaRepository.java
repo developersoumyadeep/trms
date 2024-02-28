@@ -20,5 +20,6 @@ public interface FeederJpaRepository extends JpaRepository<FeederEntity, String>
 
     @Query(value = "select * from substation_log_schema.ss_log_feeder_m_view where feeding_ptr_id= :feederId",
             nativeQuery = true)
-    List<FeederEntity> getChildFeedersOfPTR(String feederId);
+    List<FeederEntity> getChildFeedersOfPTR(@Param("feederId") String feederId);
+
 }

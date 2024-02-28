@@ -17,6 +17,8 @@ public class Feeder extends BaseEntity<FeederId> implements AggregateRoot {
     private FeederId feeding33kVFeederId;
     private Boolean isCharged;
     private Boolean isLoaded;
+    private Double installedCtRatio;
+    private Double installedPtRatio;
 
     private Feeder(FeederBuilder feederBuilder) {
         setId(feederBuilder.feederId);
@@ -30,6 +32,8 @@ public class Feeder extends BaseEntity<FeederId> implements AggregateRoot {
         this.feeding33kVFeederId = feederBuilder.feeding33kVFeederId;
         this.isCharged = feederBuilder.isCharged;
         this.isLoaded = feederBuilder.isLoaded;
+        this.installedCtRatio = feederBuilder.installedCtRatio;
+        this.installedPtRatio = feederBuilder.installedPtRatio;
     }
 
     public String getFeederName() {
@@ -90,6 +94,18 @@ public class Feeder extends BaseEntity<FeederId> implements AggregateRoot {
         this.feeding33kVFeederId = feeding33kVFeederId;
     }
 
+    public Boolean getLoaded() {
+        return isLoaded;
+    }
+
+    public Double getInstalledCtRatio() {
+        return installedCtRatio;
+    }
+
+    public Double getInstalledPtRatio() {
+        return installedPtRatio;
+    }
+
     public static FeederBuilder newBuilder() {
         return new FeederBuilder();
     }
@@ -107,6 +123,8 @@ public class Feeder extends BaseEntity<FeederId> implements AggregateRoot {
 
         private Boolean isCharged;
         private Boolean isLoaded;
+        private Double installedCtRatio;
+        private Double installedPtRatio;
 
         private FeederBuilder() {
 
@@ -164,18 +182,36 @@ public class Feeder extends BaseEntity<FeederId> implements AggregateRoot {
             return this;
         }
 
+        public FeederBuilder installedCtRatio(Double installedCtRatio) {
+            this.installedCtRatio = installedCtRatio;
+            return this;
+        }
+
+        public FeederBuilder installedPtRatio(Double installedPtRatio) {
+            this.installedPtRatio = installedPtRatio;
+            return this;
+        }
+
         public Feeder build() {
             return new Feeder(this);
         }
-
-
     }
 
     @Override
     public String toString() {
         return "Feeder{" +
-                "feederName="+feederName+
-                " feederId="+getId().getValue()+
+                "feederName='" + feederName + '\'' +
+                ", energyMeterNo='" + energyMeterNo + '\'' +
+                ", substationOfficeId=" + substationOfficeId +
+                ", voltageLevel=" + voltageLevel +
+                ", feederType=" + feederType +
+                ", incomer11kVFeederId=" + incomer11kVFeederId +
+                ", feedingPTRId=" + feedingPTRId +
+                ", feeding33kVFeederId=" + feeding33kVFeederId +
+                ", isCharged=" + isCharged +
+                ", isLoaded=" + isLoaded +
+                ", installedCtRatio=" + installedCtRatio +
+                ", installedPtRatio=" + installedPtRatio +
                 '}';
     }
 }

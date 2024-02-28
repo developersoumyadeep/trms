@@ -24,6 +24,4 @@ public class FeederDTO {
     private FeederDTO feeding33kVFeeder;
     private Boolean isCharged;
     private Boolean isLoaded;
-
-
 }

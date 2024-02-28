@@ -1,6 +1,5 @@
 drop schema if exists substation_log_schema;
 create schema substation_log_schema;
-
 use substation_log_schema;
 
 
@@ -27,7 +26,6 @@ drop table if exists ss_log_feeder_m_view;
 CREATE TABLE ss_log_feeder_m_view (
         feeder_id VARCHAR(10) NOT NULL,
         feeder_name VARCHAR(50) NOT NULL,
-        energy_meter_no VARCHAR(15),
         substation_office_id VARCHAR(10) NOT NULL,
         voltage_level INT NOT NULL,
         feeder_type VARCHAR(20) NOT NULL,
@@ -36,8 +34,9 @@ CREATE TABLE ss_log_feeder_m_view (
         feeding_33kV_feeder_id VARCHAR(10),
         is_charged boolean not null,
         is_loaded boolean not null,
+        ictr DOUBLE,
+        iptr DOUBLE,
         PRIMARY KEY (feeder_id),
-        UNIQUE KEY (energy_meter_no),
         FOREIGN KEY (substation_office_id)
             REFERENCES ss_log_office_m_view (office_id),
         FOREIGN KEY (incomer_11kV_feeder_id)
@@ -111,25 +110,51 @@ CREATE TABLE load_record_master (
     record_time TIME NOT NULL,
     recorded_load DOUBLE NOT NULL,
     recorded_by VARCHAR(10) NOT NULL,
+    feeder_loading_type VARCHAR(10) NOT NULL,
+    remarks VARCHAR(255),
     PRIMARY KEY (load_record_id),
     foreign key (feeder_id) references ss_log_feeder_m_view (feeder_id),
 	foreign key (substation_office_id) references ss_log_office_m_view (office_id)
 )  ENGINE=INNODB;
+
+drop table if exists ss_log_energy_meter_master;
+CREATE TABLE ss_log_energy_meter_master (
+    energy_meter_no VARCHAR(15) NOT NULL,
+    meter_ct_ratio DOUBLE NOT NULL,
+    meter_pt_ratio DOUBLE NOT NULL,
+    energy_unit VARCHAR(3) NOT NULL,
+    PRIMARY KEY (energy_meter_no)
+) ENGINE = INNODB;
         
-drop table if exists energy_consumption_master;
-CREATE TABLE energy_consumption_master (
-    consumption_id VARCHAR(36) NOT NULL,
+drop table if exists ss_log_energy_meter_reading_master;
+CREATE TABLE ss_log_energy_meter_reading_master (
+    meter_reading_id VARCHAR(36) NOT NULL,
     feeder_id VARCHAR(10) NOT NULL,
     substation_office_id VARCHAR(10) NOT NULL,
     record_date DATE NOT NULL,
     record_time TIME NOT NULL,
     energy_meter_no VARCHAR(15) NOT NULL,
     energy_unit VARCHAR(3) NOT NULL,
-    consumption DOUBLE NOT NULL,
-    multiplying_factor INT NOT NULL,
+    meter_reading DOUBLE NOT NULL,
     recorded_by VARCHAR(10) NOT NULL,
-    PRIMARY KEY (consumption_id),
+    multiplying_factor DOUBLE,
+    PRIMARY KEY (meter_reading_id),
     foreign key (feeder_id) references ss_log_feeder_m_view (feeder_id),
-	foreign key (substation_office_id) references ss_log_office_m_view (office_id)
+	foreign key (substation_office_id) references ss_log_office_m_view (office_id),
+	foreign key (energy_meter_no) references ss_log_energy_meter_master (energy_meter_no)
 )  ENGINE=INNODB;
+
+drop table if exists ss_log_energy_meter_feeder_association;
+CREATE TABLE ss_log_energy_meter_feeder_association (
+    association_id VARCHAR(36) NOT NULL,
+    energy_meter_no VARCHAR(15) NOT NULL,
+    feeder_id VARCHAR(10) NOT NULL,
+    association_start_date DATE NOT NULL,
+    association_start_time TIME NOT NULL,
+    association_end_date DATE,
+    association_end_time TIME,
+    PRIMARY KEY (association_id),
+    foreign key (energy_meter_no) references ss_log_energy_meter_master (energy_meter_no),
+    foreign key (feeder_id) references ss_log_feeder_m_view (feeder_id)
+) ENGINE=INNODB;
 

@@ -70,19 +70,20 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     }
 
     private void validateInterruptionHrs() {
-        logger.info("validating interruption hours");
+        logger.info("validating interruption hours for feeder " + getFaultyFeeder().getFeederName());
         //1. If interruption is in "Restored" status,then both the start date & time and end date & time should be present.
         //2. The End date & time should be at a later point of time than the start date & time
         //3. If interruption is in "Not Restored" status, then only the start date & time should be present.
         //4. The start date & time and end date & time must not be in a future point of time
-        if (interruptionStatus.equals(InterruptionStatus.RESTORED)){
+        if (interruptionStatus.equals(InterruptionStatus.RESTORED)) {
             if (startDate == null || startTime == null || endDate == null || endTime == null) {
                 throw new InterruptionValidationException("Interruption in 'Restored' status must include both start date & time and end date & time");
             }
-            LocalDateTime startDateTime = LocalDateTime.of(startDate,startTime);
-            LocalDateTime endDateTime = LocalDateTime.of(endDate,endTime);
-            if (startDateTime.isAfter(endDateTime)){
-                throw new InterruptionValidationException("The 'Restored' interruption end date & time should be greater than the end & time");
+            LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
+            LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
+            if (startDateTime.isAfter(endDateTime)) {
+                logger.info("The 'Restored' interruption end date & time should be greater than the start date & time");
+                throw new InterruptionValidationException("The 'Restored' interruption end date & time should be greater than the start date & time");
             }
             if (startDateTime.isAfter(LocalDateTime.now()) || endDateTime.isAfter(LocalDateTime.now())) {
                 throw new InterruptionValidationException("The start date & time or the end date & time can not be in future");
@@ -91,7 +92,7 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
             if (startDate == null || startTime == null || endDate != null || endTime != null) {
                 throw new InterruptionValidationException("Interruption in 'Not Restored' status must include both start date & time only");
             }
-            LocalDateTime startDateTime = LocalDateTime.of(startDate,startTime);
+            LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
             if (startDateTime.isAfter(LocalDateTime.now())) {
                 throw new InterruptionValidationException("The start date & time can not be in future");
             }
@@ -99,27 +100,28 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     }
 
     private void validateInterruptionStatus() {
-        logger.info("validating interruption status");
-        if (interruptionType.equals(InterruptionType.TRANSIENT_TRIPPING) || interruptionType.equals(InterruptionType.SOURCE_CHANGEOVER) || interruptionType.equals(InterruptionType.MAIN_POWER_FAIL)){
+        logger.info("validating interruption status for feeder " + faultyFeeder.getFeederName());
+        if (interruptionType.equals(InterruptionType.TRANSIENT_TRIPPING)) {
             if (interruptionStatus.equals(InterruptionStatus.NOT_RESTORED)) {
-                throw new InterruptionValidationException("Interruption of type 'Transient Tripping' or 'Source Changeover' must be in 'Restored' status");
+                throw new InterruptionValidationException("Interruption of type 'Transient Tripping' must be in 'Restored' status");
             }
-        } else {
+        } else if (interruptionType.equals(InterruptionType.EMERGENCY_SHUTDOWN) || interruptionType.equals(InterruptionType.LOAD_SHEDDING)
+                || interruptionType.equals(InterruptionType.SUSTAINED_FAULT) || interruptionType.equals(InterruptionType.PLANNED_SHUTDOWN)) {
             if (interruptionStatus.equals(InterruptionStatus.RESTORED)) {
-                throw new InterruptionValidationException("Interruption of type other than 'Transient Tripping','Source Changeover' and 'Main Power Fail' must be in 'Not Restored' status");
+                throw new InterruptionValidationException("Interruption of type 'Emergency shutdown', 'Breakdown', 'Planned shutdown', 'Load shedding' must be in 'Not Restored' status");
             }
         }
 
     }
 
     private void validateFaultNature() {
-        logger.info("validating interruption fault nature");
+        logger.info("validating interruption fault nature for feeder " + faultyFeeder.getFeederName());
         if (interruptionType == InterruptionType.SOURCE_CHANGEOVER || interruptionType == InterruptionType.PLANNED_SHUTDOWN || interruptionType == InterruptionType.EMERGENCY_SHUTDOWN || interruptionType == InterruptionType.LOAD_SHEDDING || interruptionType == InterruptionType.MAIN_POWER_FAIL) {
             if (faultNature != null) {
                 throw new InterruptionValidationException("Interruption of type source change over, planned or emergency shutdowns, and main power fail can not have any fault nature attribute set");
             }
         } else {
-            logger.info("Input fault nature "+faultNature);
+            logger.info("Input fault nature " + faultNature);
             if (FaultNature.findByFaultNature(faultNature) == null) {
                 throw new InterruptionValidationException("The interruption must have fault nature as one of these values: EF/OC/EF_OC/HIGH_SET_OC");
             }
@@ -128,31 +130,31 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     }
 
     private void validateInterruptionType() {
-        logger.info("validating interruption type for feeder :"+faultyFeeder.getId().getValue());
-        if (InterruptionType.findByInterruptionType(interruptionType) == null){
+        logger.info("validating interruption type for feeder :" + faultyFeeder.getId().getValue());
+        if (InterruptionType.findByInterruptionType(interruptionType) == null) {
             throw new InterruptionValidationException("The interruption does not have a valid interruption type");
-        } else if (faultyFeeder.getFeederType() == FeederType.INCOMING_33kV && interruptionType == InterruptionType.MAIN_POWER_FAIL){
+        } else if (faultyFeeder.getFeederType() == FeederType.INCOMING_33kV && interruptionType == InterruptionType.MAIN_POWER_FAIL) {
             throw new InterruptionValidationException("Interruption type of main power fail should be used only for outgoing 11kV, outgoing 33kV, 11kV incomers and PTRs");
         }
-
 
 
     }
 
     private void validateInitialInterruption() {
-        logger.info("validating initial interruption ");
+        logger.info("validating initial interruption for feeder " + faultyFeeder.getFeederName());
         if (creationTimeStamp != null || getId() != null) {
             throw new InterruptionValidationException("The interruption object is not in the correct state for initialization");
         }
     }
 
-    public void restoreInterruption(LocalDate endDate, LocalTime endTime, UserId restoredBy) {
-        logger.info("restoring interruption with end date "+endDate+" end time "+endTime+" restoredByUserId "+restoredBy);
+    public void restoreInterruption(LocalDate endDate, LocalTime endTime, UserId restoredBy, String cause) {
+        logger.info("restoring interruption with end date " + endDate + " end time " + endTime + " restoredByUserId " + restoredBy + " for feeder " + faultyFeeder.getFeederName());
         interruptionStatus = InterruptionStatus.RESTORED;
         restorationTimeStamp = LocalDateTime.now();
         this.endDate = endDate;
         this.endTime = endTime;
         this.restoredBy = restoredBy;
+        this.cause = cause;
     }
 
 
@@ -243,7 +245,6 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
     public FeederId getSourceChangeOverToFeederId() {
         return sourceChangeOverToFeederId;
     }
-
 
 
     public static InterruptionBuilder newBuilder() {
@@ -351,7 +352,7 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
             return this;
         }
 
-        public InterruptionBuilder sourceChangeOverFromFeederId(FeederId sourceChangeOverFromFeederId){
+        public InterruptionBuilder sourceChangeOverFromFeederId(FeederId sourceChangeOverFromFeederId) {
             this.sourceChangeOverFromFeederId = sourceChangeOverFromFeederId;
             return this;
         }
@@ -368,6 +369,6 @@ public class Interruption extends BaseEntity<InterruptionId> implements Aggregat
 
     @Override
     public String toString() {
-        return "Interruption {interruptionId ="+ (getId() == null ? "Id not generated" :getId().getValue()) +" faultyFeederName ="+faultyFeeder.getFeederName()+"}";
+        return "Interruption {interruptionId =" + (getId() == null ? "Id not generated" : getId().getValue()) + " faultyFeederName =" + faultyFeeder.getFeederName() + "}";
     }
 }

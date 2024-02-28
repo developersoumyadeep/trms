@@ -1,8 +1,10 @@
 package com.wbsedcl.trms.substation.log.application.rest;
 
 import com.wbsedcl.trms.substation.log.domain.FeederService;
+import com.wbsedcl.trms.substation.log.domain.dto.message.EnergyMeterReadingDTO;
 import com.wbsedcl.trms.substation.log.domain.dto.message.FeederDTO;
 import com.wbsedcl.trms.substation.log.domain.dto.create.*;
+import com.wbsedcl.trms.substation.log.domain.dto.message.InterruptionDTO;
 import com.wbsedcl.trms.substation.log.domain.entity.Feeder;
 import com.wbsedcl.trms.substation.log.domain.entity.InterruptionStatus;
 import com.wbsedcl.trms.substation.log.domain.mapper.FeederServiceDataMapper;
@@ -19,6 +21,7 @@ import java.util.List;
 public class SubstationLogController {
     private final SubstationLogApplicationService substationLogApplicationService;
     private final FeederService feederService;
+
     private final FeederServiceDataMapper mapper;
 
     public SubstationLogController(SubstationLogApplicationService substationLogApplicationService, FeederService feederService, FeederServiceDataMapper mapper) {
@@ -49,16 +52,19 @@ public class SubstationLogController {
     }
 
     @PostMapping("/log-source-change-over")
-    public ResponseEntity<LogInterruptionResponse> logSourceChangeOver(@RequestBody LogSourceChangeOverInterruptionCommand command) {
+    public ResponseEntity<GroupInterruptionResponse> logSourceChangeOver(@RequestBody LogSourceChangeOverInterruptionCommand command) {
         log.info("sourceChangeOver request received with command {}", command);
-        LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logSourceChangeOver(command);
-        return ResponseEntity.ok(logInterruptionResponse);
+        List<LogInterruptionResponse> logInterruptionResponses = substationLogApplicationService.logSourceChangeOver(command);
+        GroupInterruptionResponse response = new GroupInterruptionResponse("Success", logInterruptionResponses);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/log-main-power-fail")
-    public ResponseEntity<LogInterruptionResponse> logMainPowerFail(@RequestBody LogInterruptionCommand command) {
-        LogInterruptionResponse logInterruptionResponse = substationLogApplicationService.logMainPowerFail(command);
-        return ResponseEntity.ok(logInterruptionResponse);
+    public ResponseEntity<GroupInterruptionResponse> logMainPowerFail(@RequestBody MainPowerFailCommand command) {
+        List<LogInterruptionResponse> logInterruptionResponses = substationLogApplicationService.logMainPowerFail(command);
+        GroupInterruptionResponse response = new GroupInterruptionResponse("Success", logInterruptionResponses);
+        log.info("Returning group interruption response :"+response);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/restore-interruption")
@@ -69,12 +75,12 @@ public class SubstationLogController {
         return ResponseEntity.ok(restoreInterruptionResponse);
     }
 
-    @PostMapping("/log-energy-consumption")
-    public ResponseEntity<LogEnergyConsumptionResponse> logEnergyConsumption(@RequestBody LogEnergyConsumptionCommand command) {
-        log.info("Logging energy consumption for feeder id {} at Substation {} recorded by {} ", command.getFeederId(), command.getSubstationOfficeId(), command.getRecordedBy());
-        LogEnergyConsumptionResponse logEnergyConsumptionResponse = substationLogApplicationService.logEnergyConsumption(command);
-        log.info("Energy consumption logged with uuid {}", logEnergyConsumptionResponse.getConsumptionId());
-        return ResponseEntity.ok(logEnergyConsumptionResponse);
+    @PostMapping("/log-energy-meter-reading")
+    public ResponseEntity<LogEnergyMeterReadingResponse> logEnergyMeterReading(@RequestBody LogEnergyMeterReadingCommand command) {
+        log.info("Logging energy meter reading for feeder id {} at Substation {} recorded by {} ", command.getFeederId(), command.getSubstationOfficeId(), command.getRecordedBy());
+        LogEnergyMeterReadingResponse logEnergyMeterReadingResponse = substationLogApplicationService.logEnergyMeterReading(command);
+        log.info("Energy meter reading logged with uuid {}",logEnergyMeterReadingResponse.getMeterReadingId());
+        return ResponseEntity.ok(logEnergyMeterReadingResponse);
     }
 
     @PostMapping("/log-load-record")
@@ -84,5 +90,22 @@ public class SubstationLogController {
         log.info("Load record logged with uuid {}", logLoadRecordResponse.getLoadRecordId());
         return ResponseEntity.ok(logLoadRecordResponse);
     }
+
+    @GetMapping("/open-interruptions/{substationOfficeId}")
+    public ResponseEntity<List<InterruptionDTO>> getOpenInterruptions(@PathVariable String substationOfficeId) {
+        log.info("Fetching open interruptions of substation :"+substationOfficeId);
+        List<InterruptionDTO> dtos = substationLogApplicationService.getAllOpenInterruptionsBySubstationOfficeId(substationOfficeId);
+        log.info("Returning open interruptions ..");
+        dtos.forEach(dto -> log.info(dto.toString()));
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/latest-meter-readings/{substationOfficeId}")
+    public ResponseEntity<List<EnergyMeterReadingDTO>> getLatestMeterReadingsAgainstSubstationOfficeId(@PathVariable String substationOfficeId) {
+        log.info("Fetching latest meter readings of substation :"+substationOfficeId);
+        return ResponseEntity.ok(substationLogApplicationService.getLatestEnergyMeterReadingsBySubstationOfficeId(substationOfficeId));
+    }
+
+
 }
 

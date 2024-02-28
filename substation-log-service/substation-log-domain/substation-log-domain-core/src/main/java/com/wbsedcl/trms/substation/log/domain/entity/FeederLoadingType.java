@@ -1,5 +1,5 @@
 package com.wbsedcl.trms.substation.log.domain.entity;
 
-public enum LoadRecordType {
+public enum FeederLoadingType {
     NORMAL, INCREASED_LOAD, DECREASED_LOAD;
 }

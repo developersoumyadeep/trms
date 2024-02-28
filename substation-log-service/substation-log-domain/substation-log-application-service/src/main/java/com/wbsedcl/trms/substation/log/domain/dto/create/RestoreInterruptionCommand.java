@@ -16,5 +16,12 @@ public class RestoreInterruptionCommand {
     private LocalDate endDate;
     private LocalTime endTime;
     private String restoredBy;
+    private String interruptionCause;
+    private String restoredBy33kVSourceId;
+    private String restoredByIncomerId;
+    private String restoredByPTRId;
+    private Boolean _33kVSourceChanged;
+    private Boolean feedingPTRChanged;
+    private Boolean feedingIncomerChanged;
 
 }
