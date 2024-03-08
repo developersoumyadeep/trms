@@ -30,6 +30,9 @@ public class SubstationLogController {
         this.mapper = mapper;
     }
 
+    //Only the authenticated user with "SITE_USER" role attached to "substationOfficeId" should be able to get the feeders for that substation
+    //If the authenticated user is attached to division office then check if the substation office is under that division or not
+
     @GetMapping("/feeders/{substationOfficeId}")
     public ResponseEntity<List<FeederDTO>> getFeedersBySubstationOfficeId(@PathVariable String substationOfficeId) {
         List<FeederDTO> responseFeeders = new ArrayList<>();

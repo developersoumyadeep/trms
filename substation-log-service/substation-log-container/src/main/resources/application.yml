@@ -5,6 +5,10 @@ logging:
   level:
     com.wbsedcl.trms: INFO
     org.apache.kafka.clients.NetworkClient: OFF
+    org.springframework.web: DEBUG
+    org.springframework.security: TRACE
+    org.springframework.session: DEBUG
+    org.springframework.session.data.redis: DEBUG
   file:
     path: /
     name: logs.txt
@@ -20,12 +24,18 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
 #        ddl-auto: create
         ddl-auto: create-drop
+  redis:
+    port: 8081
+    host: localhost
+  session:
+    store-type: redis
 
 
   datasource:
-    url: jdbc:mysql://sublog-database.c5myc0qgexo6.ap-south-1.rds.amazonaws.com:3306/substation_log_schema
-#    url: jdbc:mysql://localhost:3306/substation_log_schema
-    username: admin
+#    url: jdbc:mysql://sublog-database.c5myc0qgexo6.ap-south-1.rds.amazonaws.com:3306/substation_log_schema
+    url: jdbc:mysql://localhost:3306/substation_log_schema
+    username: springstudent
+#    username: admin
     password: springstudent
     driver-class-name: com.mysql.cj.jdbc.Driver
   sql:
