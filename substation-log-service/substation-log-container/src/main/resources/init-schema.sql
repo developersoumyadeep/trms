@@ -76,8 +76,41 @@ drop table if exists ss_log_user_m_view;
 CREATE TABLE ss_log_user_m_view (
     user_id VARCHAR(10) NOT NULL,
     office_id VARCHAR(10) NOT NULL,
-    PRIMARY KEY (user_id)
+    first_name VARCHAR(128) NOT NULL,
+    last_name VARCHAR(128) NOT NULL,
+    mobile_number VARCHAR(10) NOT NULL,
+    authentication_string VARCHAR(256) NOT NULL,
+    sap_id VARCHAR(8),
+    is_departmental boolean,
+    is_contractual boolean,
+    is_reengaged boolean,
+    is_retired boolean,
+    reengagement_contract_expired boolean,
+    is_terminated boolean,
+    is_suspended boolean,
+    is_regular boolean,
+    is_vendor boolean,
+    company_name VARCHAR(256),
+    joining_date_at_current_office DATE,
+    release_date_from_previous_office DATE,
+    date_of_retirement DATE,
+    date_of_expiry_of_reengagement_contract DATE,
+    date_of_birth DATE,
+    account_not_expired boolean,
+    account_not_locked boolean,
+    credentials_not_expired boolean,
+    enabled boolean,
+    PRIMARY KEY (user_id),
+    UNIQUE KEY (mobile_number)
 )  ENGINE=INNODB;
+
+drop table if exists ss_log_user_role;
+CREATE TABLE ss_log_user_role (
+    user_id VARCHAR(45) NOT NULL,
+    role VARCHAR(45) NOT NULL,
+    CONSTRAINT role_pk PRIMARY KEY (user_id , role)
+)  ENGINE=INNODB;
+
 
 drop table if exists interruption_master;
 CREATE TABLE interruption_master (

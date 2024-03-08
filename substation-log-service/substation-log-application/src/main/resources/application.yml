@@ -1,0 +1,8 @@
+logging:
+  level:
+    com.wbsedcl.trms: DEBUG
+    org.apache.kafka.clients.NetworkClient: OFF
+    org.springframework.web: DEBUG
+    org.springframework.security: TRACE
+    org.springframework.session: DEBUG
+    org.springframework.session.data.redis: DEBUG

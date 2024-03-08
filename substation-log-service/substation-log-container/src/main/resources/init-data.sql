@@ -1,6 +1,21 @@
-insert into ss_log_user_m_view values
-("90014842", "3412000"),
-("XXXXXXXX", "XXXXXXX");
+insert into ss_log_user_m_view (user_id,office_id,first_name,last_name,mobile_number,authentication_string,sap_id,is_departmental,
+is_contractual,is_reengaged,is_retired,reengagement_contract_expired,
+is_terminated, is_suspended, is_regular,is_vendor,
+company_name,joining_date_at_current_office,release_date_from_previous_office,
+date_of_retirement,date_of_expiry_of_reengagement_contract, date_of_birth,
+account_not_expired, account_not_locked,credentials_not_expired, enabled) values
+("90014842", "3412000", "Soumyadeep", "Ganguly", "8900795049", "{noop}1234", "90014842", true, false,null,false,null,false,false,true,false,"WBSEDCL","2020-02-18","2020-02-15","2052-09-15",null,"1992-01-08",true,true,true,true),
+("90013638", "3412000", "Subhodeep", "Banerjee", "8900795047", "{noop}1234", "90013638", true, false,null,false,null,false,false,true,false,"WBSEDCL","2017-02-18","2017-02-15","2050-09-15",null,"1988-01-08",true,true,true,true),
+("90019685", "3412300", "Manoj", "Sarkar", "7031322931", "{noop}1234", "90019685", true, false,null,false,null,false,false,true,false,"WBSEDCL","2021-12-18",null,"2054-09-15",null,"1996-01-08",true,true,true,true),
+("XXXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX","XXXXXXXX","{noop}XXXXXXX","XXXXXXXX", true, false,null,false,null,false,false,true,false,"WBSEDCL","2021-12-18",null,"2054-09-15",null,"1996-01-08",true,true,true,true);
+
+insert into ss_log_user_role values
+("90014842", "SITE_USER"),
+("90014842", "SITE_SUPERVISOR"),
+("90014842", "SUPERUSER"),
+("90013638", "CONTROLLING_USER"),
+("90019685", "SITE_USER"),
+("XXXXXXXX", "DUMMY_USER");
 
 insert into ss_log_office_m_view values
 ("3412000", "Siliguri Town Division", null),

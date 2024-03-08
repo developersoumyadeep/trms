@@ -12,8 +12,14 @@ import java.util.Optional;
 @Component
 public class OfficeRepositoryImpl implements OfficeRepository {
 
-    private OfficeJpaRepository officeJpaRepository;
-    private OfficeDataAccessMapper mapper;
+    private final OfficeJpaRepository officeJpaRepository;
+    private final OfficeDataAccessMapper mapper;
+
+    public OfficeRepositoryImpl(OfficeJpaRepository officeJpaRepository, OfficeDataAccessMapper mapper) {
+        this.officeJpaRepository = officeJpaRepository;
+        this.mapper = mapper;
+    }
+
     @Override
     public Optional<Office> findOffice(String officeId) {
         Optional<OfficeEntity> entity = officeJpaRepository.findById(officeId);
