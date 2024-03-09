@@ -16,4 +16,5 @@ public class OfficeEntity {
     @Id
     private String officeId;
     private String officeText;
+    private String parentOfficeId;
 }

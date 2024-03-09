@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class OfficeDataAccessMapper {
     public OfficeEntity officeToOfficeEntity(Office office) {
-        return new OfficeEntity(office.getId().getValue(), office.getOfficeText());
+        return new OfficeEntity(office.getId().getValue(), office.getOfficeText(), office.getParentOfficeId().getValue());
     }
 
     public Office officeEntityToOffice(OfficeEntity officeEntity) {
-        return new Office(new OfficeId(officeEntity.getOfficeId()));
+        return new Office(new OfficeId(officeEntity.getOfficeId()), new OfficeId(officeEntity.getParentOfficeId()));
     }
 }

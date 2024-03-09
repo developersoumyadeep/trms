@@ -194,24 +194,23 @@ public class LogInterruptionHelper {
         if (restoredByUserId != null) {
             Optional<User> user = userRepository.findUser(restoredByUserId);
             if(user.isEmpty()) {
-                log.error("User with id {} does not exist", restoredByUserId);
-                throw new InterruptionValidationException("User with id "+restoredByUserId+" does not exist");
+                log.error("AuthenticatedUser with id {} does not exist", restoredByUserId);
+                throw new InterruptionValidationException("AuthenticatedUser with id "+restoredByUserId+" does not exist");
             }
         }
     }
 
     private void validateRestoreByUserId(LogSourceChangeOverInterruptionCommand command) {
-        String createdByUserId = command.getCreatedByUserId();
         String restoredByUserId = command.getRestoredByUserId();
-        if (!restoredByUserId.equals(createdByUserId)) {
+        if (!restoredByUserId.equals(command.getCreatedByUserId())) {
             log.error("restoredByUserId and createdByUserId do not match for source change over interruption log request");
             throw new InterruptionValidationException("Interruption of type 'Source Change-over' must have same created-by user id and restored-by user id");
         }
         if (restoredByUserId != null) {
             Optional<User> user = userRepository.findUser(restoredByUserId);
             if(user.isEmpty()) {
-                log.error("User with id {} does not exist", restoredByUserId);
-                throw new InterruptionValidationException("User with id "+restoredByUserId+" does not exist");
+                log.error("AuthenticatedUser with id {} does not exist", restoredByUserId);
+                throw new InterruptionValidationException("AuthenticatedUser with id "+restoredByUserId+" does not exist");
             }
         }
 

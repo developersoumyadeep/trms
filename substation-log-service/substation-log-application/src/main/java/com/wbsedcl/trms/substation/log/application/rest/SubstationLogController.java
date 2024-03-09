@@ -9,8 +9,10 @@ import com.wbsedcl.trms.substation.log.domain.entity.Feeder;
 import com.wbsedcl.trms.substation.log.domain.entity.InterruptionStatus;
 import com.wbsedcl.trms.substation.log.domain.mapper.FeederServiceDataMapper;
 import com.wbsedcl.trms.substation.log.domain.ports.input.service.SubstationLogApplicationService;
+import com.wbsedcl.trms.substation.log.security.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +35,11 @@ public class SubstationLogController {
     //Only the authenticated user with "SITE_USER" role attached to "substationOfficeId" should be able to get the feeders for that substation
     //If the authenticated user is attached to division office then check if the substation office is under that division or not
 
-    @GetMapping("/feeders/{substationOfficeId}")
-    public ResponseEntity<List<FeederDTO>> getFeedersBySubstationOfficeId(@PathVariable String substationOfficeId) {
+    @GetMapping("/feeders")
+    public ResponseEntity<List<FeederDTO>> getFeeders() {
         List<FeederDTO> responseFeeders = new ArrayList<>();
-        List<Feeder> feeders = feederService.getFeedersBySubstationOfficeId(substationOfficeId);
+        User user = getAuthenticatedUser();
+        List<Feeder> feeders = feederService.getFeedersBySubstationOfficeId(user.getOfficeId());
         for (Feeder feeder : feeders) {
             responseFeeders.add(mapper.feederToFeederDto(feeder));
         }
@@ -45,7 +48,10 @@ public class SubstationLogController {
 
     @PostMapping("/log-interruption")
     public ResponseEntity<LogInterruptionResponse> logInterruption(@RequestBody LogInterruptionCommand command) {
-        log.info("Logging interruption for feeder id {} at Substation {} created by {}", command.getFaultyFeederId(), command.getSubstationOfficeId(), command.getCreatedByUserId());
+        User user = getAuthenticatedUser();
+        command.setCreatedByUserId(user.getUserId());
+        command.setSubstationOfficeId(user.getOfficeId());
+        log.info("Logging interruption for feeder id {}", command.getFaultyFeederId());
         if(command.getInterruptionStatus().equals(InterruptionStatus.RESTORED)){
             log.info("The interruption was restored by {}", command.getRestoredByUserId());
         }
@@ -56,6 +62,8 @@ public class SubstationLogController {
 
     @PostMapping("/log-source-change-over")
     public ResponseEntity<GroupInterruptionResponse> logSourceChangeOver(@RequestBody LogSourceChangeOverInterruptionCommand command) {
+        User user = getAuthenticatedUser();
+        command.setCreatedByUserId(user.getUserId());
         log.info("sourceChangeOver request received with command {}", command);
         List<LogInterruptionResponse> logInterruptionResponses = substationLogApplicationService.logSourceChangeOver(command);
         GroupInterruptionResponse response = new GroupInterruptionResponse("Success", logInterruptionResponses);
@@ -64,6 +72,8 @@ public class SubstationLogController {
 
     @PostMapping("/log-main-power-fail")
     public ResponseEntity<GroupInterruptionResponse> logMainPowerFail(@RequestBody MainPowerFailCommand command) {
+        User user = getAuthenticatedUser();
+        command.setCreatedByUserId(user.getUserId());
         List<LogInterruptionResponse> logInterruptionResponses = substationLogApplicationService.logMainPowerFail(command);
         GroupInterruptionResponse response = new GroupInterruptionResponse("Success", logInterruptionResponses);
         log.info("Returning group interruption response :"+response);
@@ -72,7 +82,9 @@ public class SubstationLogController {
 
     @PostMapping("/restore-interruption")
     public ResponseEntity<RestoreInterruptionResponse> restoreInterruption(@RequestBody RestoreInterruptionCommand command) {
-        log.info("Restoring interruption {} by user {}", command.getInterruptionId(), command.getRestoredBy());
+        User user = getAuthenticatedUser();
+        command.setRestoredByUserId(user.getUserId());
+        log.info("Restoring interruption {} by user {}", command.getInterruptionId(), user.getUserId());
         RestoreInterruptionResponse restoreInterruptionResponse = substationLogApplicationService.restoreInterruption(command);
         log.info("Interruption with ref id {} restored", restoreInterruptionResponse.getInterruptionId());
         return ResponseEntity.ok(restoreInterruptionResponse);
@@ -80,7 +92,9 @@ public class SubstationLogController {
 
     @PostMapping("/log-energy-meter-reading")
     public ResponseEntity<LogEnergyMeterReadingResponse> logEnergyMeterReading(@RequestBody LogEnergyMeterReadingCommand command) {
-        log.info("Logging energy meter reading for feeder id {} at Substation {} recorded by {} ", command.getFeederId(), command.getSubstationOfficeId(), command.getRecordedBy());
+        User user = getAuthenticatedUser();
+        command.setRecordedByUserId(user.getUserId());
+        log.info("Logging energy meter reading for feeder id {} at Substation {} recorded by {} ", command.getFeederId(), command.getSubstationOfficeId(), user.getUserId());
         LogEnergyMeterReadingResponse logEnergyMeterReadingResponse = substationLogApplicationService.logEnergyMeterReading(command);
         log.info("Energy meter reading logged with uuid {}",logEnergyMeterReadingResponse.getMeterReadingId());
         return ResponseEntity.ok(logEnergyMeterReadingResponse);
@@ -88,27 +102,34 @@ public class SubstationLogController {
 
     @PostMapping("/log-load-record")
     public ResponseEntity<LogLoadRecordResponse> logLoadRecord(@RequestBody LogLoadRecordCommand command) {
-        log.info("Logging load record for feeder id {} at Substation {} recorded by {} ", command.getFeederId(), command.getSubstationOfficeId(), command.getRecordedBy());
+        User user = getAuthenticatedUser();
+        command.setRecordedByUserId(user.getUserId());
+        log.info("Logging load record for feeder id {} at Substation {} recorded by {} ", command.getFeederId(), command.getSubstationOfficeId(), user.getUserId());
         LogLoadRecordResponse logLoadRecordResponse = substationLogApplicationService.logLoadRecord(command);
         log.info("Load record logged with uuid {}", logLoadRecordResponse.getLoadRecordId());
         return ResponseEntity.ok(logLoadRecordResponse);
     }
 
-    @GetMapping("/open-interruptions/{substationOfficeId}")
-    public ResponseEntity<List<InterruptionDTO>> getOpenInterruptions(@PathVariable String substationOfficeId) {
-        log.info("Fetching open interruptions of substation :"+substationOfficeId);
-        List<InterruptionDTO> dtos = substationLogApplicationService.getAllOpenInterruptionsBySubstationOfficeId(substationOfficeId);
+    @GetMapping("/open-interruptions")
+    public ResponseEntity<List<InterruptionDTO>> getOpenInterruptions() {
+        User user = getAuthenticatedUser();
+        log.info("Fetching open interruptions of substation :"+user.getOfficeId());
+        List<InterruptionDTO> dtos = substationLogApplicationService.getAllOpenInterruptionsBySubstationOfficeId(user.getOfficeId());
         log.info("Returning open interruptions ..");
         dtos.forEach(dto -> log.info(dto.toString()));
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/latest-meter-readings/{substationOfficeId}")
-    public ResponseEntity<List<EnergyMeterReadingDTO>> getLatestMeterReadingsAgainstSubstationOfficeId(@PathVariable String substationOfficeId) {
-        log.info("Fetching latest meter readings of substation :"+substationOfficeId);
-        return ResponseEntity.ok(substationLogApplicationService.getLatestEnergyMeterReadingsBySubstationOfficeId(substationOfficeId));
+    @GetMapping("/latest-meter-readings")
+    public ResponseEntity<List<EnergyMeterReadingDTO>> getLatestMeterReadingsAgainstSubstationOfficeId() {
+        User user = getAuthenticatedUser();
+        log.info("Fetching latest meter readings of substation :"+user.getOfficeId());
+        return ResponseEntity.ok(substationLogApplicationService.getLatestEnergyMeterReadingsBySubstationOfficeId(user.getOfficeId()));
     }
 
+    private User getAuthenticatedUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 
 }
 

@@ -31,7 +31,7 @@ public class UserIdValidator implements ConstraintValidator<ValidUserId, String>
         }
         Optional<User> user = userRepository.findUser(userIdToValidate);
         if(user.isEmpty()) {
-            log.error("User with id {} does not exist", userIdToValidate);
+            log.error("AuthenticatedUser with id {} does not exist", userIdToValidate);
             return false;
         }
         return true;

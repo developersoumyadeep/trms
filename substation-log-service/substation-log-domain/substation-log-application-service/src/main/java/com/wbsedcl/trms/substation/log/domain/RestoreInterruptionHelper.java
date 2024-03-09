@@ -47,18 +47,13 @@ public class RestoreInterruptionHelper {
         //3.validate the found interruption and check if it is already restored.
         validateFoundInterruptionStatus(interruption);
         //4.restore the interruption using domain logic
-        InterruptionRestoredEvent interruptionRestoredEvent = substationLogDomainService.restoreInterruption(interruption, command.getEndDate(), command.getEndTime(), new UserId(command.getRestoredBy()), command.getInterruptionCause());
+        InterruptionRestoredEvent interruptionRestoredEvent = substationLogDomainService.restoreInterruption(interruption, command.getEndDate(), command.getEndTime(), new UserId(command.getRestoredByUserId()), command.getInterruptionCause());
         //5.persist the updated object
         substationLogRepository.save(interruption);
-
         //6.update the feeder charging and loading status
         Feeder feeder = interruption.getFaultyFeeder();
         feeder.setCharged(true);
-        if (!(feeder.getFeederType()== FeederType.INCOMING_33kV)) {
-            feeder.setIsLoaded(true);
-        } else {
-            feeder.setIsLoaded(false);
-        }
+        feeder.setIsLoaded(!(feeder.getFeederType() == FeederType.INCOMING_33kV));
 
         //7. Update the tagging of incoming 33kV source, PTR and incomers
         if (command.get_33kVSourceChanged()) {
@@ -103,14 +98,14 @@ public class RestoreInterruptionHelper {
     }
 
     private void validateRestoredByUserId(RestoreInterruptionCommand command) {
-        String restoredByUserId = command.getRestoredBy();
+        String restoredByUserId = command.getRestoredByUserId();
         if (restoredByUserId == null) {
-            throw new UserNotFoundException("Please enter a valid non null user id at the time of restoration");
+            throw new UserNotFoundException("restoredByUserId retrieved from security context is null");
         }
         Optional<User> user = userRepository.findUser(restoredByUserId);
         if(user.isEmpty()) {
-            log.error("User with id {} does not exist", restoredByUserId);
-            throw new UserNotFoundException("User with id "+restoredByUserId+" does not exist");
+            log.error("AuthenticatedUser with id {} does not exist", restoredByUserId);
+            throw new UserNotFoundException("AuthenticatedUser with id "+restoredByUserId+" does not exist");
         }
     }
 }

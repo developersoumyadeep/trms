@@ -15,9 +15,8 @@ public class LoadRecordDataMapper {
        return LoadRecord.newBuilder()
                .feederId(new FeederId(command.getFeederId()))
                .load(command.getLoad())
-               .recordedBy(new UserId(command.getRecordedBy()))
+               .recordedBy(new UserId(command.getRecordedByUserId()))
                .substationOfficeId(new OfficeId(command.getSubstationOfficeId()))
-               .recordedBy(new UserId(command.getRecordedBy()))
                .loadRecordType(command.getFeederLoadingType())
                .remarks(command.getRemarks())
                .build();

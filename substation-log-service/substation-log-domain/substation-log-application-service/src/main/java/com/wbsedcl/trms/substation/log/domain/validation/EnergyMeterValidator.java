@@ -14,7 +14,7 @@ import java.util.Optional;
 @Slf4j
 public class EnergyMeterValidator implements ConstraintValidator<ValidEnertgyMeterNo, String> {
 
-    private EnergyMeterRepository energyMeterRepository;
+    private final EnergyMeterRepository energyMeterRepository;
 
     public EnergyMeterValidator(EnergyMeterRepository energyMeterRepository) {
         this.energyMeterRepository = energyMeterRepository;

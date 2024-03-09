@@ -32,7 +32,6 @@ public class MainPowerFailCommand {
     private FaultNature _33kVFaultNature;
     @NotNull
     private InterruptionType outgoingFeederInterruptionType;
-    @ValidUserId(message="Created-by user-id is invalid")
     private String createdByUserId;
     private String outgoingFeederRestoredByUserId;
     private String _33kVSourceRestoredByUserId;

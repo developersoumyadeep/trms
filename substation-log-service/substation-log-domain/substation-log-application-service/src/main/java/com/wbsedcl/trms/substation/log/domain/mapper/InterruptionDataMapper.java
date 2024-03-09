@@ -46,7 +46,7 @@ public class InterruptionDataMapper {
     }
 
     public Interruption logInterruptionCommandToInterruption(LogInterruptionCommand command) {
-        log.info("Interruption being mapped from a command where restored by User id is {}", command.getRestoredByUserId());
+        log.info("Interruption being mapped from a command where restored by AuthenticatedUser id is {}", command.getRestoredByUserId());
         Feeder faultyFeeder = feederRepository.findFeeder(command.getFaultyFeederId()).get();
         return Interruption.newBuilder()
                 .faultyFeeder(faultyFeeder)
@@ -65,7 +65,8 @@ public class InterruptionDataMapper {
     }
 
     public InterruptionDTO interruptionToInterruptionDTO(Interruption interruption) {
-        return new InterruptionDTO().builder()
+        new InterruptionDTO();
+        return InterruptionDTO.builder()
                 .interruptionId(interruption.getId().getValue().toString())
                 .faultyFeederId(interruption.getFaultyFeeder().getId().getValue())
                 .faultyFeederName(interruption.getFaultyFeeder().getFeederName())
@@ -80,7 +81,6 @@ public class InterruptionDataMapper {
     }
 
     public List<Interruption> logSourceChangeOverInterruptionCommandToInterruption(LogSourceChangeOverInterruptionCommand command) {
-
         //Get the list of affected feeders fed by affected PTRs
         List<String> affectedPTRIds = command.getAffectedPTRIds();
         log.info("logSourceChangeOverInterruptionCommandToInterruption: affected PTR ids" + affectedPTRIds);
@@ -135,7 +135,7 @@ public class InterruptionDataMapper {
                     .endDate(command.getEndDate())
                     .endTime(command.getEndTime())
                     .sourceChangeOverToFeederId(new FeederId(command.getSourceChangeOverToFeederId()))
-                    .restoredBy(new UserId(command.getCreatedByUserId()))
+                    .restoredBy(new UserId(command.getRestoredByUserId()))
                     .build());
         }
 

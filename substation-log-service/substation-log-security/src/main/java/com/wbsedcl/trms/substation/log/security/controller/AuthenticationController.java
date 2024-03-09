@@ -1,9 +1,9 @@
-package com.wbsedcl.trms.substation.log.application.security.controller;
+package com.wbsedcl.trms.substation.log.security.controller;
 
 
-import com.wbsedcl.trms.substation.log.application.security.dto.AuthenticationRequest;
-import com.wbsedcl.trms.substation.log.application.security.dto.AuthenticationResponse;
-import com.wbsedcl.trms.substation.log.application.security.service.AuthenticationService;
+import com.wbsedcl.trms.substation.log.security.dto.AuthenticationRequest;
+import com.wbsedcl.trms.substation.log.security.dto.AuthenticationResponse;
+import com.wbsedcl.trms.substation.log.security.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/substation-log/auth")
 public class AuthenticationController {
-    private Logger logger = LoggerFactory.getLogger(AuthenticationController.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(AuthenticationController.class.getName());
     private final AuthenticationService authenticationService;
 
     public AuthenticationController(AuthenticationService authenticationService) {

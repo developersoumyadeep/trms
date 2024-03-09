@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 
 public class VendorCreatedEvent implements DomainEvent<Vendor> {
 
-    private Vendor vendor;
-    private LocalDateTime creationTimeStamp;
+    private final Vendor vendor;
+    private final LocalDateTime creationTimeStamp;
 
     public VendorCreatedEvent(Vendor vendor, LocalDateTime creationTimeStamp) {
         this.vendor = vendor;

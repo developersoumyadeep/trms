@@ -1,4 +1,4 @@
-package com.wbsedcl.trms.substation.log.application.security.dto;
+package com.wbsedcl.trms.substation.log.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

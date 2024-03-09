@@ -78,6 +78,11 @@
             </dependency>
             <dependency>
                 <groupId>com.wbsedcl</groupId>
+                <artifactId>substation-log-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wbsedcl</groupId>
                 <artifactId>substation-log-data-access</artifactId>
                 <version>${project.version}</version>
             </dependency>

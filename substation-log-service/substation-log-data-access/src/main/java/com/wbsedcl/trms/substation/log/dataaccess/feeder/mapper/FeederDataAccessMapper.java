@@ -37,7 +37,7 @@ public class FeederDataAccessMapper {
     public FeederEntity feederToFeederEntity(Feeder feeder) {
         System.out.println("inside feederToFeederEntity(): "+ feeder);
         //Get the office entity from the database
-        OfficeEntity substationOffice = officeJpaRepository.findById(feeder.getSubstationOfficeId().getValue()).get();
+        OfficeEntity substationOffice = officeJpaRepository.findByOfficeId(feeder.getSubstationOfficeId().getValue()).get();
         //Get the incoming feeder entity from the database
         FeederEntity incomer11kVFeeder = feeder.getFeederType() == FeederType.INCOMING_33kV
                 || feeder.getFeederType() == FeederType.PTR_BAY

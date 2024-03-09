@@ -1,4 +1,4 @@
-package com.wbsedcl.trms.substation.log.application.security.entity;
+package com.wbsedcl.trms.substation.log.security.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -1,7 +1,7 @@
-package com.wbsedcl.trms.substation.log.application.security.repository;
+package com.wbsedcl.trms.substation.log.security.repository;
 
-import com.wbsedcl.trms.substation.log.application.security.entity.User;
-import com.wbsedcl.trms.substation.log.application.security.mapper.UserDetailsMapper;
+import com.wbsedcl.trms.substation.log.security.entity.User;
+import com.wbsedcl.trms.substation.log.security.mapper.UserDetailsMapper;
 import com.wbsedcl.trms.substation.log.dataaccess.user.entity.UserEntity;
 import com.wbsedcl.trms.substation.log.dataaccess.user.repository.UserJpaRepository;
 import org.slf4j.Logger;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @Component
 public class UserDetailsRepositoryImpl implements UserDetailsRepository{
 
-    private Logger logger = LoggerFactory.getLogger(UserDetailsRepositoryImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(UserDetailsRepositoryImpl.class);
     private final UserJpaRepository userJpaRepository;
     private final UserDetailsMapper userDetailsMapper;
 

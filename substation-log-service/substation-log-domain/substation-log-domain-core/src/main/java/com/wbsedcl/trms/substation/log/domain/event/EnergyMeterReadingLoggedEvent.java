@@ -6,8 +6,8 @@ import com.wbsedcl.trms.substation.log.domain.entity.EnergyMeterReading;
 import java.time.LocalDateTime;
 
 public class EnergyMeterReadingLoggedEvent implements DomainEvent<EnergyMeterReading> {
-    private EnergyMeterReading energyMeterReading;
-    private LocalDateTime createdAt;
+    private final EnergyMeterReading energyMeterReading;
+    private final LocalDateTime createdAt;
 
     public EnergyMeterReadingLoggedEvent(EnergyMeterReading energyMeterReading, LocalDateTime createdAt) {
         this.energyMeterReading = energyMeterReading;

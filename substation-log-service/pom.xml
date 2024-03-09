@@ -17,6 +17,7 @@
         <module>substation-log-container</module>
         <module>substation-log-data-access</module>
         <module>substation-log-messaging</module>
+        <module>substation-log-security</module>
     </modules>
 
 

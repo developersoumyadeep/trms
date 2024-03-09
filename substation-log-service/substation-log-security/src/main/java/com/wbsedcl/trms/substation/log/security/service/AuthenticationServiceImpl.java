@@ -1,9 +1,9 @@
-package com.wbsedcl.trms.substation.log.application.security.service;
+package com.wbsedcl.trms.substation.log.security.service;
 
 
-import com.wbsedcl.trms.substation.log.application.security.dto.AuthenticationRequest;
-import com.wbsedcl.trms.substation.log.application.security.dto.AuthenticationResponse;
-import com.wbsedcl.trms.substation.log.application.security.entity.User;
+import com.wbsedcl.trms.substation.log.security.dto.AuthenticationRequest;
+import com.wbsedcl.trms.substation.log.security.dto.AuthenticationResponse;
+import com.wbsedcl.trms.substation.log.security.entity.User;
 import com.wbsedcl.trms.substation.log.domain.entity.Office;
 import com.wbsedcl.trms.substation.log.domain.ports.output.repository.OfficeRepository;
 import org.slf4j.Logger;
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService{
-    private Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
     private final AuthenticationManager authenticationManager;
     private final SecurityContextRepository securityContextRepository;
     private final SecurityContextHolderStrategy securityContextHolderStrategy;
@@ -48,19 +48,19 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         Authentication authentication = new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         //Use the AuthenticationManager to authenticate the user
         Authentication userAuthentication = authenticationManager.authenticate(authentication);
-//        logger.debug("Authenticated authentication object {}", userAuthentication.toString());
+        logger.debug("Authenticated authentication object {}", userAuthentication.toString());
         //If the user is authenticated then return successful response entity
         if (userAuthentication.isAuthenticated()) {
             //Get the principal from the Authentication object
             User user = (User) userAuthentication.getPrincipal();
-            //Get the office name
-//            String officeName = officeRepository.findOffice(user.getOfficeId()).map(Office::getOfficeText).orElseThrow();
+            logger.debug("User authenticated {}", user);
             SecurityContext context = securityContextHolderStrategy.createEmptyContext();
+            logger.debug("Office id retrieved from db {}",officeRepository.findOffice(user.getOfficeId()).get().getId().getValue());
             context.setAuthentication(userAuthentication);
             securityContextHolderStrategy.setContext(context);
             securityContextRepository.saveContext(context, request, response);
-            logger.debug("user authentication successful!");
-            return new AuthenticationResponse(user.getUserId(), user.getFirstName(), user.getLastName(), "officeName");
+            logger.debug("User authentication successful!");
+            return new AuthenticationResponse(user.getUserId(), user.getFirstName(), user.getLastName(), user.getOfficeName());
         }
         //Otherwise send unsuccessful response entity with empty details
         return new AuthenticationResponse();

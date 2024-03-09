@@ -1,4 +1,4 @@
-package com.wbsedcl.trms.substation.log.application.security.entity;
+package com.wbsedcl.trms.substation.log.security.entity;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,9 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Component
-public class User implements UserDetails, Serializable {
-    @Serial
-    private static final long serialVersionUID = 6529685098267757690L;
+public class User implements UserDetails{
     private String userId;
     private String firstName;
     private String lastName;

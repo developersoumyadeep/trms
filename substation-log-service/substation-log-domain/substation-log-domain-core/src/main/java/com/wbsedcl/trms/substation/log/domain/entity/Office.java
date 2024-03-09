@@ -7,17 +7,28 @@ import com.wbsedcl.trms.domain.valueobject.OfficeId;
 public class Office extends BaseEntity<OfficeId> implements AggregateRoot {
 
     private String officeText;
+    private OfficeId parentOfficeId;
 
     public Office() {
     }
 
-    public Office(OfficeId officeId) {
+    public Office(OfficeId officeId, OfficeId parentOfficeId) {
         setId(officeId);
+        this.parentOfficeId = parentOfficeId;
     }
 
-    public Office(OfficeId officeId, String officeText) {
+    public Office(OfficeId officeId, String officeText, OfficeId parentOfficeId) {
         setId(officeId);
         setOfficeText(officeText);
+        setParentOfficeId(parentOfficeId);
+    }
+
+    public void setParentOfficeId(OfficeId parentOfficeId) {
+        this.parentOfficeId = parentOfficeId;
+    }
+
+    public OfficeId getParentOfficeId() {
+        return parentOfficeId;
     }
 
     public String getOfficeText() {

@@ -6,8 +6,8 @@ import com.wbsedcl.hr.management.domain.entity.Employee;
 import java.time.LocalDateTime;
 
 public class EmployeeCreatedEvent implements DomainEvent<Employee> {
-    private Employee employee;
-    private LocalDateTime creationTimeStamp;
+    private final Employee employee;
+    private final LocalDateTime creationTimeStamp;
 
     public EmployeeCreatedEvent(Employee employee, LocalDateTime creationTimeStamp) {
         this.employee = employee;

@@ -7,10 +7,12 @@ import com.wbsedcl.trms.substation.log.domain.validation.ValidUserId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 public class LogLoadRecordCommand {
@@ -18,10 +20,9 @@ public class LogLoadRecordCommand {
     private String feederId;
     @ValidOfficeId
     private String substationOfficeId;
-    @ValidUserId
-    private String recordedBy;
     private double load;
     private String remarks;
     @NotNull
     private FeederLoadingType feederLoadingType;
+    private String recordedByUserId;
 }

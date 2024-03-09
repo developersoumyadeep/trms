@@ -12,9 +12,6 @@ public class FeederTextValidator implements ConstraintValidator<ValidFeederText,
 
     @Override
     public boolean isValid(String feederTextToValidate, ConstraintValidatorContext constraintValidatorContext) {
-        if (feederTextToValidate == null || feederTextToValidate.trim().equals("")){
-            return false;
-        }
-        return true;
+        return feederTextToValidate != null && !feederTextToValidate.trim().equals("");
     }
 }

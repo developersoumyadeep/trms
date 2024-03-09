@@ -32,14 +32,13 @@ public class LogSourceChangeOverInterruptionCommand {
     private InterruptionType interruptionType;
     @NotNull
     private List<String> affectedPTRIds;
-    @ValidUserId(message="Created-by user-id is invalid")
-    private String createdByUserId;
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     @NotNull
     @JsonFormat(pattern = "HH:mm")
     private LocalTime startTime;
+    private String createdByUserId;
     private String restoredByUserId;
     @NotNull
     private InterruptionStatus interruptionStatus;

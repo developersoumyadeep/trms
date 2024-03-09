@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 
 public class OfficeCreatedEvent implements DomainEvent<Office> {
 
-    private Office office;
-    private LocalDateTime creationTimeStamp;
+    private final Office office;
+    private final LocalDateTime creationTimeStamp;
 
     public OfficeCreatedEvent(Office office, LocalDateTime creationTimeStamp) {
         this.office = office;

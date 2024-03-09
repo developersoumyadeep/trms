@@ -14,25 +14,24 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 public class LogInterruptionCommand {
     @ValidFeederId(message = "Given faulty asset-id is invalid")
     private String faultyFeederId;
-    @ValidOfficeId(message = "Given substation office-id is invalid")
-    private String substationOfficeId;
     @NotNull
     private InterruptionType interruptionType;
     @NotNull
     private FaultNature faultNature;
-    @ValidUserId(message="Created-by user-id is invalid")
-    private String createdByUserId;
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     @NotNull
     @JsonFormat(pattern = "HH:mm")
     private LocalTime startTime;
+    private String createdByUserId;
+    private String substationOfficeId;
     private String restoredByUserId;
     @NotNull
     private InterruptionStatus interruptionStatus;

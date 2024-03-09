@@ -1,8 +1,8 @@
-package com.wbsedcl.trms.substation.log.application.security.config;
+package com.wbsedcl.trms.substation.log.security.config;
 
 
-import com.wbsedcl.trms.substation.log.application.security.repository.UserDetailsRepository;
-import com.wbsedcl.trms.substation.log.application.security.service.SublogUserDetailsService;
+import com.wbsedcl.trms.substation.log.security.repository.UserDetailsRepository;
+import com.wbsedcl.trms.substation.log.security.service.SublogUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -75,6 +75,7 @@ public class SecurityConfiguration {
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
                 .logout()
+                .logoutUrl("/substation-log/logout")
                 .addLogoutHandler(new CookieClearingLogoutHandler("SUBLOG_COOKIE"))
                 .and()
                 .build();

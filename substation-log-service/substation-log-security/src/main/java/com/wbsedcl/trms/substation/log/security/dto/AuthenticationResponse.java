@@ -1,4 +1,4 @@
-package com.wbsedcl.trms.substation.log.application.security.dto;
+package com.wbsedcl.trms.substation.log.security.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -15,5 +15,4 @@ public class AuthenticationResponse {
     private String firstName;
     private String lastName;
     private String officeName;
-
 }

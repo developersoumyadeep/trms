@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class LogEnergyMeterReadingHelper {
-    private SubstationLogDomainService substationLogDomainService;
-    private SubstationLogRepository substationLogRepository;
-    private EnergyMeterReadingDataMapper energyMeterReadingDataMapper;
+    private final SubstationLogDomainService substationLogDomainService;
+    private final SubstationLogRepository substationLogRepository;
+    private final EnergyMeterReadingDataMapper energyMeterReadingDataMapper;
 
     public LogEnergyMeterReadingHelper(SubstationLogDomainService substationLogDomainService, SubstationLogRepository substationLogRepository, EnergyMeterReadingDataMapper mapper) {
         this.substationLogDomainService = substationLogDomainService;

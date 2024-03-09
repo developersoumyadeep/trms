@@ -7,18 +7,18 @@ import com.wbsedcl.trms.domain.valueobject.FeederId;
 import com.wbsedcl.trms.domain.valueobject.OfficeId;
 
 public class Feeder extends BaseEntity<FeederId> implements AggregateRoot {
-    private String feederName;
-    private String energyMeterNo;
-    private OfficeId substationOfficeId;
-    private Integer voltageLevel;
-    private FeederType feederType;
+    private final String feederName;
+    private final String energyMeterNo;
+    private final OfficeId substationOfficeId;
+    private final Integer voltageLevel;
+    private final FeederType feederType;
     private FeederId incomer11kVFeederId;
     private FeederId feedingPTRId;
     private FeederId feeding33kVFeederId;
     private Boolean isCharged;
     private Boolean isLoaded;
-    private Double installedCtRatio;
-    private Double installedPtRatio;
+    private final Double installedCtRatio;
+    private final Double installedPtRatio;
 
     private Feeder(FeederBuilder feederBuilder) {
         setId(feederBuilder.feederId);

@@ -3,7 +3,7 @@ server:
 
 logging:
   level:
-    com.wbsedcl.trms: INFO
+    com.wbsedcl.trms: DEBUG
     org.apache.kafka.clients.NetworkClient: OFF
     org.springframework.web: DEBUG
     org.springframework.security: TRACE

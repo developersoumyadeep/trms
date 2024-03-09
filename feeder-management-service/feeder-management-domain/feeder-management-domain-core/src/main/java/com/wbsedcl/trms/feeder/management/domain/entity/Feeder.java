@@ -6,24 +6,24 @@ import com.wbsedcl.trms.domain.valueobject.FeederId;
 
 public class Feeder extends BaseEntity<FeederId> {
 
-    private String feederText;
-    private Integer voltageLevel;
-    private String sourceSubstationOfficeId;
-    private String terminalSubstationOfficeId;
-    private String energyMeterNoAtSource;
-    private String energyMeterNoAtTerminal;
-    private Double gisLength;
-    private Double ctRatioAtSource;
-    private Double ctRatioAtTerminal;
-    private Double multiplyingFactor;
-    private FeederType feederType;
-    private Double incomerCTRatio;
-    private String switchgearId;
-    private Boolean isDedicatedBulkFeeder;
+    private final String feederText;
+    private final Integer voltageLevel;
+    private final String sourceSubstationOfficeId;
+    private final String terminalSubstationOfficeId;
+    private final String energyMeterNoAtSource;
+    private final String energyMeterNoAtTerminal;
+    private final Double gisLength;
+    private final Double ctRatioAtSource;
+    private final Double ctRatioAtTerminal;
+    private final Double multiplyingFactor;
+    private final FeederType feederType;
+    private final Double incomerCTRatio;
+    private final String switchgearId;
+    private final Boolean isDedicatedBulkFeeder;
 
-    private FeederId incomer11kVFeederId;
-    private FeederId feedingPTRId;
-    private FeederId feeding33kVFeederId;
+    private final FeederId incomer11kVFeederId;
+    private final FeederId feedingPTRId;
+    private final FeederId feeding33kVFeederId;
 
     private Feeder(FeederBuilder feederBuilder) {
         setId(feederBuilder.feederId);

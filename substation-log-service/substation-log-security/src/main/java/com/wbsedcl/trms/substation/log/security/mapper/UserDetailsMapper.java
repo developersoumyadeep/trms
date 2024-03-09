@@ -1,6 +1,6 @@
-package com.wbsedcl.trms.substation.log.application.security.mapper;
-import com.wbsedcl.trms.substation.log.application.security.entity.Role;
-import com.wbsedcl.trms.substation.log.application.security.entity.User;
+package com.wbsedcl.trms.substation.log.security.mapper;
+import com.wbsedcl.trms.substation.log.security.entity.Role;
+import com.wbsedcl.trms.substation.log.security.entity.User;
 import com.wbsedcl.trms.substation.log.dataaccess.office.entity.OfficeEntity;
 import com.wbsedcl.trms.substation.log.dataaccess.user.entity.UserEntity;
 import org.springframework.stereotype.Component;
